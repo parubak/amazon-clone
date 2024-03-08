@@ -2,6 +2,8 @@ package com.example.amazonclone.models;
 
 import com.example.amazonclone.repos.CategoryRepository;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -9,6 +11,8 @@ import java.util.Set;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
 @Table(name="products")
 public class Product {
 
@@ -21,7 +25,7 @@ public class Product {
     private String name;
 
     @Column(name="price")
-    private String price;
+    private double price;
 
     @ManyToOne
     @JoinColumn(name="subcategory_id")
@@ -38,4 +42,7 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private Set<ProductImage> productImages;
 
+    public Product() {
+
+    }
 }

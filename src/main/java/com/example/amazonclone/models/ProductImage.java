@@ -1,12 +1,14 @@
 package com.example.amazonclone.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-
-import java.sql.Blob;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
 @Table(name="product_images")
 public class ProductImage {
     @Id
@@ -16,9 +18,12 @@ public class ProductImage {
 
     @Column(name="image")
     @Lob
-    private Blob image;
+    private byte[] image;
 
     @ManyToOne
     @JoinColumn(name="product_id")
     private Product product;
+
+    public ProductImage() {
+    }
 }

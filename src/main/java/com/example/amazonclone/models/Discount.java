@@ -1,12 +1,16 @@
 package com.example.amazonclone.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import java.sql.Timestamp;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
 @Table(name="discounts")
 public class Discount {
     @Id
@@ -22,4 +26,8 @@ public class Discount {
 
     @OneToOne(mappedBy = "discount")
     private Product product;
+
+    public Discount() {
+
+    }
 }
