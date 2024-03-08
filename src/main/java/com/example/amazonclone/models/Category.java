@@ -13,11 +13,11 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @Table(name="categories")
-public class Category {
+public class Category implements ModelEntity<Long>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
-    private long id;
+    private Long id;
 
     @Column(name="name")
     private String name;

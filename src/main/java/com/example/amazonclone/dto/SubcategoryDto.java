@@ -17,10 +17,10 @@ public class SubcategoryDto implements DtoEntity<Subcategory> {
     private Set<ProductDto> products;
 
     @Override
-    public Subcategory build() {
+    public Subcategory buildEntity() {
         return Subcategory.builder()
-                .category(category.build())
-                .products(products.stream().map(x->x.build()).collect(Collectors.toSet()))
+                .category(category.buildEntity())
+                .products(products.stream().map(x->x.buildEntity()).collect(Collectors.toSet()))
                 .build();
     }
 }

@@ -21,11 +21,11 @@ public class CategoryDto implements DtoEntity<Category> {
     private CategoryImageDto categoryImage;
 
     @Override
-    public Category build() {
+    public Category buildEntity() {
         return Category.builder()
                 .name(name)
-                .subcategory(subcategory.stream().map(x->x.build()).collect(Collectors.toSet()))
-                .image(categoryImage.build())
+                .subcategory(subcategory.stream().map(x->x.buildEntity()).collect(Collectors.toSet()))
+                .image(categoryImage.buildEntity())
                 .build();
     }
 }

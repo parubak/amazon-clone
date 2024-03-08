@@ -16,9 +16,9 @@ public class DiscountDto implements DtoEntity<Discount> {
     private ProductDto product;
 
     @Override
-    public Discount build() {
+    public Discount buildEntity() {
         return Discount.builder()
-                .product(product.build())
+                .product(product.buildEntity())
                 .price(price)
                 .period(period)
                 .build();

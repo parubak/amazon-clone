@@ -1,6 +1,7 @@
 package com.example.amazonclone.dto;
 
 import com.example.amazonclone.models.Product;
+import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,18 +17,19 @@ public class ProductDto implements DtoEntity<Product> {
     private double price;
     private SubcategoryDto subcategory;
     private Set<ProductImageDto> productImages;
+    @Nullable
     private ProductImageDto mainImage;
     private DiscountDto discount;
 
     @Override
-    public Product build() {
+    public Product buildEntity() {
         return Product.builder()
                 .name(name)
                 .price(price)
-                .subcategory(subcategory.build())
-                .productImages(productImages.stream().map(x->x.build()).collect(Collectors.toSet()))
-                .mainImage(mainImage.build())
-                .discount(discount.build())
+                .subcategory(subcategory.buildEntity())
+                .productImages(productImages.stream().map(x->x.buildEntity()).collect(Collectors.toSet()))
+                .mainImage(mainImage != null ? mainImage.buildEntity() : null)
+                .discount(discount.buildEntity())
                 .build();
 
     }

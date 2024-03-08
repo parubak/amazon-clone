@@ -5,19 +5,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-import java.sql.Blob;
-
-
 @Data
 @Entity
 @Builder
 @AllArgsConstructor
 @Table(name="category_images")
-public class CategoryImage {
+public class CategoryImage implements ModelEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long id;
+    private Long id;
 
     @Column(name="image")
     @Lob

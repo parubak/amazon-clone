@@ -1,6 +1,7 @@
 package com.example.amazonclone.models;
 
 import com.example.amazonclone.repos.CategoryRepository;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +15,7 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @Table(name="products")
-public class Product {
+public class Product implements ModelEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +38,7 @@ public class Product {
 
     @OneToOne
     @JoinColumn(name="main_image_id")
+    @Nullable
     private ProductImage mainImage;
 
     @OneToMany(mappedBy = "product")

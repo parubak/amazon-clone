@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 @Builder
 @AllArgsConstructor
 @Table(name="discounts")
-public class Discount {
+public class Discount implements ModelEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
