@@ -1,18 +1,19 @@
 package com.example.amazonclone.models;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Set;
 
 @Entity
 @Data
-@Builder
-@AllArgsConstructor
 @Table(name="subcategories")
-public class Subcategory implements ModelEntity<Long> {
+public class Subcategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
@@ -21,14 +22,11 @@ public class Subcategory implements ModelEntity<Long> {
     @Column(name="name")
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name="category_id", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="category_id")
     private Category category;
 
-    @OneToMany(mappedBy = "subcategory")
-    private Set<Product> products;
-
-    public Subcategory() {
-
-    }
+    @OneToMany(mappedBy = "subcategory", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Nullable
+    private Collection<Product> products = new ArrayList<>();
 }

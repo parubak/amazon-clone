@@ -1,19 +1,21 @@
 package com.example.amazonclone.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Set;
 
 @Entity
 @Data
-@Builder
-@AllArgsConstructor
 @Table(name="categories")
-public class Category implements ModelEntity<Long>{
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
@@ -22,14 +24,11 @@ public class Category implements ModelEntity<Long>{
     @Column(name="name")
     private String name;
 
+    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Nullable
-    @OneToMany(mappedBy = "category")
-    private Set<Subcategory> subcategory;
+    private Collection<Subcategory> subcategories = new ArrayList<>();
 
-    @OneToOne(mappedBy = "category")
+    @OneToOne(mappedBy = "category", cascade = CascadeType.REMOVE)
+    @Nullable
     private CategoryImage image;
-
-    public Category() {
-
-    }
 }

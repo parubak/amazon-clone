@@ -1,16 +1,12 @@
 package com.example.amazonclone.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Entity
-@Builder
-@AllArgsConstructor
 @Table(name="category_images")
-public class CategoryImage implements ModelEntity<Long> {
+public class CategoryImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -21,10 +17,7 @@ public class CategoryImage implements ModelEntity<Long> {
     private byte[] image;
 
     @OneToOne
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category category;
 
-    public CategoryImage() {
-
-    }
 }

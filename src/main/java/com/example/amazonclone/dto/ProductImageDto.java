@@ -2,24 +2,32 @@ package com.example.amazonclone.dto;
 
 import com.example.amazonclone.Image;
 import com.example.amazonclone.models.ProductImage;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
 public class ProductImageDto extends Image implements DtoEntity<ProductImage> {
+    @Getter @Setter
+    private Long productId;
 
-    private final ProductDto product;
+    public ProductImageDto(ProductImage entity) {
+        super(entity.getImage());
+        this.productId = entity.getProduct().getId();
+    }
 
-    public ProductImageDto(MultipartFile file, ProductDto product) throws IOException {
+    public ProductImageDto(MultipartFile file, Long productId) throws IOException {
         super(file);
-        this.product = product;
+        this.productId = productId;
     }
 
     @Override
     public ProductImage buildEntity() {
-        return ProductImage.builder()
-                .product(product.buildEntity())
-                .image(data)
-                .build();
+
+        ProductImage productImage = new ProductImage();
+        productImage.setImage(image);
+
+        return productImage;
     }
 }

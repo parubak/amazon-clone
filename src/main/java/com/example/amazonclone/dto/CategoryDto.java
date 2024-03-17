@@ -2,30 +2,39 @@ package com.example.amazonclone.dto;
 
 import com.example.amazonclone.models.Category;
 import jakarta.annotation.Nullable;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
-@AllArgsConstructor
-@Builder
 public class CategoryDto implements DtoEntity<Category> {
     private String name;
 
     @Nullable
-    private Set<SubcategoryDto> subcategory;
+    private List<Long> subcategoriesIds = new ArrayList<>();
 
-    private CategoryImageDto categoryImage;
+    @Nullable
+    private Long categoryImageId;
+
+    public CategoryDto(String name) {
+        this.name = name;
+    }
+
+    public CategoryDto(Category entity) {
+        this.name = entity.getName();
+        if(entity.getSubcategories() != null) {
+            entity.getSubcategories().forEach(x -> subcategoriesIds.add(x.getId()));
+        }
+        if(entity.getImage() != null)
+            this.categoryImageId = entity.getImage().getId();
+    }
 
     @Override
     public Category buildEntity() {
-        return Category.builder()
-                .name(name)
-                .subcategory(subcategory.stream().map(x->x.buildEntity()).collect(Collectors.toSet()))
-                .image(categoryImage.buildEntity())
-                .build();
+        Category category = new Category();
+        category.setName(name);
+
+        return category;
     }
 }

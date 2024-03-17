@@ -7,7 +7,25 @@
     <link rel="stylesheet" href="/css/fragments.css">
 </head>
 <body>
-sdfsdf
+
+<form method="POST" enctype="multipart/form-data">
+    <table>
+        <tr>
+            <td>File to upload:</td>
+            <td><input type="file" name="file" /></td>
+        </tr>
+        <tr>
+            <td><input type="submit" value="Upload" /></td>
+        </tr>
+    </table>
+</form>
+
+
+<ul>
+    <li th:each="image : ${imageList}">
+        <img th:src="@{${'/image?id=' + image.id}}" alt="Image Error"/>
+    </li>
+</ul>
 
 <!-- footer_start  -->
 <div th:replace="~{/fragments/footer::footer}"></div>

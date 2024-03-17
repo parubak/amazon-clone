@@ -1,16 +1,12 @@
 package com.example.amazonclone.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 
 @Entity
 @Data
-@Builder
-@AllArgsConstructor
 @Table(name="product_images")
-public class ProductImage implements ModelEntity<Long> {
+public class ProductImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
@@ -23,7 +19,4 @@ public class ProductImage implements ModelEntity<Long> {
     @ManyToOne
     @JoinColumn(name="product_id")
     private Product product;
-
-    public ProductImage() {
-    }
 }

@@ -6,16 +6,15 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Set;
 
 @Entity
 @Data
-@Builder
-@AllArgsConstructor
 @Table(name="products")
-public class Product implements ModelEntity<Long> {
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,12 +27,12 @@ public class Product implements ModelEntity<Long> {
     @Column(name="price")
     private double price;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="subcategory_id")
     private Subcategory subcategory;
 
-    @OneToOne
-    @JoinColumn(name="discount_id")
+    @OneToOne(mappedBy = "product", cascade = CascadeType.REMOVE)
+    @Nullable
     private Discount discount;
 
     @OneToOne
@@ -41,10 +40,8 @@ public class Product implements ModelEntity<Long> {
     @Nullable
     private ProductImage mainImage;
 
-    @OneToMany(mappedBy = "product")
-    private Set<ProductImage> productImages;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
+    @Nullable
+    private Collection<ProductImage> productImages = new ArrayList<>();
 
-    public Product() {
-
-    }
 }

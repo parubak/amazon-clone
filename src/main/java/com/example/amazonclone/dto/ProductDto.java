@@ -2,35 +2,48 @@ package com.example.amazonclone.dto;
 
 import com.example.amazonclone.models.Product;
 import jakarta.annotation.Nullable;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
-@AllArgsConstructor
-@Builder
 public class ProductDto implements DtoEntity<Product> {
     private String name;
-    private double price;
-    private SubcategoryDto subcategory;
-    private Set<ProductImageDto> productImages;
+    private Double price;
+    private Long subcategoryId;
     @Nullable
-    private ProductImageDto mainImage;
-    private DiscountDto discount;
+    private List<Long> productImagesIds = new ArrayList<>();
+    @Nullable
+    private Long mainImageId;
+    @Nullable
+    private Long discountId;
+
+    public ProductDto(String name, Double price, Long subcategoryId) {
+        this.name = name;
+        this.price = price;
+        this.subcategoryId = subcategoryId;
+    }
+
+    public ProductDto(Product entity) {
+        this.name = entity.getName();
+        this.price = entity.getPrice();
+        this.subcategoryId = entity.getSubcategory().getId();
+        if(entity.getProductImages() != null)
+            entity.getProductImages().forEach(x->productImagesIds.add(x.getId()));
+        if(entity.getMainImage() != null)
+            this.mainImageId = entity.getMainImage().getId();
+        if(entity.getDiscount() != null)
+            this.discountId = entity.getDiscount().getId();
+    }
 
     @Override
     public Product buildEntity() {
-        return Product.builder()
-                .name(name)
-                .price(price)
-                .subcategory(subcategory.buildEntity())
-                .productImages(productImages.stream().map(x->x.buildEntity()).collect(Collectors.toSet()))
-                .mainImage(mainImage != null ? mainImage.buildEntity() : null)
-                .discount(discount.buildEntity())
-                .build();
 
+        Product product = new Product();
+        product.setName(name);
+        product.setPrice(price);
+
+        return product;
     }
 }
