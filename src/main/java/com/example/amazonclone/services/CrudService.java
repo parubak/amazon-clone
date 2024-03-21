@@ -11,7 +11,7 @@ import java.util.List;
 public interface CrudService<Dto extends DtoEntity<Entity>, Entity, Id> {
     public Dto get(Id id) throws NotFoundException;
     public List<Dto> getAll();
-    public void add(Dto dtoEntity) throws CategoryNotFoundException, SubcategoryNotFoundException, ProductNotFoundException;
+    public void add(Dto dtoEntity) throws NotFoundException;
     public void delete(Id id) throws NotFoundException;
     public void update(Id id, Dto dtoEntity) throws NotFoundException;
 }

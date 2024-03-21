@@ -9,6 +9,8 @@ import java.util.List;
 
 @Data
 public class ProductDto implements DtoEntity<Product> {
+    @Nullable
+    private Long id;
     private String name;
     private Double price;
     private Long subcategoryId;
@@ -26,6 +28,7 @@ public class ProductDto implements DtoEntity<Product> {
     }
 
     public ProductDto(Product entity) {
+        this.id = entity.getId();
         this.name = entity.getName();
         this.price = entity.getPrice();
         this.subcategoryId = entity.getSubcategory().getId();
@@ -41,6 +44,8 @@ public class ProductDto implements DtoEntity<Product> {
     public Product buildEntity() {
 
         Product product = new Product();
+        if(id != null)
+            product.setId(id);
         product.setName(name);
         product.setPrice(price);
 

@@ -30,12 +30,18 @@ public class CategoryImageController {
         return ResponseEntity.ok(categoryImageService.getAll());
     }
 
-    @GetMapping("/categoryImage")
-    public ResponseEntity<Object> getImage(@RequestParam("id") Long id, @RequestParam Boolean likeImage) {
+    @GetMapping("/categoryImage/category")
+    public ResponseEntity<CategoryImageDto> getImageByCategory(@RequestParam("id") Long id) {
         try {
-            if(likeImage) {
-                return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(ImageUtil.decompressImage(categoryImageService.get(id).getImage()));
-            }
+            return ResponseEntity.ok(categoryImageService.getByCategory(id));
+        } catch (CategoryNotFoundException | CategoryImageNotFoundException ex) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/categoryImage")
+    public ResponseEntity<Object> getImage(@RequestParam("id") Long id) {
+        try {
             return ResponseEntity.ok(categoryImageService.get(id));
         } catch (CategoryImageNotFoundException ex) {
             return ResponseEntity.notFound().build();
@@ -46,11 +52,10 @@ public class CategoryImageController {
     public ResponseEntity<String> addCategoryImage(@RequestParam MultipartFile file, @RequestParam Long categoryId) throws IOException {
         try {
             categoryImageService.add(new CategoryImageDto(file, categoryId));
+            return ResponseEntity.ok().build();
         } catch (CategoryNotFoundException ex) {
             return ResponseEntity.notFound().build();
         }
-
-        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/categoryImage")

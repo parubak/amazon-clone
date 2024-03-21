@@ -22,8 +22,8 @@ public class ProductImageService implements CrudService<ProductImageDto, Product
     private final ProductRepository productRepository;
 
     @Autowired
-    public ProductImageService(ProductImageRepository repository, ProductRepository productRepository) {
-        this.productImageRepository = repository;
+    public ProductImageService(ProductImageRepository productImageRepository, ProductRepository productRepository) {
+        this.productImageRepository = productImageRepository;
         this.productRepository = productRepository;
     }
 

@@ -32,7 +32,7 @@ public class ProductImageController {
     public ResponseEntity<Object> getProductImage(@RequestParam Long id, @RequestParam boolean likeImage) {
         try {
             if(likeImage)
-                return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(ImageUtil.decompressImage(productImageService.get(id).getImage()));
+                return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(ImageUtil.decompressImage(productImageService.get(id).getData()));
             return ResponseEntity.ok(productImageService.get(id));
         } catch (ProductImageNotFoundException ex) {
             return ResponseEntity.notFound().build();

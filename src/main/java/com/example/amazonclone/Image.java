@@ -7,13 +7,13 @@ import java.io.IOException;
 
 @Data
 public class Image {
-    public byte[] image;
+    protected final byte[] data;
 
     public Image(MultipartFile file) throws IOException {
-        image = ImageUtil.compressImage(file.getBytes());
+        data = ImageUtil.compressImage(file.getBytes());
     }
 
     public Image(byte[] data) {
-        this.image = data;
+        this.data = data;
     }
 }

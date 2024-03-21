@@ -35,6 +35,19 @@ public class CategoryImageService implements CrudService<CategoryImageDto, Categ
         throw new CategoryImageNotFoundException("CategoryImage was not found");
     }
 
+    public CategoryImageDto getByCategory(Long categoryId) throws CategoryNotFoundException, CategoryImageNotFoundException {
+        for (Category category : categoryRepository.findAll()) {
+            if(category.getId().equals(categoryId)) {
+                if(category.getImage() != null) {
+                    CategoryImageDto categoryImageDto = new CategoryImageDto(category.getImage());
+                    return categoryImageDto;
+                }
+                throw new CategoryImageNotFoundException("Category image was not found");
+            }
+        }
+        throw new CategoryNotFoundException("Category was not found");
+    }
+
     @Override
     public CategoryImageDto get(Long id) throws CategoryImageNotFoundException {
         return new CategoryImageDto(getImage(id));

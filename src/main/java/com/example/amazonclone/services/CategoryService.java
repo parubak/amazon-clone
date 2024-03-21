@@ -44,6 +44,13 @@ public class CategoryService implements CrudService<CategoryDto, Category, Long>
         return categoryDtos;
     }
 
+    public Long getId(CategoryDto categoryDto) throws CategoryNotFoundException {
+        for(Category category : categoryRepository.findAll())
+            if(category.getName().equals(categoryDto.getName()))
+                return category.getId();
+        throw new CategoryNotFoundException("Category was not found");
+    }
+
     @Override
     public CategoryDto get(Long id) throws CategoryNotFoundException {
         return new CategoryDto(getCategory(id));

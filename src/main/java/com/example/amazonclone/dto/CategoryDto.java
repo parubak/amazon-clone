@@ -9,6 +9,9 @@ import java.util.List;
 
 @Data
 public class CategoryDto implements DtoEntity<Category> {
+    @Nullable
+    private Long id;
+
     private String name;
 
     @Nullable
@@ -22,6 +25,7 @@ public class CategoryDto implements DtoEntity<Category> {
     }
 
     public CategoryDto(Category entity) {
+        this.id = entity.getId();
         this.name = entity.getName();
         if(entity.getSubcategories() != null) {
             entity.getSubcategories().forEach(x -> subcategoriesIds.add(x.getId()));
@@ -30,9 +34,15 @@ public class CategoryDto implements DtoEntity<Category> {
             this.categoryImageId = entity.getImage().getId();
     }
 
+    public CategoryDto() {
+
+    }
+
     @Override
     public Category buildEntity() {
         Category category = new Category();
+        if(id != null)
+            category.setId(id);
         category.setName(name);
 
         return category;
