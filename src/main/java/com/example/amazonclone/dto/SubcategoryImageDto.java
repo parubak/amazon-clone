@@ -1,6 +1,7 @@
 package com.example.amazonclone.dto;
 
 import com.example.amazonclone.Image;
+import com.example.amazonclone.models.Subcategory;
 import com.example.amazonclone.models.SubcategoryImage;
 import jakarta.annotation.Nullable;
 import lombok.Getter;
@@ -9,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
-public class SubcategoryImageDto extends Image implements DtoEntity<SubcategoryImage> {
+public class SubcategoryImageDto extends Image implements DtoEntity<SubcategoryImage, Long> {
     @Nullable
     @Getter
     @Setter
@@ -37,6 +38,13 @@ public class SubcategoryImageDto extends Image implements DtoEntity<SubcategoryI
             subcategoryImage.setId(id);
         subcategoryImage.setImage(data);
 
+        return subcategoryImage;
+    }
+
+    @Override
+    public SubcategoryImage buildEntity(Long id) {
+        SubcategoryImage subcategoryImage = buildEntity();
+        subcategoryImage.setId(id);
         return subcategoryImage;
     }
 }

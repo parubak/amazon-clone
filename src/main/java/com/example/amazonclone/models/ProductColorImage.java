@@ -5,8 +5,8 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name="product_images")
-public class ProductImage {
+@Table(name="product_color_images")
+public class ProductColorImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
@@ -17,6 +17,6 @@ public class ProductImage {
     private byte[] image;
 
     @ManyToOne
-    @JoinColumn(name="product_id")
-    private Product product;
+    @JoinColumn(name="product_color_id")
+    private ProductColor productColor;
 }

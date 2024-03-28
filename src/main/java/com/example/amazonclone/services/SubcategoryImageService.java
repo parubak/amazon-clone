@@ -1,8 +1,7 @@
 package com.example.amazonclone.services;
 
 import com.example.amazonclone.dto.SubcategoryImageDto;
-import com.example.amazonclone.exceptions.SubcategoryImageNotFoundException;
-import com.example.amazonclone.exceptions.SubcategoryNotFoundException;
+import com.example.amazonclone.exceptions.NotFoundException;
 import com.example.amazonclone.models.*;
 import com.example.amazonclone.repos.SubcategoryImageRepository;
 import com.example.amazonclone.repos.SubcategoryRepository;
@@ -24,30 +23,30 @@ public class SubcategoryImageService implements CrudService<SubcategoryImageDto,
         this.subcategoryRepository = subcategoryRepository;
     }
 
-    private SubcategoryImage getImage(Long id) throws SubcategoryImageNotFoundException {
+    private SubcategoryImage getImage(Long id) throws NotFoundException {
         Iterable<SubcategoryImage> subcategoryImages = subcategoryImageRepository.findAll();
 
         for (SubcategoryImage subcategoryImage : subcategoryImages) {
             if(subcategoryImage.getId().equals(id))
                 return subcategoryImage;
         }
-        throw new SubcategoryImageNotFoundException("Subcategory image was not found");
+        throw new NotFoundException("Subcategory image was not found");
     }
 
     @Override
-    public SubcategoryImageDto get(Long id) throws SubcategoryImageNotFoundException {
+    public SubcategoryImageDto get(Long id) throws NotFoundException {
         return new SubcategoryImageDto(getImage(id));
     }
 
-    public SubcategoryImageDto getBySubcategory(Long subcategoryId) throws SubcategoryNotFoundException, SubcategoryImageNotFoundException {
+    public SubcategoryImageDto getBySubcategory(Long subcategoryId) throws NotFoundException {
         for(Subcategory subcategory : subcategoryRepository.findAll()) {
             if(subcategory.getId().equals(subcategoryId)) {
                 if(subcategory.getSubcategoryImage() != null)
                     return new SubcategoryImageDto(subcategory.getSubcategoryImage());
-                throw new SubcategoryImageNotFoundException("Subcategory image was not found");
+                throw new NotFoundException("Subcategory image was not found");
             }
         }
-        throw new SubcategoryNotFoundException("Subcategory was not found");
+        throw new NotFoundException("Subcategory was not found");
     }
 
     @Override
@@ -60,7 +59,7 @@ public class SubcategoryImageService implements CrudService<SubcategoryImageDto,
     }
 
     @Override
-    public void add(SubcategoryImageDto dtoEntity) throws SubcategoryNotFoundException {
+    public void add(SubcategoryImageDto dtoEntity) throws NotFoundException {
         SubcategoryImage subcategoryImage = dtoEntity.buildEntity();
 
         Iterable<Subcategory> subcategories = subcategoryRepository.findAll();
@@ -71,24 +70,22 @@ public class SubcategoryImageService implements CrudService<SubcategoryImageDto,
         }
 
         if(subcategoryImage.getSubcategory() == null)
-            throw new SubcategoryNotFoundException("Product was not found");
+            throw new NotFoundException("Product was not found");
 
         subcategoryImageRepository.save(subcategoryImage);
     }
 
     @Override
-    public void delete(Long id) throws SubcategoryImageNotFoundException {
+    public void delete(Long id) throws NotFoundException {
         SubcategoryImage image = getImage(id);
 
         subcategoryImageRepository.delete(image);
     }
 
     @Override
-    public void update(Long id, SubcategoryImageDto dtoEntity) throws SubcategoryImageNotFoundException {
+    public void update(Long id, SubcategoryImageDto dtoEntity) throws NotFoundException {
         delete(id);
 
-        SubcategoryImage subcategoryImage = dtoEntity.buildEntity();
-        subcategoryImage.setId(id);
-        subcategoryImageRepository.save(subcategoryImage);
+        subcategoryImageRepository.save(dtoEntity.buildEntity(id));
     }
 }

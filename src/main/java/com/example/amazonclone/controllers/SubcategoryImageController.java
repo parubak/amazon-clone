@@ -1,8 +1,7 @@
 package com.example.amazonclone.controllers;
 
 import com.example.amazonclone.dto.SubcategoryImageDto;
-import com.example.amazonclone.exceptions.SubcategoryImageNotFoundException;
-import com.example.amazonclone.exceptions.SubcategoryNotFoundException;
+import com.example.amazonclone.exceptions.NotFoundException;
 import com.example.amazonclone.services.SubcategoryImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +30,7 @@ public class SubcategoryImageController {
     public ResponseEntity<SubcategoryImageDto> getSubcategoryImageBySubcategory(@RequestParam Long id) {
         try {
             return ResponseEntity.ok(subcategoryImageService.getBySubcategory(id));
-        } catch (SubcategoryNotFoundException | SubcategoryImageNotFoundException ex) {
+        } catch (NotFoundException ex) {
             return ResponseEntity.notFound().build();
         }
     }
@@ -40,7 +39,7 @@ public class SubcategoryImageController {
     public ResponseEntity<SubcategoryImageDto> getSubcategoryImage(@RequestParam Long id) {
         try {
             return ResponseEntity.ok(subcategoryImageService.get(id));
-        } catch (SubcategoryImageNotFoundException ex) {
+        } catch (NotFoundException ex) {
             return ResponseEntity.notFound().build();
         }
     }
@@ -50,7 +49,7 @@ public class SubcategoryImageController {
         try {
             subcategoryImageService.add(new SubcategoryImageDto(file, subcategoryId));
             return ResponseEntity.ok().build();
-        } catch (SubcategoryNotFoundException ex) {
+        } catch (NotFoundException ex) {
             return ResponseEntity.notFound().build();
         }
     }
@@ -60,7 +59,7 @@ public class SubcategoryImageController {
         try {
             subcategoryImageService.delete(id);
             return ResponseEntity.ok().build();
-        } catch (SubcategoryImageNotFoundException ex) {
+        } catch (NotFoundException ex) {
             return ResponseEntity.notFound().build();
         }
     }

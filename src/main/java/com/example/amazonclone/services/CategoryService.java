@@ -2,7 +2,7 @@ package com.example.amazonclone.services;
 
 import com.example.amazonclone.dto.CategoryDto;
 import com.example.amazonclone.dto.SubcategoryDto;
-import com.example.amazonclone.exceptions.CategoryNotFoundException;
+import com.example.amazonclone.exceptions.NotFoundException;
 import com.example.amazonclone.models.Category;
 import com.example.amazonclone.models.CategoryImage;
 import com.example.amazonclone.models.Subcategory;
@@ -26,13 +26,13 @@ public class CategoryService implements CrudService<CategoryDto, Category, Long>
         this.subcategoryRepository = subcategoryRepository;
     }
 
-    private Category getCategory(Long id) throws CategoryNotFoundException {
+    private Category getCategory(Long id) throws NotFoundException {
         Iterable<Category> categories = categoryRepository.findAll();
 
         for(Category category : categories)
             if(id.equals(category.getId()))
                 return category;
-        throw new CategoryNotFoundException("Category was not found");
+        throw new NotFoundException("Category was not found");
     }
 
     @Override
@@ -44,19 +44,19 @@ public class CategoryService implements CrudService<CategoryDto, Category, Long>
         return categoryDtos;
     }
 
-    public Long getId(CategoryDto categoryDto) throws CategoryNotFoundException {
+    public Long getId(CategoryDto categoryDto) throws NotFoundException {
         for(Category category : categoryRepository.findAll())
             if(category.getName().equals(categoryDto.getName()))
                 return category.getId();
-        throw new CategoryNotFoundException("Category was not found");
+        throw new NotFoundException("Category was not found");
     }
 
     @Override
-    public CategoryDto get(Long id) throws CategoryNotFoundException {
+    public CategoryDto get(Long id) throws NotFoundException {
         return new CategoryDto(getCategory(id));
     }
 
-    public List<SubcategoryDto> getSubcategories(Long id) throws CategoryNotFoundException {
+    public List<SubcategoryDto> getSubcategories(Long id) throws NotFoundException {
         Category category = getCategory(id);
 
         List<SubcategoryDto> subcategoriesDto = new LinkedList<>();
@@ -81,25 +81,23 @@ public class CategoryService implements CrudService<CategoryDto, Category, Long>
         categoryRepository.save(dtoEntity.buildEntity());
     }
 
-    public void addImage(Long id, CategoryImage image) throws CategoryNotFoundException{
+    public void addImage(Long id, CategoryImage image) throws NotFoundException{
         Category category = getCategory(id);
 
         category.setImage(image);
     }
 
     @Override
-    public void delete(Long id) throws CategoryNotFoundException {
+    public void delete(Long id) throws NotFoundException {
         Category category = getCategory(id);
 
         categoryRepository.delete(category);
     }
 
     @Override
-    public void update(Long id, CategoryDto dtoEntity) throws CategoryNotFoundException {
+    public void update(Long id, CategoryDto dtoEntity) throws NotFoundException {
         delete(id);
 
-        Category category = dtoEntity.buildEntity();
-        category.setId(id);
-        categoryRepository.save(category);
+        categoryRepository.save(dtoEntity.buildEntity(id));
     }
 }

@@ -1,8 +1,7 @@
 package com.example.amazonclone.services;
 
 import com.example.amazonclone.dto.CategoryImageDto;
-import com.example.amazonclone.exceptions.CategoryImageNotFoundException;
-import com.example.amazonclone.exceptions.CategoryNotFoundException;
+import com.example.amazonclone.exceptions.NotFoundException;
 import com.example.amazonclone.models.Category;
 import com.example.amazonclone.models.CategoryImage;
 import com.example.amazonclone.repos.CategoryImageRepository;
@@ -26,30 +25,30 @@ public class CategoryImageService implements CrudService<CategoryImageDto, Categ
         this.categoryRepository = categoryRepository;
     }
 
-    private CategoryImage getImage(Long id) throws CategoryImageNotFoundException {
+    private CategoryImage getImage(Long id) throws NotFoundException {
         Iterable<CategoryImage> categoryImages = categoryImageRepository.findAll();
 
         for(CategoryImage categoryImage : categoryImages)
             if(id.equals(categoryImage.getId()))
                 return categoryImage;
-        throw new CategoryImageNotFoundException("CategoryImage was not found");
+        throw new NotFoundException("CategoryImage was not found");
     }
 
-    public CategoryImageDto getByCategory(Long categoryId) throws CategoryNotFoundException, CategoryImageNotFoundException {
+    public CategoryImageDto getByCategory(Long categoryId) throws NotFoundException {
         for (Category category : categoryRepository.findAll()) {
             if(category.getId().equals(categoryId)) {
                 if(category.getImage() != null) {
                     CategoryImageDto categoryImageDto = new CategoryImageDto(category.getImage());
                     return categoryImageDto;
                 }
-                throw new CategoryImageNotFoundException("Category image was not found");
+                throw new NotFoundException("Category image was not found");
             }
         }
-        throw new CategoryNotFoundException("Category was not found");
+        throw new NotFoundException("Category was not found");
     }
 
     @Override
-    public CategoryImageDto get(Long id) throws CategoryImageNotFoundException {
+    public CategoryImageDto get(Long id) throws NotFoundException {
         return new CategoryImageDto(getImage(id));
     }
 
@@ -61,7 +60,7 @@ public class CategoryImageService implements CrudService<CategoryImageDto, Categ
     }
 
     @Override
-    public void add(CategoryImageDto dtoEntity) throws CategoryNotFoundException {
+    public void add(CategoryImageDto dtoEntity) throws NotFoundException {
 
         CategoryImage categoryImage = dtoEntity.buildEntity();
 
@@ -73,24 +72,22 @@ public class CategoryImageService implements CrudService<CategoryImageDto, Categ
         }
 
         if(categoryImage.getCategory() == null)
-            throw new CategoryNotFoundException("Category was not found");
+            throw new NotFoundException("Category was not found");
 
         categoryImageRepository.save(categoryImage);
     }
 
     @Override
-    public void delete(Long id) throws CategoryImageNotFoundException {
+    public void delete(Long id) throws NotFoundException {
         CategoryImage categoryImage = getImage(id);
 
         categoryImageRepository.delete(categoryImage);
     }
 
     @Override
-    public void update(Long id, CategoryImageDto dtoEntity) throws CategoryImageNotFoundException {
+    public void update(Long id, CategoryImageDto dtoEntity) throws NotFoundException {
         delete(id);
 
-        CategoryImage image = dtoEntity.buildEntity();
-        image.setId(id);
-        categoryImageRepository.save(dtoEntity.buildEntity());
+        categoryImageRepository.save(dtoEntity.buildEntity(id));
     }
 }

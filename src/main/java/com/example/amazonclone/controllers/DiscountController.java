@@ -1,12 +1,9 @@
 package com.example.amazonclone.controllers;
 
 import com.example.amazonclone.dto.DiscountDto;
-import com.example.amazonclone.exceptions.DiscountNotFoundException;
-import com.example.amazonclone.exceptions.ProductNotFoundException;
+import com.example.amazonclone.exceptions.NotFoundException;
 import com.example.amazonclone.services.DiscountService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +22,7 @@ public class DiscountController {
     public ResponseEntity<DiscountDto> getDiscount(@RequestParam Long id) {
         try {
             return ResponseEntity.ok(discountService.get(id));
-        } catch (DiscountNotFoundException ex) {
+        } catch (NotFoundException ex) {
             return ResponseEntity.notFound().build();
         }
     }
@@ -40,7 +37,7 @@ public class DiscountController {
         try {
             discountService.add(discountDto);
             return ResponseEntity.ok().build();
-        } catch (ProductNotFoundException ex) {
+        } catch (NotFoundException ex) {
             return ResponseEntity.notFound().build();
         }
 
@@ -51,7 +48,7 @@ public class DiscountController {
         try {
             discountService.delete(id);
             return ResponseEntity.ok().build();
-        } catch (DiscountNotFoundException ex) {
+        } catch (NotFoundException ex) {
             return ResponseEntity.notFound().build();
         }
     }

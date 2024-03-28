@@ -1,7 +1,7 @@
 package com.example.amazonclone.controllers;
 
 import com.example.amazonclone.dto.CategoryDto;
-import com.example.amazonclone.exceptions.CategoryNotFoundException;
+import com.example.amazonclone.exceptions.NotFoundException;
 import com.example.amazonclone.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +29,7 @@ public class CategoryController {
         try {
             CategoryDto category = categoryService.get(id);
             return ResponseEntity.ok(category);
-        } catch (CategoryNotFoundException e) {
+        } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         }
     }
@@ -44,7 +44,7 @@ public class CategoryController {
     public ResponseEntity<String> deleteCategory(@RequestParam Long id) {
         try {
             categoryService.delete(id);
-        } catch (CategoryNotFoundException ex) {
+        } catch (NotFoundException ex) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().build();

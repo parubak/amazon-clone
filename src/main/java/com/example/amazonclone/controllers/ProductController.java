@@ -2,11 +2,9 @@ package com.example.amazonclone.controllers;
 
 
 import com.example.amazonclone.dto.ProductDto;
-import com.example.amazonclone.exceptions.ProductNotFoundException;
-import com.example.amazonclone.exceptions.SubcategoryNotFoundException;
+import com.example.amazonclone.exceptions.NotFoundException;
 import com.example.amazonclone.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +25,7 @@ public class ProductController{
         try {
 
             return ResponseEntity.ok(productService.get(id));
-        } catch (ProductNotFoundException ex) {
+        } catch (NotFoundException ex) {
             return ResponseEntity.notFound().build();
         }
     }
@@ -42,7 +40,7 @@ public class ProductController{
         try {
             productService.add(productDto);
             return ResponseEntity.ok().build();
-        } catch (SubcategoryNotFoundException ex) {
+        } catch (NotFoundException ex) {
             return ResponseEntity.notFound().build();
         }
 
@@ -52,7 +50,7 @@ public class ProductController{
     public ResponseEntity<String> deleteProduct(@RequestParam Long id) {
         try {
             productService.delete(id);
-        } catch (ProductNotFoundException ex) {
+        } catch (NotFoundException ex) {
             return ResponseEntity.notFound().build();
         }
 

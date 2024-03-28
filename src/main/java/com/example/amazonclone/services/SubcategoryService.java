@@ -1,11 +1,8 @@
 package com.example.amazonclone.services;
 
-import com.example.amazonclone.dto.CategoryDto;
 import com.example.amazonclone.dto.SubcategoryDto;
-import com.example.amazonclone.exceptions.CategoryNotFoundException;
-import com.example.amazonclone.exceptions.SubcategoryNotFoundException;
+import com.example.amazonclone.exceptions.NotFoundException;
 import com.example.amazonclone.models.Category;
-import com.example.amazonclone.models.Product;
 import com.example.amazonclone.models.Subcategory;
 import com.example.amazonclone.repos.CategoryRepository;
 import com.example.amazonclone.repos.ProductRepository;
@@ -13,11 +10,8 @@ import com.example.amazonclone.repos.SubcategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class SubcategoryService implements CrudService<SubcategoryDto, Subcategory, Long> {
@@ -33,7 +27,7 @@ public class SubcategoryService implements CrudService<SubcategoryDto, Subcatego
         this.productRepository = productRepository;
     }
 
-    private Subcategory getSubcategory(Long id) throws SubcategoryNotFoundException {
+    private Subcategory getSubcategory(Long id) throws NotFoundException {
         Iterable<Subcategory> subcategories = subcategoryRepository.findAll();
 
         for (Subcategory subcategory : subcategories) {
@@ -41,11 +35,11 @@ public class SubcategoryService implements CrudService<SubcategoryDto, Subcatego
                 return subcategory;
         }
 
-        throw new SubcategoryNotFoundException("Subcategory was not found");
+        throw new NotFoundException("Subcategory was not found");
     }
 
     @Override
-    public SubcategoryDto get(Long id) throws SubcategoryNotFoundException {
+    public SubcategoryDto get(Long id) throws NotFoundException {
         return new SubcategoryDto(getSubcategory(id));
     }
 
@@ -59,7 +53,7 @@ public class SubcategoryService implements CrudService<SubcategoryDto, Subcatego
     }
 
     @Override
-    public void add(SubcategoryDto dtoEntity) throws CategoryNotFoundException {
+    public void add(SubcategoryDto dtoEntity) throws NotFoundException {
         Subcategory subcategory = dtoEntity.buildEntity();
 
         Iterable<Category> categories = categoryRepository.findAll();
@@ -69,26 +63,22 @@ public class SubcategoryService implements CrudService<SubcategoryDto, Subcatego
         }
 
         if(subcategory.getCategory() == null)
-            throw new CategoryNotFoundException("Category was not found");
+            throw new NotFoundException("Category was not found");
 
         subcategoryRepository.save(subcategory);
     }
 
     @Override
-    public void delete(Long id) throws SubcategoryNotFoundException {
+    public void delete(Long id) throws NotFoundException {
         Subcategory subcategory = getSubcategory(id);
 
         subcategoryRepository.delete(subcategory);
     }
 
     @Override
-    public void update(Long id, SubcategoryDto dtoEntity) throws SubcategoryNotFoundException {
-
+    public void update(Long id, SubcategoryDto dtoEntity) throws NotFoundException {
         delete(id);
 
-        Subcategory subcategory = dtoEntity.buildEntity();
-        subcategory.setId(id);
-
-        subcategoryRepository.save(subcategory);
+        subcategoryRepository.save(dtoEntity.buildEntity(id));
     }
 }

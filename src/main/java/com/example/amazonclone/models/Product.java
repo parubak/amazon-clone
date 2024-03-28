@@ -1,15 +1,11 @@
 package com.example.amazonclone.models;
 
-import com.example.amazonclone.repos.CategoryRepository;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+
 import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Set;
 
 @Entity
 @Data
@@ -18,30 +14,30 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name="id", nullable = false)
     private Long id;
 
-    @Column(name="name")
+    @Column(name="name", nullable = false)
     private String name;
 
-    @Column(name="price")
+    @Column(name="price", nullable = false)
     private double price;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="subcategory_id")
-    private Subcategory subcategory;
+    @Column(name="description", nullable = false)
+    private String description;
 
-    @OneToOne(mappedBy = "product", cascade = CascadeType.REMOVE)
-    @Nullable
-    private Discount discount;
+    @ManyToOne
+    @JoinColumn(name = "product_type_id", nullable = false)
+    private ProductType productType;
 
-    @OneToOne
-    @JoinColumn(name="main_image_id")
-    @Nullable
-    private ProductImage mainImage;
+    @OneToMany(mappedBy = "product")
+    private Collection<ProductDetailValue> productDetailValues = new ArrayList<>();
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
-    @Nullable
-    private Collection<ProductImage> productImages = new ArrayList<>();
+    private Collection<ProductColor> productColors = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
+    private Collection<ProductReview> productReviews = new ArrayList<>();
+
 
 }

@@ -1,11 +1,12 @@
 package com.example.amazonclone.services;
 
 import com.example.amazonclone.dto.DiscountDto;
-import com.example.amazonclone.exceptions.DiscountNotFoundException;
-import com.example.amazonclone.exceptions.ProductNotFoundException;
+import com.example.amazonclone.exceptions.NotFoundException;
 import com.example.amazonclone.models.Discount;
 import com.example.amazonclone.models.Product;
+import com.example.amazonclone.models.ProductColor;
 import com.example.amazonclone.repos.DiscountRepository;
+import com.example.amazonclone.repos.ProductColorRepository;
 import com.example.amazonclone.repos.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,15 +17,15 @@ import java.util.List;
 @Service
 public class DiscountService implements CrudService<DiscountDto, Discount, Long>{
     private final DiscountRepository discountRepository;
-    private final ProductRepository productRepository;
+    private final ProductColorRepository productColorRepository;
 
     @Autowired
-    public DiscountService(DiscountRepository repository, ProductRepository productRepository) {
+    public DiscountService(DiscountRepository repository, ProductColorRepository productColorRepository) {
         this.discountRepository = repository;
-        this.productRepository = productRepository;
+        this.productColorRepository = productColorRepository;
     }
 
-    private Discount getDiscount(Long id) throws DiscountNotFoundException {
+    private Discount getDiscount(Long id) throws NotFoundException {
         Iterable<Discount> discounts = discountRepository.findAll();
 
         for(Discount discount : discounts) {
@@ -32,11 +33,11 @@ public class DiscountService implements CrudService<DiscountDto, Discount, Long>
                 return discount;
         }
 
-        throw new DiscountNotFoundException("Discount was not found");
+        throw new NotFoundException("Discount was not found");
     }
 
     @Override
-    public DiscountDto get(Long id) throws DiscountNotFoundException {
+    public DiscountDto get(Long id) throws NotFoundException {
         return new DiscountDto(getDiscount(id));
     }
 
@@ -50,35 +51,33 @@ public class DiscountService implements CrudService<DiscountDto, Discount, Long>
     }
 
     @Override
-    public void add(DiscountDto dtoEntity) throws ProductNotFoundException {
+    public void add(DiscountDto dtoEntity) throws NotFoundException {
         Discount discount = dtoEntity.buildEntity();
 
-        Iterable<Product> products = productRepository.findAll();
+        Iterable<ProductColor> productColors = productColorRepository.findAll();
 
-        for (Product product : products) {
-            if(product.getId().equals(dtoEntity.getProductId()))
-                discount.setProduct(product);
+        for (ProductColor productColor : productColors) {
+            if(productColor.getId().equals(dtoEntity.getProductColorId()))
+                discount.setProductColor(productColor);
         }
 
-        if(discount.getProduct() == null)
-            throw new ProductNotFoundException("Product was not found");
+        if(discount.getProductColor() == null)
+            throw new NotFoundException("Product color was not found");
 
         discountRepository.save(discount);
     }
 
     @Override
-    public void delete(Long id) throws DiscountNotFoundException {
+    public void delete(Long id) throws NotFoundException {
         Discount discount = getDiscount(id);
 
         discountRepository.delete(discount);
     }
 
     @Override
-    public void update(Long id, DiscountDto dtoEntity) throws DiscountNotFoundException {
+    public void update(Long id, DiscountDto dtoEntity) throws NotFoundException {
         delete(id);
 
-        Discount discount = dtoEntity.buildEntity();
-        discount.setId(id);
-        discountRepository.save(discount);
+        discountRepository.save(dtoEntity.buildEntity(id));
     }
 }

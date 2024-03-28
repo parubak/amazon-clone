@@ -27,8 +27,7 @@ public class Subcategory {
     private Category category;
 
     @OneToMany(mappedBy = "subcategory", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @Nullable
-    private Collection<Product> products = new ArrayList<>();
+    private Collection<ProductType> productTypes = new ArrayList<>();
 
     @OneToOne(mappedBy = "subcategory")
     @Nullable

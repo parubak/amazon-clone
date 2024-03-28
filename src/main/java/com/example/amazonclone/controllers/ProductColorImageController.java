@@ -1,10 +1,9 @@
 package com.example.amazonclone.controllers;
 
 import com.example.amazonclone.ImageUtil;
-import com.example.amazonclone.dto.ProductImageDto;
-import com.example.amazonclone.exceptions.ProductImageNotFoundException;
-import com.example.amazonclone.exceptions.ProductNotFoundException;
-import com.example.amazonclone.services.ProductImageService;
+import com.example.amazonclone.dto.ProductColorImageDto;
+import com.example.amazonclone.exceptions.NotFoundException;
+import com.example.amazonclone.services.ProductColorImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,26 +14,24 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-public class ProductImageController {
-    private final ProductImageService productImageService;
+public class ProductColorImageController {
+    private final ProductColorImageService productImageService;
 
     @Autowired
-    public ProductImageController(ProductImageService productImageService) {
+    public ProductColorImageController(ProductColorImageService productImageService) {
         this.productImageService = productImageService;
     }
 
     @GetMapping("productImage/all")
-    public ResponseEntity<List<ProductImageDto>> getProductImages() {
+    public ResponseEntity<List<ProductColorImageDto>> getProductImages() {
         return ResponseEntity.ok(productImageService.getAll());
     }
 
     @GetMapping("productImage")
-    public ResponseEntity<Object> getProductImage(@RequestParam Long id, @RequestParam boolean likeImage) {
+    public ResponseEntity<Object> getProductImage(@RequestParam Long id) {
         try {
-            if(likeImage)
-                return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(ImageUtil.decompressImage(productImageService.get(id).getData()));
             return ResponseEntity.ok(productImageService.get(id));
-        } catch (ProductImageNotFoundException ex) {
+        } catch (NotFoundException ex) {
             return ResponseEntity.notFound().build();
         }
     }
@@ -42,9 +39,9 @@ public class ProductImageController {
     @PostMapping(value = "productImage", consumes = "multipart/form-data;charset=UTF-8")
     public ResponseEntity<String> addProductImage(@RequestParam MultipartFile file, @RequestParam Long productId) throws IOException {
         try {
-            productImageService.add(new ProductImageDto(file, productId));
+            productImageService.add(new ProductColorImageDto(file, productId));
             return ResponseEntity.ok().build();
-        } catch (ProductNotFoundException ex) {
+        } catch (NotFoundException ex) {
             return ResponseEntity.notFound().build();
         }
     }
@@ -54,7 +51,7 @@ public class ProductImageController {
         try {
             productImageService.delete(id);
             return ResponseEntity.ok().build();
-        } catch (ProductImageNotFoundException ex) {
+        } catch (NotFoundException ex) {
             return ResponseEntity.notFound().build();
         }
     }

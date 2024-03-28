@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
-public class CategoryImageDto extends Image implements DtoEntity<CategoryImage> {
+public class CategoryImageDto extends Image implements DtoEntity<CategoryImage, Long> {
     @Nullable
     @Getter
     @Setter
@@ -38,6 +38,13 @@ public class CategoryImageDto extends Image implements DtoEntity<CategoryImage> 
             categoryImage.setId(id);
         categoryImage.setImage(data);
 
+        return categoryImage;
+    }
+
+    @Override
+    public CategoryImage buildEntity(Long id) {
+        CategoryImage categoryImage = buildEntity();
+        categoryImage.setId(id);
         return categoryImage;
     }
 }

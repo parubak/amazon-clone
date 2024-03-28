@@ -1,12 +1,9 @@
 package com.example.amazonclone.controllers;
 
-import com.example.amazonclone.ImageUtil;
 import com.example.amazonclone.dto.CategoryImageDto;
-import com.example.amazonclone.exceptions.CategoryImageNotFoundException;
-import com.example.amazonclone.exceptions.CategoryNotFoundException;
+import com.example.amazonclone.exceptions.NotFoundException;
 import com.example.amazonclone.services.CategoryImageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +31,7 @@ public class CategoryImageController {
     public ResponseEntity<CategoryImageDto> getImageByCategory(@RequestParam("id") Long id) {
         try {
             return ResponseEntity.ok(categoryImageService.getByCategory(id));
-        } catch (CategoryNotFoundException | CategoryImageNotFoundException ex) {
+        } catch (NotFoundException ex) {
             return ResponseEntity.notFound().build();
         }
     }
@@ -43,7 +40,7 @@ public class CategoryImageController {
     public ResponseEntity<Object> getImage(@RequestParam("id") Long id) {
         try {
             return ResponseEntity.ok(categoryImageService.get(id));
-        } catch (CategoryImageNotFoundException ex) {
+        } catch (NotFoundException ex) {
             return ResponseEntity.notFound().build();
         }
     }
@@ -53,7 +50,7 @@ public class CategoryImageController {
         try {
             categoryImageService.add(new CategoryImageDto(file, categoryId));
             return ResponseEntity.ok().build();
-        } catch (CategoryNotFoundException ex) {
+        } catch (NotFoundException ex) {
             return ResponseEntity.notFound().build();
         }
     }
@@ -63,7 +60,7 @@ public class CategoryImageController {
         try {
             categoryImageService.delete(id);
             return ResponseEntity.ok().build();
-        } catch (CategoryImageNotFoundException ex) {
+        } catch (NotFoundException ex) {
             return ResponseEntity.notFound().build();
         }
     }

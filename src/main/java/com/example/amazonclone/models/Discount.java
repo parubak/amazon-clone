@@ -24,6 +24,6 @@ public class Discount {
     private Timestamp period;
 
     @OneToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @JoinColumn(name = "product_color_id")
+    private ProductColor productColor;
 }
