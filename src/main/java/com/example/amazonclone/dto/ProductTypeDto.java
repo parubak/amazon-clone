@@ -5,11 +5,13 @@ import com.example.amazonclone.models.ProductType;
 import com.example.amazonclone.services.ProductTypeService;
 import jakarta.annotation.Nullable;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 public class ProductTypeDto implements DtoEntity<ProductType, Long> {
 
     @Nullable

@@ -17,6 +17,6 @@ public class SubcategoryImage {
     private byte[] image;
 
     @OneToOne
-    @JoinColumn(name = "subcategory_id")
+    @JoinColumn(name = "subcategory_id", unique = true)
     private Subcategory subcategory;
 }

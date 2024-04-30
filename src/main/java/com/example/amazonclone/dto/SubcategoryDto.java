@@ -1,14 +1,15 @@
 package com.example.amazonclone.dto;
 
-import com.example.amazonclone.models.ProductReview;
 import com.example.amazonclone.models.Subcategory;
 import jakarta.annotation.Nullable;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 public class SubcategoryDto implements DtoEntity<Subcategory, Long> {
     @Nullable
     private Long id;

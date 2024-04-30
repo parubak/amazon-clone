@@ -1,12 +1,15 @@
 package com.example.amazonclone.services;
 
 import com.example.amazonclone.dto.CategoryImageDto;
+import com.example.amazonclone.exceptions.ImageAlreadyExistsException;
 import com.example.amazonclone.exceptions.NotFoundException;
 import com.example.amazonclone.models.Category;
 import com.example.amazonclone.models.CategoryImage;
 import com.example.amazonclone.repos.CategoryImageRepository;
 import com.example.amazonclone.repos.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -14,7 +17,7 @@ import java.util.List;
 
 
 @Service
-public class CategoryImageService implements CrudService<CategoryImageDto, CategoryImage, Long> {
+public class CategoryImageService implements JpaSingleImageService<CategoryImageDto, CategoryImage, Long> {
 
     private final CategoryImageRepository categoryImageRepository;
     private final CategoryRepository categoryRepository;
@@ -53,14 +56,29 @@ public class CategoryImageService implements CrudService<CategoryImageDto, Categ
     }
 
     @Override
-    public List<CategoryImageDto> getAll() {
+    public List<CategoryImageDto> getAll(PageRequest pageRequest) {
         List<CategoryImageDto> categoryImageDtos = new LinkedList<>();
-        categoryImageRepository.findAll().forEach(x->categoryImageDtos.add(new CategoryImageDto(x)));
+        Page<CategoryImage> page = categoryImageRepository.findAll(pageRequest);
+
+        page.getContent().forEach(x->categoryImageDtos.add(new CategoryImageDto(x).deflateImage()));
+
         return categoryImageDtos;
     }
 
     @Override
-    public void add(CategoryImageDto dtoEntity) throws NotFoundException {
+    public List<CategoryImageDto> getAll() {
+        List<CategoryImageDto> categoryImageDtos = new LinkedList<>();
+        categoryImageRepository.findAll().forEach(x->categoryImageDtos.add(new CategoryImageDto(x).deflateImage()));
+        return categoryImageDtos;
+    }
+
+    @Override
+    public void add(CategoryImageDto dtoEntity) throws NotFoundException, ImageAlreadyExistsException {
+
+        for(CategoryImage image : categoryImageRepository.findAll()) {
+            if(image.getCategory().getId().equals(dtoEntity.getCategoryId()))
+                throw new ImageAlreadyExistsException("Category image already exists");
+        }
 
         CategoryImage categoryImage = dtoEntity.buildEntity();
 

@@ -3,8 +3,11 @@ package com.example.amazonclone.dto;
 import com.example.amazonclone.models.ProductReview;
 import jakarta.annotation.Nullable;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.antlr.v4.runtime.misc.NotNull;
 
 @Data
+@NoArgsConstructor
 public class ProductReviewDto implements DtoEntity<ProductReview, Long> {
 
     @Nullable
@@ -46,7 +49,7 @@ public class ProductReviewDto implements DtoEntity<ProductReview, Long> {
             productReview.setId(id);
         productReview.setUsername(username);
         productReview.setMark(mark);
-        if(productReview.getReviewText() != null)
+        if(reviewText != null)
             productReview.setReviewText(reviewText);
 
         return productReview;

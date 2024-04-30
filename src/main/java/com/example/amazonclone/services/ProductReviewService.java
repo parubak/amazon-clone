@@ -4,18 +4,18 @@ import com.example.amazonclone.dto.ProductReviewDto;
 import com.example.amazonclone.exceptions.NotFoundException;
 import com.example.amazonclone.models.Product;
 import com.example.amazonclone.models.ProductReview;
-import com.example.amazonclone.repos.ProductColorRepository;
 import com.example.amazonclone.repos.ProductRepository;
 import com.example.amazonclone.repos.ProductReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.annotation.AccessType;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ProductReviewService implements CrudService<ProductReviewDto, ProductReview, Long> {
+public class ProductReviewService implements JpaService<ProductReviewDto, ProductReview, Long> {
 
     private final ProductReviewRepository productReviewRepository;
     private final ProductRepository productRepository;
@@ -39,6 +39,16 @@ public class ProductReviewService implements CrudService<ProductReviewDto, Produ
     }
 
     @Override
+    public List<ProductReviewDto> getAll(PageRequest pageRequest) {
+        List<ProductReviewDto> productReviewDtos = new ArrayList<>();
+        Page<ProductReview> page = productReviewRepository.findAll(pageRequest);
+
+        page.getContent().forEach(x->productReviewDtos.add(new ProductReviewDto(x)));
+
+        return productReviewDtos;
+    }
+
+    @Override
     public List<ProductReviewDto> getAll() {
         List<ProductReviewDto> productReviewDtos = new ArrayList<>();
 
@@ -55,6 +65,8 @@ public class ProductReviewService implements CrudService<ProductReviewDto, Produ
                 productReview.setProduct(product);
         if(productReview.getProduct() == null)
             throw new NotFoundException("Product was not found!");
+
+        productReviewRepository.save(productReview);
     }
 
     @Override

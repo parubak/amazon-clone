@@ -3,8 +3,10 @@ package com.example.amazonclone.dto;
 import com.example.amazonclone.models.ProductDetailValue;
 import jakarta.annotation.Nullable;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class ProductDetailValueDto implements DtoEntity<ProductDetailValue, Long> {
 
     @Nullable
@@ -23,7 +25,7 @@ public class ProductDetailValueDto implements DtoEntity<ProductDetailValue, Long
         this.productId = entity.getProduct().getId();
     }
 
-    public ProductDetailValueDto(String value, Long productDetailKeyId, Long productId) {
+    public ProductDetailValueDto(Long productId, Long productDetailKeyId, String value) {
         this.value = value;
         this.productDetailKeyId = productDetailKeyId;
         this.productId = productId;

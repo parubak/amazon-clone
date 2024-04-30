@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Data
@@ -15,13 +16,13 @@ public class ProductDetailKey {
     @Column(name="id")
     private Long id;
 
-    @Column(name= "key", length = 64)
+    @Column(name= "`key`", length = 64)
     private String key;
 
     @ManyToOne
     @JoinColumn(name="product_type_id")
     private ProductType productType;
 
-    @OneToOne(mappedBy = "productDetailKey")
-    private ProductDetailValue productDetailValue;
+    @OneToMany(mappedBy = "productDetailKey")
+    private List<ProductDetailValue> productDetailValues = new ArrayList<>();
 }

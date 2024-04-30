@@ -2,19 +2,20 @@ package com.example.amazonclone.services;
 
 import com.example.amazonclone.dto.ProductColorImageDto;
 import com.example.amazonclone.exceptions.NotFoundException;
-import com.example.amazonclone.models.Product;
 import com.example.amazonclone.models.ProductColor;
 import com.example.amazonclone.models.ProductColorImage;
 import com.example.amazonclone.repos.ProductColorImageRepository;
 import com.example.amazonclone.repos.ProductColorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
 
 @Service
-public class ProductColorImageService implements CrudService<ProductColorImageDto, ProductColorImage, Long>{
+public class ProductColorImageService implements JpaService<ProductColorImageDto, ProductColorImage, Long> {
 
     private final ProductColorImageRepository productImageRepository;
     private final ProductColorRepository productColorRepository;
@@ -41,10 +42,20 @@ public class ProductColorImageService implements CrudService<ProductColorImageDt
     }
 
     @Override
+    public List<ProductColorImageDto> getAll(PageRequest pageRequest) {
+        List<ProductColorImageDto> productImageDtos = new LinkedList<>();
+        Page<ProductColorImage> page = productImageRepository.findAll(pageRequest);
+
+        page.getContent().forEach(x->productImageDtos.add(new ProductColorImageDto(x).deflateImage()));
+
+        return productImageDtos;
+    }
+
+    @Override
     public List<ProductColorImageDto> getAll() {
         List<ProductColorImageDto> productImageDtos = new LinkedList<>();
 
-        productImageRepository.findAll().forEach(x->productImageDtos.add(new ProductColorImageDto(x)));
+        productImageRepository.findAll().forEach(x->productImageDtos.add(new ProductColorImageDto(x).deflateImage()));
 
         return productImageDtos;
     }

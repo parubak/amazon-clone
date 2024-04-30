@@ -6,13 +6,15 @@ import com.example.amazonclone.models.ProductType;
 import com.example.amazonclone.models.Subcategory;
 import com.example.amazonclone.repos.ProductTypeRepository;
 import com.example.amazonclone.repos.SubcategoryRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ProductTypeService implements CrudService<ProductTypeDto, ProductType, Long> {
+public class ProductTypeService implements JpaService<ProductTypeDto, ProductType, Long> {
 
     private final ProductTypeRepository productTypeRepository;
     private final SubcategoryRepository subcategoryRepository;
@@ -35,6 +37,16 @@ public class ProductTypeService implements CrudService<ProductTypeDto, ProductTy
     }
 
     @Override
+    public List<ProductTypeDto> getAll(PageRequest pageRequest) {
+        List<ProductTypeDto> productTypeDtos = new ArrayList<>();
+        Page<ProductType> page = productTypeRepository.findAll(pageRequest);
+
+        page.getContent().forEach(x->productTypeDtos.add(new ProductTypeDto(x)));
+
+        return productTypeDtos;
+    }
+
+    @Override
     public List<ProductTypeDto> getAll() {
         List<ProductTypeDto> productTypeDtos = new ArrayList<>();
 
@@ -52,11 +64,14 @@ public class ProductTypeService implements CrudService<ProductTypeDto, ProductTy
                 productType.setSubcategory(subcategory);
         if(productType.getSubcategory() == null)
             throw new NotFoundException("Subcategory was not found!");
+
+        productTypeRepository.save(productType);
     }
 
     @Override
     public void delete(Long id) throws NotFoundException {
-        productTypeRepository.delete(getProductType(id));
+        ProductType productType = getProductType(id);
+        productTypeRepository.delete(productType);
     }
 
     @Override

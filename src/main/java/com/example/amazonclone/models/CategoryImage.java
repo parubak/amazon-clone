@@ -17,7 +17,7 @@ public class CategoryImage {
     private byte[] image;
 
     @OneToOne
-    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    @JoinColumn(name = "category_id", referencedColumnName = "id", unique = true)
     private Category category;
 
 }

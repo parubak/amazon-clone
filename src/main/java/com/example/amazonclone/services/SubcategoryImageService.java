@@ -1,18 +1,21 @@
 package com.example.amazonclone.services;
 
 import com.example.amazonclone.dto.SubcategoryImageDto;
+import com.example.amazonclone.exceptions.ImageAlreadyExistsException;
 import com.example.amazonclone.exceptions.NotFoundException;
 import com.example.amazonclone.models.*;
 import com.example.amazonclone.repos.SubcategoryImageRepository;
 import com.example.amazonclone.repos.SubcategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
 
 @Service
-public class SubcategoryImageService implements CrudService<SubcategoryImageDto, SubcategoryImage, Long>{
+public class SubcategoryImageService implements JpaSingleImageService<SubcategoryImageDto, SubcategoryImage, Long> {
 
     private final SubcategoryImageRepository subcategoryImageRepository;
     private final SubcategoryRepository subcategoryRepository;
@@ -38,6 +41,16 @@ public class SubcategoryImageService implements CrudService<SubcategoryImageDto,
         return new SubcategoryImageDto(getImage(id));
     }
 
+    @Override
+    public List<SubcategoryImageDto> getAll(PageRequest pageRequest) {
+        List<SubcategoryImageDto> subcategoryImageDtos = new LinkedList<>();
+        Page<SubcategoryImage> page = subcategoryImageRepository.findAll(pageRequest);
+
+        page.getContent().forEach(x->subcategoryImageDtos.add(new SubcategoryImageDto(x).deflateImage()));
+
+        return subcategoryImageDtos;
+    }
+
     public SubcategoryImageDto getBySubcategory(Long subcategoryId) throws NotFoundException {
         for(Subcategory subcategory : subcategoryRepository.findAll()) {
             if(subcategory.getId().equals(subcategoryId)) {
@@ -53,13 +66,19 @@ public class SubcategoryImageService implements CrudService<SubcategoryImageDto,
     public List<SubcategoryImageDto> getAll() {
         List<SubcategoryImageDto> subcategoryImageDtos = new LinkedList<>();
 
-        subcategoryImageRepository.findAll().forEach(x->subcategoryImageDtos.add(new SubcategoryImageDto(x)));
+        subcategoryImageRepository.findAll().forEach(x->subcategoryImageDtos.add(new SubcategoryImageDto(x).deflateImage()));
 
         return subcategoryImageDtos;
     }
 
     @Override
-    public void add(SubcategoryImageDto dtoEntity) throws NotFoundException {
+    public void add(SubcategoryImageDto dtoEntity) throws NotFoundException, ImageAlreadyExistsException {
+
+        for (SubcategoryImage subcategoryImage : subcategoryImageRepository.findAll()) {
+            if(subcategoryImage.getSubcategory().getId().equals(dtoEntity.getSubcategoryId()))
+                throw new ImageAlreadyExistsException("Subcategory image already exists");
+        }
+
         SubcategoryImage subcategoryImage = dtoEntity.buildEntity();
 
         Iterable<Subcategory> subcategories = subcategoryRepository.findAll();

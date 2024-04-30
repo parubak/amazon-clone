@@ -42,8 +42,12 @@ public class ProductColorImageDto extends Image implements DtoEntity<ProductColo
 
     @Override
     public ProductColorImage buildEntity(Long id) {
-        ProductColorImage productColorImage = buildEntity();
-        productColorImage.setId(id);
-        return productColorImage;
+        this.id = id;
+        return buildEntity();
+    }
+
+    public ProductColorImageDto deflateImage() {
+        decompressImage();
+        return this;
     }
 }

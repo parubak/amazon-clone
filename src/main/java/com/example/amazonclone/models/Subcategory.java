@@ -26,10 +26,10 @@ public class Subcategory {
     @JoinColumn(name="category_id")
     private Category category;
 
-    @OneToMany(mappedBy = "subcategory", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "subcategory", fetch = FetchType.EAGER)
     private Collection<ProductType> productTypes = new ArrayList<>();
 
-    @OneToOne(mappedBy = "subcategory")
+    @OneToOne(mappedBy = "subcategory", cascade = CascadeType.REMOVE)
     @Nullable
     private SubcategoryImage subcategoryImage;
 }

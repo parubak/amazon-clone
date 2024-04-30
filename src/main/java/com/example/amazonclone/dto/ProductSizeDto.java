@@ -3,10 +3,13 @@ package com.example.amazonclone.dto;
 import com.example.amazonclone.models.ProductSize;
 import jakarta.annotation.Nullable;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 public class ProductSizeDto implements DtoEntity<ProductSize, Long> {
 
     @Nullable
@@ -14,7 +17,7 @@ public class ProductSizeDto implements DtoEntity<ProductSize, Long> {
 
     private String size;
 
-    private List<Long> productColorIds;
+    private List<Long> productColorIds = new ArrayList<>();
 
     public ProductSizeDto(ProductSize entity) {
         this.id = entity.getId();

@@ -7,13 +7,15 @@ import com.example.amazonclone.models.ProductType;
 import com.example.amazonclone.repos.ProductDetailKeyRepository;
 import com.example.amazonclone.repos.ProductTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ProductDetailKeyService implements CrudService<ProductDetailKeyDto, ProductDetailKey, Long> {
+public class ProductDetailKeyService implements JpaService<ProductDetailKeyDto, ProductDetailKey, Long> {
 
     private final ProductDetailKeyRepository productDetailKeyRepository;
     private final ProductTypeRepository productTypeRepository;
@@ -37,6 +39,16 @@ public class ProductDetailKeyService implements CrudService<ProductDetailKeyDto,
     }
 
     @Override
+    public List<ProductDetailKeyDto> getAll(PageRequest pageRequest) {
+        List<ProductDetailKeyDto> productDetailKeyDtos = new ArrayList<>();
+        Page<ProductDetailKey> page = productDetailKeyRepository.findAll(pageRequest);
+
+        page.getContent().forEach(x->productDetailKeyDtos.add(new ProductDetailKeyDto(x)));
+
+        return productDetailKeyDtos;
+    }
+
+    @Override
     public List<ProductDetailKeyDto> getAll() {
         List<ProductDetailKeyDto> productDetailKeyDtos = new ArrayList<>();
 
@@ -53,6 +65,8 @@ public class ProductDetailKeyService implements CrudService<ProductDetailKeyDto,
                 productDetailKey.setProductType(productType);
         if(productDetailKey.getProductType() == null)
             throw new NotFoundException("Product type was not found!");
+
+        productDetailKeyRepository.save(productDetailKey);
     }
 
     @Override

@@ -9,13 +9,15 @@ import com.example.amazonclone.repos.ProductDetailKeyRepository;
 import com.example.amazonclone.repos.ProductDetailValueRepository;
 import com.example.amazonclone.repos.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ProductDetailValueService implements CrudService<ProductDetailValueDto, ProductDetailValue, Long> {
+public class ProductDetailValueService implements JpaService<ProductDetailValueDto, ProductDetailValue, Long> {
     private final ProductDetailValueRepository productDetailValueRepository;
     private final ProductDetailKeyRepository productDetailKeyRepository;
     private final ProductRepository productRepository;
@@ -40,6 +42,16 @@ public class ProductDetailValueService implements CrudService<ProductDetailValue
     }
 
     @Override
+    public List<ProductDetailValueDto> getAll(PageRequest pageRequest) {
+        List<ProductDetailValueDto> productDetailValueDtos = new ArrayList<>();
+        Page<ProductDetailValue> page = productDetailValueRepository.findAll(pageRequest);
+
+        page.getContent().forEach(x->productDetailValueDtos.add(new ProductDetailValueDto(x)));
+
+        return productDetailValueDtos;
+    }
+
+    @Override
     public List<ProductDetailValueDto> getAll() {
         List<ProductDetailValueDto> productDetailValueDtos = new ArrayList<>();
 
@@ -59,7 +71,7 @@ public class ProductDetailValueService implements CrudService<ProductDetailValue
             throw new NotFoundException("Product was not found");
 
         for(ProductDetailKey productDetailKey : productDetailKeyRepository.findAll())
-            if(productDetailValue.getId().equals(dtoEntity.getProductDetailKeyId()))
+            if(productDetailKey.getId().equals(dtoEntity.getProductDetailKeyId()))
                 productDetailValue.setProductDetailKey(productDetailKey);
         if(productDetailValue.getProductDetailKey() == null)
             throw new NotFoundException("Product detail key was not found!");

@@ -8,13 +8,15 @@ import com.example.amazonclone.repos.CategoryRepository;
 import com.example.amazonclone.repos.ProductRepository;
 import com.example.amazonclone.repos.SubcategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
 
 @Service
-public class SubcategoryService implements CrudService<SubcategoryDto, Subcategory, Long> {
+public class SubcategoryService implements JpaService<SubcategoryDto, Subcategory, Long> {
 
     private final SubcategoryRepository subcategoryRepository;
     private final CategoryRepository categoryRepository;
@@ -41,6 +43,16 @@ public class SubcategoryService implements CrudService<SubcategoryDto, Subcatego
     @Override
     public SubcategoryDto get(Long id) throws NotFoundException {
         return new SubcategoryDto(getSubcategory(id));
+    }
+
+    @Override
+    public List<SubcategoryDto> getAll(PageRequest pageRequest) {
+        List<SubcategoryDto> subcategoriesDtos = new LinkedList<>();
+        Page<Subcategory> page = subcategoryRepository.findAll(pageRequest);
+
+        page.getContent().forEach(x->subcategoriesDtos.add(new SubcategoryDto(x)));
+
+        return subcategoriesDtos;
     }
 
     @Override

@@ -18,10 +18,6 @@ public class ProductSize {
     @Column(name="size", nullable = false, length = 10)
     private String size;
 
-    @ManyToMany
-    @JoinTable(
-            name="product_color_sizes",
-            joinColumns = @JoinColumn(name="product_size_id"),
-            inverseJoinColumns = @JoinColumn(name="product_color_id"))
+    @ManyToMany(mappedBy = "productSizes")
     private Collection<ProductColor> productColors = new ArrayList<>();
 }

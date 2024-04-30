@@ -3,11 +3,13 @@ package com.example.amazonclone.dto;
 import com.example.amazonclone.models.Product;
 import jakarta.annotation.Nullable;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 public class ProductDto implements DtoEntity<Product, Long> {
     @Nullable
     private Long id;
@@ -17,6 +19,7 @@ public class ProductDto implements DtoEntity<Product, Long> {
     private Long productTypeId;
     private List<Long> productColorsIds = new ArrayList<>();
     private List<Long> productReviewsIds = new ArrayList<>();
+    private List<Long> productDetailValuesIds = new ArrayList<>();
 
     public ProductDto(String name, Double price, Long subcategoryId) {
         this.name = name;
@@ -34,6 +37,8 @@ public class ProductDto implements DtoEntity<Product, Long> {
             entity.getProductColors().forEach(x->productColorsIds.add(x.getId()));
         if(entity.getProductReviews() != null)
             entity.getProductReviews().forEach(x->this.productReviewsIds.add(x.getId()));
+        if(entity.getProductDetailValues() != null)
+            entity.getProductDetailValues().forEach(x->this.productDetailValuesIds.add(x.getId()));
     }
 
     @Override

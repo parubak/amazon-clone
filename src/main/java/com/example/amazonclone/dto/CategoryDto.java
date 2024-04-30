@@ -3,11 +3,13 @@ package com.example.amazonclone.dto;
 import com.example.amazonclone.models.Category;
 import jakarta.annotation.Nullable;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 public class CategoryDto implements DtoEntity<Category, Long> {
     @Nullable
     private Long id;

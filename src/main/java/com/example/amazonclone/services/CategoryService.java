@@ -9,6 +9,8 @@ import com.example.amazonclone.models.Subcategory;
 import com.example.amazonclone.repos.CategoryRepository;
 import com.example.amazonclone.repos.SubcategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -16,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CategoryService implements CrudService<CategoryDto, Category, Long>{
+public class CategoryService implements JpaService<CategoryDto, Category, Long> {
     private final CategoryRepository categoryRepository;
     private final SubcategoryRepository subcategoryRepository;
 
@@ -33,6 +35,16 @@ public class CategoryService implements CrudService<CategoryDto, Category, Long>
             if(id.equals(category.getId()))
                 return category;
         throw new NotFoundException("Category was not found");
+    }
+
+    @Override
+    public List<CategoryDto> getAll(PageRequest pageRequest) {
+        List<CategoryDto> categoryDtos = new LinkedList<>();
+        Page<Category> page = categoryRepository.findAll(pageRequest);
+
+        page.getContent().forEach(x -> categoryDtos.add(new CategoryDto(x)));
+
+        return categoryDtos;
     }
 
     @Override

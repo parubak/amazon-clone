@@ -16,8 +16,9 @@ public class ProductColor {
     @Column(name="id", nullable = false)
     private Long id;
 
-    @Column(name="color", length = 64)
-    private String color;
+    @ManyToOne
+    @JoinColumn(name = "color_id", nullable = false)
+    private Color color;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
@@ -28,14 +29,17 @@ public class ProductColor {
     private Discount discount;
 
     @OneToOne
-    @JoinColumn(name="main_image_id", nullable = true)
+    @JoinColumn(name="main_image_id", nullable = true, unique = true)
     @Nullable
     private ProductColorImage mainImage;
 
     @OneToMany(mappedBy = "productColor", cascade = CascadeType.REMOVE)
-    @Nullable
     private Collection<ProductColorImage> productColorImages = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "productColors")
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinTable(
+            name="product_color_sizes",
+            joinColumns = @JoinColumn(name="product_color_id"),
+            inverseJoinColumns = @JoinColumn(name="product_size_id"))
     private Collection<ProductSize> productSizes = new ArrayList<>();
 }

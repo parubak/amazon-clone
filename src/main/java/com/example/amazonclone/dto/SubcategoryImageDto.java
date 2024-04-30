@@ -47,4 +47,9 @@ public class SubcategoryImageDto extends Image implements DtoEntity<SubcategoryI
         subcategoryImage.setId(id);
         return subcategoryImage;
     }
+
+    public SubcategoryImageDto deflateImage() {
+        decompressImage();
+        return this;
+    }
 }

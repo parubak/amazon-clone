@@ -1,19 +1,22 @@
 package com.example.amazonclone.dto;
 
 import com.example.amazonclone.models.ProductColor;
+import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 public class ProductColorDto implements DtoEntity<ProductColor, Long> {
 
     @Nullable
     private Long id;
 
-    private String color;
+    private Long colorId;
 
     private Long productId;
 
@@ -29,7 +32,7 @@ public class ProductColorDto implements DtoEntity<ProductColor, Long> {
 
     public ProductColorDto(ProductColor entity) {
         this.id = entity.getId();
-        this.color = entity.getColor();
+        this.colorId = entity.getColor().getId();
         this.productId = entity.getProduct().getId();
         if(entity.getDiscount() != null)
             this.discountId = entity.getDiscount().getId();
@@ -37,15 +40,17 @@ public class ProductColorDto implements DtoEntity<ProductColor, Long> {
             entity.getProductColorImages().forEach(x->productColorImageIds.add(x.getId()));
         if(entity.getProductSizes() != null)
             entity.getProductSizes().forEach(x->productSizeIds.add(x.getId()));
+        if(entity.getMainImage() != null)
+            this.mainImageId = entity.getMainImage().getId();
     }
 
-    public ProductColorDto(String color, Long productId) {
-        this.color = color;
+    public ProductColorDto(Long colorId, Long productId) {
+        this.colorId = colorId;
         this.productId = productId;
     }
 
-    public ProductColorDto(String color, Long productId, Long mainImageId) {
-        this(color, productId);
+    public ProductColorDto(Long colorId, Long productId, @Nonnull Long mainImageId) {
+        this(colorId, productId);
         this.mainImageId = mainImageId;
     }
 
@@ -55,15 +60,13 @@ public class ProductColorDto implements DtoEntity<ProductColor, Long> {
 
         if(id != null)
             productColor.setId(id);
-        productColor.setColor(color);
 
         return productColor;
     }
 
     @Override
     public ProductColor buildEntity(Long id) {
-        ProductColor productColor = buildEntity();
-        productColor.setId(id);
-        return productColor;
+        this.id = id;
+        return buildEntity();
     }
 }

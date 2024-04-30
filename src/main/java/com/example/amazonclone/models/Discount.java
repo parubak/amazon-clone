@@ -14,14 +14,15 @@ public class Discount {
     @Column(name="id")
     private Long id;
 
-    @Column(name="name", length = 64)
-    private String name;
-
     @Column(name="price")
     private double price;
 
     @Column(name="period")
     private Timestamp period;
+
+    @ManyToOne
+    @JoinColumn(name="discount_type_id")
+    private DiscountType discountType;
 
     @OneToOne
     @JoinColumn(name = "product_color_id")

@@ -15,7 +15,7 @@ public class ProductDetailValue {
     @Column(name = "value")
     private String value;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "product_detail_key_id")
     private ProductDetailKey productDetailKey;
 

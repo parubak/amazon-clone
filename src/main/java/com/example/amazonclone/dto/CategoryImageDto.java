@@ -1,9 +1,11 @@
 package com.example.amazonclone.dto;
 
 import com.example.amazonclone.Image;
+import com.example.amazonclone.ImageUtil;
 import com.example.amazonclone.models.CategoryImage;
 import jakarta.annotation.Nullable;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -46,5 +48,10 @@ public class CategoryImageDto extends Image implements DtoEntity<CategoryImage, 
         CategoryImage categoryImage = buildEntity();
         categoryImage.setId(id);
         return categoryImage;
+    }
+
+    public CategoryImageDto deflateImage() {
+        decompressImage();
+        return this;
     }
 }
