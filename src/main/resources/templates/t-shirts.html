@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Футболка</title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/fragments.css">
+    <link rel="stylesheet" href="/css/product.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+<!--header-->
+<div th:replace="/fragments/header.html::header"></div>
+<!--header-->
+<div id="product22">
+<block th:replace="/fragments/product.html"></block>
+</div>
+
+<!-- footer_start  -->
+<div th:replace="/fragments/footer.html::footer"></div>
+<!-- footer_end  -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="/js/cart.js"></script>
+<script src="/js/ajax.js"></script>
+<script src="/js/producе.js"></script>
+</body>
+</html>

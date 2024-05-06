@@ -1,0 +1,27 @@
+<th:block th:fragment="gallery(product)">
+    <div class="product__gallery" >
+        <div class="product__photos">
+            <img onclick="foo(event)" th:each="img : ${product.getProductImages()}" class="product__mini-photo" th:src="'/img/'+${img.getImage()}">
+        </div>
+        <div class="product__big-photo-container">
+            <img id="big-photo" class="product__big-photo"  th:src="'/img/'+${product.getImage()}">
+<!--            <button class="product__check" th:onclick="'chek('+${product.getId()}+')'">Додати до кошика</button>-->
+            <button class="product__check" >Додати до кошика</button>
+        </div>
+    </div>
+</th:block>
+
+
+<th:block th:fragment="others(products)">
+    <div class="product__other">
+        <th:block th:each="i : ${products}">
+            <button th:onclick="|redirectDealsItem(1, ${i.getId()})|">
+                <img th:src="'/img/'+ ${i.getImage()}">
+            </button>
+        </th:block>
+    </div>
+</th:block>
+
+<th:block th:fragment="productt">
+
+</th:block>

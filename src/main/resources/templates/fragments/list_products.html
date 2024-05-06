@@ -1,0 +1,16 @@
+<th:block th:fragment="products">
+    <!--    <div class="product">-->
+    <!--        <ul class="product__list">-->
+    <a class="product__card" th:href="|/product/get/${prod.getId()}/?item|">
+        <img class="product__img" th:src="${path}+${prod.getMainImage()}" alt="">
+        <h4 class="product__title" th:text="${prod.getName()}"></h4>
+        <div th:if="${prod.getDiscount()==null}" class="product__cost">
+            <span class="product__prise" th:text="${prod.getPrice()}+' грн'"></span>
+        </div>
+        <div th:unless="${prod.getDiscount()==null}" class="product__cost--discount">
+            <span class="product__prise" th:text="${prod.getPrice()}+' грн'"></span>
+            <div class="product__discount" th:text="${prod.getDiscount()} + '%'"></div>
+        </div>
+    </a>
+    <!--    </div>-->
+</th:block>

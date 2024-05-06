@@ -1,0 +1,43 @@
+<header class="header" th:fragment="header">
+    <div class="header__search">
+        <a class="logo" href="/">
+            <img class="logo__img" src="/imgs/fragments/logo.svg" alt="logo">
+            <h1 class="logo__name">Trendify</h1>
+        </a>
+        <form class="search">
+            <input class="search__text" placeholder="Пошук" id="search" type="text">
+            <label class="search__button" for="search"></label>
+        </form>
+        <div id="basket" class="header__cart cart">
+            <a href="/basket">
+            <img src="/imgs/fragments/basket.svg" alt="basket">
+            </a>
+            <span id="basket_count" class="cart__quantity">0</span>
+
+
+            <div class="" tabindex="0">
+                <div class="cart-content">
+                    <ul class="cart-content__list" data-simplebar>
+                    </ul>
+                    <div class="cart-content__bottom">
+                        <a class="cart-content__btn btn" href="/basket">Перейти в корзину</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="header__nav">
+        <a class="header__nav-link header__nav-link--down" href="#">Всі</a>
+        <a class="header__nav-link" href="/deals">Сьогоднішні пропозиції</a>
+        <a class="header__nav-link" href="/order">Купити знову</a>
+        <a class="header__nav-link" href="#">Обслуговування клієнтів</a>
+        <a class="header__nav-link" href="#">Подарункові карти</a>
+        <a class="header__nav-link" href="/promo">Продати</a>
+    </div>
+</header>
+<script>
+
+</script>
+
+

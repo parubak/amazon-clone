@@ -7,13 +7,17 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name="categories")
 public class Category {
     @Id
@@ -21,14 +25,9 @@ public class Category {
     @Column(name="id")
     private Long id;
 
-    @Column(name="name")
+    @Column(name="category",nullable=false)
     private String name;
 
-    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @Nullable
-    private Collection<Subcategory> subcategories = new ArrayList<>();
-
-    @OneToOne(mappedBy = "category", cascade = CascadeType.REMOVE)
-    @Nullable
-    private CategoryImage image;
+    @OneToMany(mappedBy="category")
+    private Collection<Identity> identities= new ArrayList<>();
 }

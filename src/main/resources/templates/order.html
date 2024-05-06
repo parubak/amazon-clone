@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/fragments.css">
+    <link rel="stylesheet" href="/css/order.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+<!--header-->
+<div th:replace="/fragments/header.html::header"></div>
+<!--header-->
+<h1 class="page-name">Ваші замовлення</h1>
+
+    <div class="order">
+        <div class="nav-order">
+            <ul class="nav-order__list">
+                <li class="nav-order__item">
+                    <a th:onclick="getOrder(1)" class="nav-order__btn">
+                        Замовлення
+                    </a>
+                </li>
+                <li class="nav-order__item">
+                    <a th:onclick="getOrder(2)" class="nav-order__btn">
+                        Замовити знову
+                    </a>
+                </li>
+                <li th:onclick="getOrder(3)" class="nav-order__item">
+                    <a class="nav-order__btn">
+                        Ще не відправлені
+                    </a>
+                </li>
+                <li th:onclick="getOrder(4)" class="nav-order__item">
+                    <a class="nav-order__btn">
+                        Скасовані замовлення
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div id="ajax-container" class="ajax-container">
+
+    </div>
+
+
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="/js/order.js"></script>
+<script src="/js/cart.js"></script>
+<script src="/js/ajax.js"></script>
+<script src="/js/producе.js"></script>
+</body>
+</html>

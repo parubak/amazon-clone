@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Login</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/fragments.css">
+    <link rel="stylesheet" href="/css/promo.css">
+
+</head>
+<body>
+<!--header-->
+<div th:replace="/fragments/header.html::header"></div>
+<!--header-->
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-6 mx-auto">
+            <div th:if="${param.error}">
+                <div class="alert alert-danger">Невірна адреса електронної пошти або пароль !!!</div>
+            </div>
+            <div th:if="${param.logout}">
+                <div class="alert alert-success">Ви вийшли із системи !!!</div>
+            </div>
+            <div class="whole-wrap">
+                <div class="container box_1170">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-10 col-md-10">
+                            <h3 class="mb-30 text-center">Вхід</h3>
+                            <form
+                                    class="form-horizontal"
+                                    method="post"
+                                    role="form"
+                                    th:action="@{/login-ok}"
+                            >
+                                <div class="mt-10">
+                                    <input type="hidden" th:value="${userEmail}" id="number" name="number" placeholder="Enter phone">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="col-sm-2 col-form-label" for="password">Пароль</label>
+                                    <input class="form-control" id="password" name="password"
+                                           placeholder="Enter password"
+                                           type="password">
+                                </div>
+                                <div class="mb-3т text-center">
+                                    <button class="btn btn-primary mb-3" type="submit">Next</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

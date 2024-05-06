@@ -1,0 +1,76 @@
+<div class="product" th:data-id="${tShirts.getId()}" th:data-shop="${product.getSeller().getName()}">
+    <!--gallery-->
+<!--    <div th:replace="/fragments/product-item::gallery(${tShirts})"></div>-->
+    <!--gallery-->
+    <div class="product__gallery" >
+        <div class="product__photos">
+            <img onclick="foo(event)" th:each="img : ${tShirts.getProductImages()}" class="product__mini-photo" th:src="'/img/'+${img.getImage()}">
+        </div>
+        <div class="product__big-photo-container">
+            <img id="big-photo" class="product__big-photo"  th:src="'/img/'+${tShirts.getImage()}">
+            <!--            <button class="product__check" th:onclick="'chek('+${product.getId()}+')'">Додати до кошика</button>-->
+            <button th:onclick="productBtn()" class="product__check" >Додати до кошика</button>
+        </div>
+    </div>
+    <div class="product__info">
+        <a href="" class="product__shop-link" th:text="|Відвідайте магазин ${product.getSeller().getName()}|"></a>
+        <h2 class="product__name" th:text="${product.getName()}"></h2>
+        <div class="product__rating">
+        </div>
+        <br>
+        <div class="product__value">
+            <h3 >Ціна: </h3>
+            <span class="product__prise" th:text="${tShirts.getPrice()}+' грн'"></span>
+        </div>
+        <div class="product__value">
+            <h3>Розмір: </h3>
+            <span class="product__size">S</span>
+            <span class="product__size">M</span>
+            <span class="product__size">L</span>
+            <span class="product__size">XL</span>
+            <span class="product__size">XXL</span>
+        </div>
+        <div class="product__value">
+            <h3>Колір: </h3>
+            <span class="product__color" th:text="${tShirts.getColor()}"></span>
+        </div>
+        <!--others-->
+        <div class="product__other">
+            <th:block th:each="i : ${product.getProductItems()}">
+                <span th:onclick="|redirectDealsItem(1, ${i.getId()})|">
+                    <img th:src="'/img/'+ ${i.getImage()}">
+                </span>
+            </th:block>
+        </div>
+<!--        <div th:replace="/fragments/product-item::others(${product.getProductItems()})"></div>-->
+        <!--others-->
+        <div class="product__value">
+            <h3>Деталі продукту</h3>
+        </div>
+        <th:block th:each="d : ${tShirts.getProductDetails()}" >
+
+
+            <div class="product__details">
+                <p class="product__detail-name" th:text="${d.getDetails()}"></p>
+                <p class="product__detail-value" th:text="${d.getValue()}"></p>
+            </div>
+
+
+        </th:block>
+        <br>
+        <h2 class="product__value">Про цей предмет</h2>
+        <div>
+            <ul class="product__about-list">
+                <li class="product__about-item">
+                    <p>Чоловіча футболка, повсякденна літня, великих розмірів, з заниженими плечима.</p>
+                </li>
+                <li class="product__about-item">
+                    <p>Футболка для повсякденного життя, вдома, на природі, на вулиці, будь-якому іншому випадку в літні дні.</p>
+                </li>
+                <li class="product__about-item">
+                    <p>Розмір: S-5XL, різні кольори для різноманітного вибору.</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

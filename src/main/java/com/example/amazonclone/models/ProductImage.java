@@ -1,6 +1,7 @@
 package com.example.amazonclone.models;
 
 import jakarta.persistence.*;
+import jakarta.annotation.Nullable;
 import lombok.Data;
 
 @Entity
@@ -13,10 +14,9 @@ public class ProductImage {
     private Long id;
 
     @Column(name="image")
-    @Lob
-    private byte[] image;
+    private String image;
 
-    @ManyToOne
-    @JoinColumn(name="product_id")
-    private Product product;
+    @ManyToOne()
+    @JoinColumn(name = "product_item_id")
+    private ProductItem productItem;
 }

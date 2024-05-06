@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Станьте продавцем та почніть продавати</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/fragments.css">
+    <link rel="stylesheet" href="/css/promo.css">
+
+</head>
+<body>
+<!--header-->
+<div th:replace="/fragments/header.html::header"></div>
+<!--header-->
+
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-6 mx-auto">
+            <form
+                    method="post"
+                    role="form"
+                    th:action="@{/registration}"
+                    th:object="${user}"
+            >
+                <h1>Реєстрація користувача</h1>
+                <div th:if="${param.success}">
+                    <div class="alert alert-info">
+                        Реєстрація успішна !!!
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="col-sm-5 col-form-label" for="name">Ім`я</label>
+                    <input class="form-control" id="name" name="name" type="text"
+                            onblur="this.placeholder = 'Петро'" required>
+                    <p class="text-danger" th:errors="*{name}"
+                       th:if="${#fields.hasErrors('name')}"></p>
+                </div>
+                <div class="mb-3">
+                    <label class="col-sm-5 col-form-label" for="lastname">lastName</label>
+                    <input class="form-control" id="lastname" name="lastName" type="text"
+                           onfocus="this.placeholder = ''" onblur="this.placeholder = 'lastName'" required>
+                    <p class="text-danger" th:errors="*{lastName}"
+                       th:if="${#fields.hasErrors('lastName')}"></p>
+                </div>
+                <div class="mb-3">
+                    <label class="col-sm-5 col-form-label" for="number">Номер телефону</label>
+                    <input class="form-control" id="number" name="number" type="text"
+                           onfocus="this.placeholder = ''" onblur="this.placeholder = '0987654321'" required>
+                    <p class="text-danger" th:errors="*{number}"
+                       th:if="${#fields.hasErrors('number')}"></p>
+                </div>
+                <div class="mb-3">
+                    <label class="col-sm-5 col-form-label" for="password">Пороль</label>
+                    <input class="form-control" id="password" name="password" type="password"
+                           onfocus="this.placeholder = ''" onblur="this.placeholder = 'password'" required>
+                    <p class="text-danger" th:errors="*{password}"
+                       th:if="${#fields.hasErrors('password')}"></p>
+                </div>
+                <div class="mb-3">
+                    <label class="col-sm-5 col-form-label" for="watching-password">Повторіть пароль</label>
+                    <input class="form-control" id="watching-password" name="watchingPassword" type="password"
+                           onfocus="this.placeholder = ''" onblur="this.placeholder = 'password'" required>
+                    <p class="text-danger" th:errors="*{watchingPassword}"
+                       th:if="${#fields.hasErrors('watchingPassword')}"></p>
+                </div>
+                <div class="mb-3">
+                    <button class="btn w-100 btn-primary mb-3" type="submit">Зареєструвати</button>
+                </div>
+                <div class="mb-3">
+
+                    або <a class="link-primary" th:href="@{/login}">Увійти</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

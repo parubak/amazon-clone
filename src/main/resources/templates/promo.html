@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Станьте продавцем та почніть продавати</title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/fragments.css">
+    <link rel="stylesheet" href="/css/promo.css">
+
+</head>
+<body>
+<!--header-->
+<div th:replace="/fragments/header.html::header"></div>
+<!--header-->
+
+<h1 class="page-name">Станьте продавцем та почніть продавати</h1>
+
+<div class="main">
+    <div class="register">
+        <div class="register__container">
+            <div class="register__text-container">
+                <h2 class="register__title">Почніть продавати разом з нами</h2>
+                <p class="register__text">Станьте одним із наших довірених продавців</p>
+                <a href="#" class="register__link">Зареєструватись</a>
+            </div>
+            <img class="register__img" src="/img/promo/page.png" alt="page">
+        </div>
+    </div>
+    <div class="bonus">
+        <div class="bonus__container">
+            <img class="bonus__img" src="/img/promo/women.png" alt="women">
+            <div class="bonus__text-container">
+                <h3 class="bonus__title">Почніть продавати з бонусами</h3>
+                <p class="bonus__text">
+                    Готові стати продавцем? Як новий продавець, ви отримаєте ряд бонусів
+                </p>
+                <ul class="bonus__list">
+                    <li class="bonus__item">✔ 10% отримайте додатково за перші 50000 грн отримані на продажі.</li>
+                    <li class="bonus__item">✔ Безкоштовне зберігання та поверенення назад на наших складах.</li>
+                    <li class="bonus__item">✔ 3 місяці безкоштовної реклами ваших тоіарів на сайті.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- footer_start  -->
+<div th:replace="/fragments/footer.html::footer"></div>
+<!-- footer_end  -->
+</body>
+</html>
