@@ -55,6 +55,15 @@ public class DiscountTypeService implements JpaService<DiscountTypeDto, Discount
         return discountTypeDtos;
     }
 
+    public int getSize() {
+        return discountTypeRepository.findAll().size();
+    }
+
+    @Override
+    public DiscountTypeDto getLast() {
+        return getAll().get(getAll().size()-1);
+    }
+
     public DiscountTypeDto getByType(String discountTypeName) throws NotFoundException {
 
         for(DiscountType discountType : discountTypeRepository.findAll())
@@ -78,11 +87,13 @@ public class DiscountTypeService implements JpaService<DiscountTypeDto, Discount
     }
 
     @Override
-    public void add(DiscountTypeDto dtoEntity) {
-
+    public DiscountTypeDto add(DiscountTypeDto dtoEntity) {
         DiscountType discountType = dtoEntity.buildEntity();
 
-        discountTypeRepository.save(discountType);
+        discountTypeRepository.saveAndFlush(discountType);
+        discountTypeRepository.refresh(discountType);
+
+        return getLast();
     }
 
     @Override
@@ -91,9 +102,14 @@ public class DiscountTypeService implements JpaService<DiscountTypeDto, Discount
     }
 
     @Override
-    public void update(Long id, DiscountTypeDto dtoEntity) throws NotFoundException {
+    public DiscountTypeDto update(Long id, DiscountTypeDto dtoEntity) throws NotFoundException {
         delete(id);
 
-        discountTypeRepository.save(dtoEntity.buildEntity(id));
+        DiscountType discountType = dtoEntity.buildEntity(id);
+
+        discountTypeRepository.saveAndFlush(discountType);
+        discountTypeRepository.refresh(discountType);
+
+        return getLast();
     }
 }

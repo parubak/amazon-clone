@@ -3,9 +3,9 @@ package com.example.amazonclone.models;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 @Entity
 @Data
@@ -24,5 +24,8 @@ public class ProductDetailKey {
     private ProductType productType;
 
     @OneToMany(mappedBy = "productDetailKey")
-    private List<ProductDetailValue> productDetailValues = new ArrayList<>();
+    private Collection<ProductDetailValue> productDetailValues = new ArrayList<>();
+
+    @Column(name= "created_at")
+    private Timestamp createdAt;
 }

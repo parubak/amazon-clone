@@ -5,6 +5,7 @@ import jakarta.annotation.Nullable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,15 +16,16 @@ public class ProductDto implements DtoEntity<Product, Long> {
     private Long id;
     private String name;
     private String description;
-    private Double price;
     private Long productTypeId;
+    private Long userId;
     private List<Long> productColorsIds = new ArrayList<>();
     private List<Long> productReviewsIds = new ArrayList<>();
     private List<Long> productDetailValuesIds = new ArrayList<>();
+    private Timestamp createdAt;
 
-    public ProductDto(String name, Double price, Long subcategoryId) {
+    public ProductDto(String name, Long subcategoryId, Long userId) {
         this.name = name;
-        this.price = price;
+        this.userId = userId;
         this.productTypeId = subcategoryId;
     }
 
@@ -31,14 +33,15 @@ public class ProductDto implements DtoEntity<Product, Long> {
         this.id = entity.getId();
         this.name = entity.getName();
         this.description = entity.getDescription();
-        this.price = entity.getPrice();
         this.productTypeId = entity.getProductType().getId();
+        this.userId = entity.getUser().getId();
         if(entity.getProductColors() != null)
             entity.getProductColors().forEach(x->productColorsIds.add(x.getId()));
         if(entity.getProductReviews() != null)
             entity.getProductReviews().forEach(x->this.productReviewsIds.add(x.getId()));
         if(entity.getProductDetailValues() != null)
             entity.getProductDetailValues().forEach(x->this.productDetailValuesIds.add(x.getId()));
+        this.createdAt = entity.getCreatedAt();
     }
 
     @Override
@@ -49,7 +52,6 @@ public class ProductDto implements DtoEntity<Product, Long> {
             product.setId(id);
         product.setName(name);
         product.setDescription(description);
-        product.setPrice(price);
 
         return product;
     }

@@ -24,8 +24,13 @@ public class ProductSizeController {
     @GetMapping("/all")
     public ResponseEntity<List<ProductSizeDto>> getProductSizes(
             @RequestParam(required = false, defaultValue = "0") int page,
-            @RequestParam(required = false, defaultValue = "10") int quantity) {
+            @RequestParam(required = false, defaultValue = "250") int quantity) {
         return ResponseEntity.ok(productSizeService.getAll(PageRequest.of(page, quantity)));
+    }
+
+    @GetMapping("/size")
+    public ResponseEntity<Integer> getSize() {
+        return ResponseEntity.ok(productSizeService.getSize());
     }
 
     @GetMapping
@@ -38,9 +43,8 @@ public class ProductSizeController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addProductSize(@RequestBody ProductSizeDto productSizeDto) {
-        productSizeService.add(productSizeDto);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<ProductSizeDto> addProductSize(@RequestBody ProductSizeDto productSizeDto) {
+        return ResponseEntity.ok(productSizeService.add(productSizeDto));
     }
 
     @DeleteMapping

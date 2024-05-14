@@ -54,9 +54,23 @@ public class ProductSizeService implements JpaService<ProductSizeDto, ProductSiz
         return productSizeDtos;
     }
 
+    public int getSize() {
+        return productSizeRepository.findAll().size();
+    }
+
     @Override
-    public void add(ProductSizeDto dtoEntity) {
-        productSizeRepository.save(dtoEntity.buildEntity());
+    public ProductSizeDto getLast() {
+        return getAll().get(getAll().size()-1);
+    }
+
+    @Override
+    public ProductSizeDto add(ProductSizeDto dtoEntity) {
+        ProductSize productSize = dtoEntity.buildEntity();
+
+        productSizeRepository.saveAndFlush(productSize);
+        productSizeRepository.refresh(productSize);
+
+        return getLast();
     }
 
     @Override
@@ -70,9 +84,14 @@ public class ProductSizeService implements JpaService<ProductSizeDto, ProductSiz
     }
 
     @Override
-    public void update(Long id, ProductSizeDto dtoEntity) throws NotFoundException {
+    public ProductSizeDto update(Long id, ProductSizeDto dtoEntity) throws NotFoundException {
         delete(id);
 
-        productSizeRepository.save(dtoEntity.buildEntity(id));
+        ProductSize productSize = dtoEntity.buildEntity(id);
+
+        productSizeRepository.saveAndFlush(productSize);
+        productSizeRepository.refresh(productSize);
+
+        return getLast();
     }
 }

@@ -1,17 +1,18 @@
 package com.example.amazonclone.services;
 
 import com.example.amazonclone.dto.ProductColorDto;
+import com.example.amazonclone.dto.ProductColorImageDto;
+import com.example.amazonclone.exceptions.EntityAlreadyExistsException;
 import com.example.amazonclone.exceptions.NotFoundException;
 import com.example.amazonclone.models.*;
-import com.example.amazonclone.repos.ColorRepository;
-import com.example.amazonclone.repos.ProductColorRepository;
-import com.example.amazonclone.repos.ProductRepository;
-import com.example.amazonclone.repos.ProductSizeRepository;
+import com.example.amazonclone.repos.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,17 +23,22 @@ public class ProductColorService implements JpaService<ProductColorDto, ProductC
     private final ProductRepository productRepository;
     private final ProductSizeRepository productSizeRepository;
     private final ColorRepository colorRepository;
+    private final ProductColorImageService productColorImageService;
+    private final ProductColorSizeRepository productColorSizeRepository;
 
     @Autowired
     public ProductColorService(ProductColorRepository productColorRepository,
                                ProductRepository productRepository,
                                ProductSizeRepository productSizeRepository,
-                               ColorRepository colorRepository
-                                ) {
+                               ColorRepository colorRepository,
+                               ProductColorImageService productColorImageRepository,
+                               ProductColorSizeRepository productColorSizeRepository) {
         this.productColorRepository = productColorRepository;
         this.productRepository = productRepository;
         this.productSizeRepository = productSizeRepository;
         this.colorRepository = colorRepository;
+        this.productColorImageService = productColorImageRepository;
+        this.productColorSizeRepository = productColorSizeRepository;
     }
 
     private ProductColor getProductColor(Long id) throws NotFoundException {
@@ -66,8 +72,103 @@ public class ProductColorService implements JpaService<ProductColorDto, ProductC
         return productColorDtos;
     }
 
+    public int getSize() {
+        return productColorRepository.findAll().size();
+    }
+
+    public List<ProductColorDto> getAllByPriceAsc() {
+        List<ProductColorDto> productColorDtos = new ArrayList<>();
+
+        productColorRepository.findAllPriceAsc().forEach(x->productColorDtos.add(new ProductColorDto(x)));
+
+        return productColorDtos;
+    }
+
+    public List<ProductColorDto> getAllByPriceAsc(PageRequest pageRequest) {
+        List<ProductColorDto> productColorDtos = new ArrayList<>();
+
+        Page<ProductColor> page = productColorRepository.findAllPriceAsc(pageRequest);
+        page.getContent().forEach(x->{
+            if(x.getDiscount() != null)
+                x.setPrice(x.getPrice()+x.getDiscount().getPrice());
+        });
+        page.getContent().forEach(x->productColorDtos.add(new ProductColorDto(x)));
+
+        return productColorDtos;
+    }
+
+    public List<ProductColorDto> getAllByPriceDesc() {
+        List<ProductColorDto> productColorDtos = new ArrayList<>();
+
+        productColorRepository.findAllPriceDesc().forEach(x->productColorDtos.add(new ProductColorDto(x)));
+
+        return productColorDtos;
+    }
+
+    public List<ProductColorDto> getAllByPriceDesc(PageRequest pageRequest) {
+        List<ProductColorDto> productColorDtos = new ArrayList<>();
+
+        Page<ProductColor> page = productColorRepository.findAllPriceDesc(pageRequest);
+        page.getContent().forEach(x->{
+            if(x.getDiscount() != null)
+                x.setPrice(x.getPrice()+x.getDiscount().getPrice());
+        });
+        page.getContent().forEach(x->productColorDtos.add(new ProductColorDto(x)));
+
+        return productColorDtos;
+    }
+
+
+    public List<ProductColorDto> getAllByCreatedAtAsc() {
+        List<ProductColorDto> productColorDtos = new ArrayList<>();
+
+        productColorRepository.findAllByOrderByCreatedAtAsc().forEach(x->productColorDtos.add(new ProductColorDto(x)));
+
+        return productColorDtos;
+    }
+
+
+    public List<ProductColorDto> getAllByCreatedAtAsc(PageRequest pageRequest) {
+        List<ProductColorDto> productColorDtos = new ArrayList<>();
+
+        Page<ProductColor> page = productColorRepository.findAllByOrderByCreatedAtAsc(pageRequest);
+        page.getContent().forEach(x->productColorDtos.add(new ProductColorDto(x)));
+
+        return productColorDtos;
+    }
+
+    public List<ProductColorDto> getAllByPriceFromTo(Double priceFrom, Double priceTo, PageRequest pageRequest) {
+        List<ProductColorDto> productColorDtos = new ArrayList<>();
+
+        Page<ProductColor> page = productColorRepository.findAllPriceFromTo(priceFrom, priceTo, pageRequest);
+        page.getContent().forEach(x->{
+            if(x.getDiscount() != null)
+                x.setPrice(x.getPrice()+x.getDiscount().getPrice());
+        });
+        page.getContent().forEach(x->productColorDtos.add(new ProductColorDto(x)));
+
+        return productColorDtos;
+    }
+
+
+    public List<ProductColorDto> getAllByProductId(Long productId) {
+        List<ProductColorDto> productColorDtos = new ArrayList<>();
+
+        productColorRepository.findAll().forEach(productColor -> {
+            if(productColor.getProduct().getId().equals(productId))
+                productColorDtos.add(new ProductColorDto(productColor));
+        });
+
+        return productColorDtos;
+    }
+
     @Override
-    public void add(ProductColorDto dtoEntity) throws NotFoundException {
+    public ProductColorDto getLast() {
+        return getAll().get(getAll().size()-1);
+    }
+
+    @Override
+    public ProductColorDto add(ProductColorDto dtoEntity) throws NotFoundException {
         ProductColor productColor = dtoEntity.buildEntity();
 
         for (Product product : productRepository.findAll())
@@ -82,7 +183,20 @@ public class ProductColorService implements JpaService<ProductColorDto, ProductC
         if(productColor.getColor() == null)
             throw new NotFoundException("Color was not found!");
 
-        productColorRepository.save(productColor);
+        productColorRepository.saveAndFlush(productColor);
+        productColorRepository.refresh(productColor);
+
+        return getLast();
+    }
+
+    public ProductColorDto addWithImages(MultipartFile[] files, ProductColorDto productColorDto) throws IOException, NotFoundException, EntityAlreadyExistsException {
+        ProductColorDto responseDto = add(productColorDto);
+        for (int i = 0; i < files.length; ++i) {
+            ProductColorImageDto productColorImageDto = productColorImageService.add(new ProductColorImageDto(files[i], responseDto.getId()));
+            if(i == 0)
+                setMainImage(responseDto.getId(), productColorImageDto.getId());
+        }
+        return responseDto;
     }
 
     public void addProductSize(Long productColorId, Long productSizeId) throws NotFoundException {
@@ -91,12 +205,15 @@ public class ProductColorService implements JpaService<ProductColorDto, ProductC
             if(productSize.getId().equals(productSizeId)) {
                 productColor.getProductSizes().add(productSize);
                 productSize.getProductColors().add(productColor);
-                productSizeRepository.save(productSize);
+                productSizeRepository.saveAndFlush(productSize);
+                productSizeRepository.refresh(productSize);
             }
         }
 
-        productColorRepository.save(productColor);
+        productColorRepository.saveAndFlush(productColor);
+        productColorRepository.refresh(productColor);
     }
+
 
     public void setMainImage(Long productColorId, Long productColorImageId) throws NotFoundException {
         ProductColor productColor = getProductColor(productColorId);
@@ -104,10 +221,12 @@ public class ProductColorService implements JpaService<ProductColorDto, ProductC
         for (ProductColorImage productColorImage : productColor.getProductColorImages()) {
             if(productColorImage.getId().equals(productColorImageId)) {
                 productColor.setMainImage(productColorImage);
-                productColorRepository.save(productColor);
+                productColorRepository.saveAndFlush(productColor);
+                productColorRepository.refresh(productColor);
                 return;
             }
         }
+
         if(productColor.getMainImage() == null)
             throw new NotFoundException("Product color image was not found!");
     }
@@ -117,10 +236,20 @@ public class ProductColorService implements JpaService<ProductColorDto, ProductC
         productColorRepository.delete(getProductColor(id));
     }
 
+    public void deleteProductColorSize(Long productColorId, Long productSizeId) throws NotFoundException {
+        for(ProductColorSize productColorSize : productColorSizeRepository.findAll())
+            if(productColorSize.getProductColorId().equals(productColorId) && productColorSize.getProductSizeId().equals(productSizeId))
+                productColorSizeRepository.delete(productColorSize);
+
+        throw new NotFoundException("Product color size was not found!");
+    }
+
     @Override
-    public void update(Long id, ProductColorDto dtoEntity) throws NotFoundException {
+    public ProductColorDto update(Long id, ProductColorDto dtoEntity) throws NotFoundException {
         delete(id);
 
         add(dtoEntity);
+
+        return getLast();
     }
 }

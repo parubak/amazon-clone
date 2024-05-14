@@ -27,4 +27,7 @@ public class Discount {
     @OneToOne
     @JoinColumn(name = "product_color_id")
     private ProductColor productColor;
+
+    @Column(name= "created_at")
+    private Timestamp createdAt;
 }

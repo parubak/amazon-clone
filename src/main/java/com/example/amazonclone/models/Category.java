@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
@@ -31,4 +32,7 @@ public class Category {
     @OneToOne(mappedBy = "category", cascade = CascadeType.REMOVE)
     @Nullable
     private CategoryImage image;
+
+    @Column(name= "created_at")
+    private Timestamp createdAt;
 }

@@ -16,6 +16,7 @@ public class DiscountDto implements DtoEntity<Discount, Long> {
     private Timestamp period;
     private Long discountTypeId;
     private Long productColorId;
+    private Timestamp createdAt;
 
     public DiscountDto(Double price, Timestamp period, Long discountTypeId, Long productColorId) {
         this.price = price;
@@ -30,6 +31,7 @@ public class DiscountDto implements DtoEntity<Discount, Long> {
         this.price = entity.getPrice();
         this.discountTypeId = entity.getDiscountType().getId();
         this.productColorId = entity.getProductColor().getId();
+        this.createdAt = entity.getCreatedAt();
     }
 
     @Override

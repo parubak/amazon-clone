@@ -1,7 +1,9 @@
 package com.example.amazonclone.services;
 
 import com.example.amazonclone.dto.DiscountDto;
+import com.example.amazonclone.dto.DiscountTypeDto;
 import com.example.amazonclone.dto.ProductColorDto;
+import com.example.amazonclone.exceptions.EntityAlreadyExistsException;
 import com.example.amazonclone.exceptions.NotFoundException;
 import com.example.amazonclone.models.Discount;
 import com.example.amazonclone.models.DiscountType;
@@ -44,14 +46,6 @@ public class DiscountService implements JpaService<DiscountDto, Discount, Long> 
         throw new NotFoundException("Discount was not found");
     }
 
-    private List<ProductColorDto> getProductColors() {
-        List<ProductColorDto> productColorDtos = new ArrayList<>();
-
-        productColorRepository.findAll().forEach(x->productColorDtos.add(new ProductColorDto(x)));
-
-        return productColorDtos;
-    }
-
     @Override
     public DiscountDto get(Long id) throws NotFoundException {
         return new DiscountDto(getDiscount(id));
@@ -76,13 +70,37 @@ public class DiscountService implements JpaService<DiscountDto, Discount, Long> 
         return discountDtos;
     }
 
+    public int getSize() {
+        return discountRepository.findAll().size();
+    }
+
+    public DiscountDto getByProductColorId(Long productColorId) throws NotFoundException {
+        for (ProductColor productColor : productColorRepository.findAll()) {
+            if(productColor.getId().equals(productColorId)) {
+                if(productColor.getDiscount() != null)
+                    return new DiscountDto(productColor.getDiscount());
+                throw new NotFoundException("Discount was not found!");
+            }
+        }
+        throw new NotFoundException("Product color was not found!");
+    }
+
     @Override
-    public void add(DiscountDto dtoEntity) throws NotFoundException {
+    public DiscountDto getLast() {
+        return getAll().get(getAll().size()-1);
+    }
+
+    @Override
+    public DiscountDto add(DiscountDto dtoEntity) throws NotFoundException, EntityAlreadyExistsException {
         Discount discount = dtoEntity.buildEntity();
 
+        //TODO
         for (ProductColor productColor : productColorRepository.findAll()) {
-            if(productColor.getId().equals(dtoEntity.getProductColorId()))
+            if(productColor.getId().equals(dtoEntity.getProductColorId())) {
+                if(productColor.getDiscount() != null)
+                    throw new EntityAlreadyExistsException("Discount already exists in productColor!");
                 discount.setProductColor(productColor);
+            }
         }
 
         for (DiscountType discountType : discountTypeRepository.findAll()) {
@@ -95,7 +113,10 @@ public class DiscountService implements JpaService<DiscountDto, Discount, Long> 
         if(discount.getDiscountType() == null)
             throw new NotFoundException("Discount type was not found");
 
-        discountRepository.save(discount);
+        discountRepository.saveAndFlush(discount);
+        discountRepository.refresh(discount);
+
+        return getLast();
     }
 
     @Override
@@ -106,9 +127,14 @@ public class DiscountService implements JpaService<DiscountDto, Discount, Long> 
     }
 
     @Override
-    public void update(Long id, DiscountDto dtoEntity) throws NotFoundException {
+    public DiscountDto update(Long id, DiscountDto dtoEntity) throws NotFoundException {
         delete(id);
 
-        discountRepository.save(dtoEntity.buildEntity(id));
+        Discount discount = dtoEntity.buildEntity(id);
+
+        discountRepository.saveAndFlush(discount);
+        discountRepository.refresh(discount);
+
+        return getLast();
     }
 }

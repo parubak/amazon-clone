@@ -5,6 +5,7 @@ import jakarta.annotation.Nullable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,8 @@ public class DiscountTypeDto implements DtoEntity<DiscountType, Long> {
     @Nullable
     private List<Long> discountsIds = new ArrayList<>();
 
+    private Timestamp createdAt;
+
     public DiscountTypeDto(String type) {
         this.type = type;
     }
@@ -27,6 +30,7 @@ public class DiscountTypeDto implements DtoEntity<DiscountType, Long> {
         this.id = entity.getId();
         this.type = entity.getType();
         entity.getDiscounts().forEach(x-> discountsIds.add(x.getId()));
+        this.createdAt = entity.getCreatedAt();
     }
 
 
@@ -43,8 +47,8 @@ public class DiscountTypeDto implements DtoEntity<DiscountType, Long> {
 
     @Override
     public DiscountType buildEntity(Long id) {
-        DiscountType discountType = buildEntity();
-        discountType.setId(id);
-        return discountType;
+        this.id = id;
+
+        return buildEntity();
     }
 }

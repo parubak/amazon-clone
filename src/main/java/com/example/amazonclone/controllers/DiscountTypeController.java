@@ -26,8 +26,13 @@ public class DiscountTypeController {
     @GetMapping("/all")
     public ResponseEntity<List<DiscountTypeDto>> getDiscountTypes(
             @RequestParam(required = false, defaultValue = "0") int page,
-            @RequestParam(required = false, defaultValue = "10") int quantity) {
+            @RequestParam(required = false, defaultValue = "250") int quantity) {
         return ResponseEntity.ok(discountTypeService.getAll(PageRequest.of(page, quantity)));
+    }
+
+    @GetMapping("/size")
+    public ResponseEntity<Integer> getSize() {
+        return ResponseEntity.ok(discountTypeService.getSize());
     }
 
     @GetMapping
@@ -50,9 +55,8 @@ public class DiscountTypeController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addDiscountType(@RequestBody DiscountTypeDto discountTypeDto) {
-        discountTypeService.add(discountTypeDto);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<DiscountTypeDto> addDiscountType(@RequestBody DiscountTypeDto discountTypeDto) {
+        return ResponseEntity.ok(discountTypeService.add(discountTypeDto));
     }
 
     @DeleteMapping

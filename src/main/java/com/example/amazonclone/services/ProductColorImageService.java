@@ -11,23 +11,24 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 @Service
 public class ProductColorImageService implements JpaService<ProductColorImageDto, ProductColorImage, Long> {
 
-    private final ProductColorImageRepository productImageRepository;
+    private final ProductColorImageRepository productColorImageRepository;
     private final ProductColorRepository productColorRepository;
 
     @Autowired
     public ProductColorImageService(ProductColorImageRepository productImageRepository, ProductColorRepository productColorRepository) {
-        this.productImageRepository = productImageRepository;
+        this.productColorImageRepository = productImageRepository;
         this.productColorRepository = productColorRepository;
     }
 
     private ProductColorImage getImage(Long id) throws NotFoundException {
-        Iterable<ProductColorImage> productImages = productImageRepository.findAll();
+        Iterable<ProductColorImage> productImages = productColorImageRepository.findAll();
 
         for (ProductColorImage productColorImage : productImages) {
             if(productColorImage.getId().equals(id))
@@ -44,7 +45,7 @@ public class ProductColorImageService implements JpaService<ProductColorImageDto
     @Override
     public List<ProductColorImageDto> getAll(PageRequest pageRequest) {
         List<ProductColorImageDto> productImageDtos = new LinkedList<>();
-        Page<ProductColorImage> page = productImageRepository.findAll(pageRequest);
+        Page<ProductColorImage> page = productColorImageRepository.findAll(pageRequest);
 
         page.getContent().forEach(x->productImageDtos.add(new ProductColorImageDto(x).deflateImage()));
 
@@ -55,13 +56,36 @@ public class ProductColorImageService implements JpaService<ProductColorImageDto
     public List<ProductColorImageDto> getAll() {
         List<ProductColorImageDto> productImageDtos = new LinkedList<>();
 
-        productImageRepository.findAll().forEach(x->productImageDtos.add(new ProductColorImageDto(x).deflateImage()));
+        productColorImageRepository.findAll().forEach(x->productImageDtos.add(new ProductColorImageDto(x).deflateImage()));
 
         return productImageDtos;
     }
 
+    public int getSize() {
+        return productColorImageRepository.findAll().size();
+    }
+
+    public List<ProductColorImageDto> getAllByProductColorId(Long productColorId) throws NotFoundException {
+
+        if(!productColorRepository.existsById(productColorId))
+            throw new NotFoundException("Product Color was not found!");
+
+        List<ProductColorImageDto> productColorImageDtos = new ArrayList<>();
+
+        for (ProductColorImage productColorImage : productColorImageRepository.findAll())
+            if(productColorImage.getProductColor().getId().equals(productColorId))
+                productColorImageDtos.add(new ProductColorImageDto(productColorImage).deflateImage());
+
+        return productColorImageDtos;
+    }
+
     @Override
-    public void add(ProductColorImageDto dtoEntity) throws NotFoundException {
+    public ProductColorImageDto getLast() {
+        return getAll().get(getAll().size()-1);
+    }
+
+    @Override
+    public ProductColorImageDto add(ProductColorImageDto dtoEntity) throws NotFoundException {
         ProductColorImage productColorImage = dtoEntity.buildEntity();
 
         Iterable<ProductColor> productColors = productColorRepository.findAll();
@@ -71,22 +95,30 @@ public class ProductColorImageService implements JpaService<ProductColorImageDto
                 productColorImage.setProductColor(productColor);
         }
         if(productColorImage.getProductColor() == null)
-            throw new NotFoundException("Product was not found");
+            throw new NotFoundException("Product Color was not found");
 
-        productImageRepository.save(productColorImage);
+        productColorImageRepository.saveAndFlush(productColorImage);
+        productColorImageRepository.refresh(productColorImage);
+
+        return getLast();
     }
 
     @Override
     public void delete(Long id) throws NotFoundException {
         ProductColorImage image = getImage(id);
 
-        productImageRepository.delete(image);
+        productColorImageRepository.delete(image);
     }
 
     @Override
-    public void update(Long id, ProductColorImageDto dtoEntity) throws NotFoundException {
+    public ProductColorImageDto update(Long id, ProductColorImageDto dtoEntity) throws NotFoundException {
         delete(id);
 
-        productImageRepository.save(dtoEntity.buildEntity(id));
+        ProductColorImage productColorImage = dtoEntity.buildEntity(id);
+
+        productColorImageRepository.saveAndFlush(productColorImage);
+        productColorImageRepository.refresh(productColorImage);
+
+        return getLast();
     }
 }

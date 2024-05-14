@@ -39,16 +39,20 @@ public class ProductController{
     @GetMapping("/all")
     public ResponseEntity<List<ProductDto>> getProducts(
             @RequestParam(required = false, defaultValue = "0") int page,
-            @RequestParam(required = false, defaultValue = "10") int quantity) {
+            @RequestParam(required = false, defaultValue = "250") int quantity) {
 
         return ResponseEntity.ok(productService.getAll(PageRequest.of(page, quantity)));
     }
 
+    @GetMapping("/size")
+    public ResponseEntity<Integer> getSize() {
+        return ResponseEntity.ok(productService.getSize());
+    }
+
     @PostMapping
-    public ResponseEntity<String> addProduct(@RequestBody ProductDto productDto) {
+    public ResponseEntity<ProductDto> addProduct(@RequestBody ProductDto productDto) {
         try {
-            productService.add(productDto);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(productService.add(productDto));
         } catch (NotFoundException ex) {
             return ResponseEntity.notFound().build();
         }

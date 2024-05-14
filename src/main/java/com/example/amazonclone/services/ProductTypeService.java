@@ -2,6 +2,7 @@ package com.example.amazonclone.services;
 
 import com.example.amazonclone.dto.ProductTypeDto;
 import com.example.amazonclone.exceptions.NotFoundException;
+import com.example.amazonclone.models.Product;
 import com.example.amazonclone.models.ProductType;
 import com.example.amazonclone.models.Subcategory;
 import com.example.amazonclone.repos.ProductTypeRepository;
@@ -55,8 +56,26 @@ public class ProductTypeService implements JpaService<ProductTypeDto, ProductTyp
         return productTypeDtos;
     }
 
+    public List<ProductTypeDto> getAllBySubcategory(Long subcategoryId) {
+        List<ProductTypeDto> productTypeDtos = new ArrayList<>();
+
+        productTypeRepository.findProductTypesBySubcategoryId(subcategoryId)
+                .forEach(x->productTypeDtos.add(new ProductTypeDto(x)));
+
+        return productTypeDtos;
+    }
+
+    public int getSize() {
+        return productTypeRepository.findAll().size();
+    };
+
     @Override
-    public void add(ProductTypeDto dtoEntity) throws NotFoundException {
+    public ProductTypeDto getLast() {
+        return getAll().get(getAll().size()-1);
+    }
+
+    @Override
+    public ProductTypeDto add(ProductTypeDto dtoEntity) throws NotFoundException {
         ProductType productType = dtoEntity.buildEntity();
 
         for(Subcategory subcategory : subcategoryRepository.findAll())
@@ -65,7 +84,10 @@ public class ProductTypeService implements JpaService<ProductTypeDto, ProductTyp
         if(productType.getSubcategory() == null)
             throw new NotFoundException("Subcategory was not found!");
 
-        productTypeRepository.save(productType);
+        productTypeRepository.saveAndFlush(productType);
+        productTypeRepository.refresh(productType);
+
+        return getLast();
     }
 
     @Override
@@ -75,9 +97,14 @@ public class ProductTypeService implements JpaService<ProductTypeDto, ProductTyp
     }
 
     @Override
-    public void update(Long id, ProductTypeDto dtoEntity) throws NotFoundException {
+    public ProductTypeDto update(Long id, ProductTypeDto dtoEntity) throws NotFoundException {
         delete(id);
 
-        productTypeRepository.save(dtoEntity.buildEntity(id));
+        ProductType productType = dtoEntity.buildEntity(id);
+
+        productTypeRepository.saveAndFlush(productType);
+        productTypeRepository.refresh(productType);
+
+        return getLast();
     }
 }

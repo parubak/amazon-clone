@@ -1,14 +1,12 @@
 package com.example.amazonclone.controllers;
 
-import com.example.amazonclone.dto.CategoryDto;
 import com.example.amazonclone.dto.CategoryImageDto;
-import com.example.amazonclone.exceptions.ImageAlreadyExistsException;
+import com.example.amazonclone.exceptions.EntityAlreadyExistsException;
 import com.example.amazonclone.exceptions.NotFoundException;
 import com.example.amazonclone.services.CategoryImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,8 +28,13 @@ public class CategoryImageController {
     @GetMapping("/all")
     public ResponseEntity<List<CategoryImageDto>> getImages(
             @RequestParam(required = false, defaultValue = "0") int page,
-            @RequestParam(required = false, defaultValue = "10") int quantity) {
+            @RequestParam(required = false, defaultValue = "250") int quantity) {
         return ResponseEntity.ok(categoryImageService.getAll(PageRequest.of(page, quantity)));
+    }
+
+    @GetMapping("/size")
+    public ResponseEntity<Integer> getSize() {
+        return ResponseEntity.ok(categoryImageService.getSize());
     }
 
     @GetMapping("/category")
@@ -54,13 +57,12 @@ public class CategoryImageController {
 
     @PostMapping(consumes = "multipart/form-data")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<String> addCategoryImage(@RequestParam MultipartFile file, @RequestParam Long categoryId) throws IOException {
+    public ResponseEntity<CategoryImageDto> addCategoryImage(@RequestParam MultipartFile file, @RequestParam Long categoryId) throws IOException {
         try {
-            categoryImageService.add(new CategoryImageDto(file, categoryId));
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(categoryImageService.add(new CategoryImageDto(file, categoryId)));
         } catch (NotFoundException ex) {
             return ResponseEntity.notFound().build();
-        } catch (ImageAlreadyExistsException ex) {
+        } catch (EntityAlreadyExistsException ex) {
             return ResponseEntity.badRequest().build();
         }
     }

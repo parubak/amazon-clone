@@ -5,6 +5,7 @@ import jakarta.annotation.Nullable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,11 +20,14 @@ public class ProductSizeDto implements DtoEntity<ProductSize, Long> {
 
     private List<Long> productColorIds = new ArrayList<>();
 
+    private Timestamp createdAt;
+
     public ProductSizeDto(ProductSize entity) {
         this.id = entity.getId();
         this.size = entity.getSize();
         if(entity.getProductColors() != null)
             entity.getProductColors().forEach(x->productColorIds.add(x.getId()));
+        this.createdAt = entity.getCreatedAt();
     }
 
     public ProductSizeDto(String size) {

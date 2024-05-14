@@ -60,8 +60,17 @@ public class ProductDetailValueService implements JpaService<ProductDetailValueD
         return productDetailValueDtos;
     }
 
+    public int getSize() {
+        return productDetailValueRepository.findAll().size();
+    }
+
     @Override
-    public void add(ProductDetailValueDto dtoEntity) throws NotFoundException {
+    public ProductDetailValueDto getLast() {
+        return getAll().get(getAll().size()-1);
+    }
+
+    @Override
+    public ProductDetailValueDto add(ProductDetailValueDto dtoEntity) throws NotFoundException {
         ProductDetailValue productDetailValue = dtoEntity.buildEntity();
 
         for (Product product : productRepository.findAll())
@@ -76,7 +85,10 @@ public class ProductDetailValueService implements JpaService<ProductDetailValueD
         if(productDetailValue.getProductDetailKey() == null)
             throw new NotFoundException("Product detail key was not found!");
 
-        productDetailValueRepository.save(productDetailValue);
+        productDetailValueRepository.saveAndFlush(productDetailValue);
+        productDetailValueRepository.refresh(productDetailValue);
+
+        return getLast();
     }
 
     @Override
@@ -85,9 +97,14 @@ public class ProductDetailValueService implements JpaService<ProductDetailValueD
     }
 
     @Override
-    public void update(Long id, ProductDetailValueDto dtoEntity) throws NotFoundException {
+    public ProductDetailValueDto update(Long id, ProductDetailValueDto dtoEntity) throws NotFoundException {
         delete(id);
 
-        productDetailValueRepository.save(dtoEntity.buildEntity(id));
+        ProductDetailValue productDetailValue = dtoEntity.buildEntity(id);
+
+        productDetailValueRepository.saveAndFlush(productDetailValue);
+        productDetailValueRepository.refresh(productDetailValue);
+
+        return getLast();
     }
 }

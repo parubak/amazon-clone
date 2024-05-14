@@ -24,8 +24,13 @@ public class ProductTypeController {
     @GetMapping("/all")
     public ResponseEntity<List<ProductTypeDto>> getProductTypes(
             @RequestParam(required = false, defaultValue = "0") int page,
-            @RequestParam(required = false, defaultValue = "10") int quantity) {
+            @RequestParam(required = false, defaultValue = "250") int quantity) {
         return ResponseEntity.ok(productTypeService.getAll(PageRequest.of(page, quantity)));
+    }
+
+    @GetMapping("/size")
+    public ResponseEntity<Integer> getSize() {
+        return ResponseEntity.ok(productTypeService.getSize());
     }
 
     @GetMapping
@@ -37,11 +42,15 @@ public class ProductTypeController {
         }
     }
 
+    @GetMapping("/subcategory")
+    public ResponseEntity<List<ProductTypeDto>> getProductTypesBySubcategory(@RequestParam Long subcategoryId) {
+        return ResponseEntity.ok(productTypeService.getAllBySubcategory(subcategoryId));
+    }
+
     @PostMapping
-    public ResponseEntity<String> addProductType(@RequestBody ProductTypeDto productTypeDto) {
+    public ResponseEntity<ProductTypeDto> addProductType(@RequestBody ProductTypeDto productTypeDto) {
         try {
-            productTypeService.add(productTypeDto);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(productTypeService.add(productTypeDto));
         } catch (NotFoundException ex) {
             return ResponseEntity.notFound().build();
         }

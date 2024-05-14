@@ -4,8 +4,10 @@ import com.example.amazonclone.dto.ColorDto;
 import com.example.amazonclone.exceptions.NotFoundException;
 import com.example.amazonclone.models.Color;
 import com.example.amazonclone.models.ProductColor;
+import com.example.amazonclone.models.Subcategory;
 import com.example.amazonclone.repos.ColorRepository;
 import com.example.amazonclone.repos.ProductColorRepository;
+import com.example.amazonclone.repos.SubcategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -17,11 +19,15 @@ import java.util.List;
 public class ColorService implements JpaService<ColorDto, Color, Long> {
 
     private final ColorRepository colorRepository;
+    private final SubcategoryRepository subcategoryRepository;
     private final ProductColorRepository productColorRepository;
 
     @Autowired
-    public ColorService(ColorRepository colorRepository, ProductColorRepository productColorRepository) {
+    public ColorService(ColorRepository colorRepository,
+                        SubcategoryRepository subcategoryRepository,
+                        ProductColorRepository productColorRepository) {
         this.colorRepository = colorRepository;
+        this.subcategoryRepository = subcategoryRepository;
         this.productColorRepository = productColorRepository;
     }
 
@@ -64,9 +70,31 @@ public class ColorService implements JpaService<ColorDto, Color, Long> {
         return colorDtos;
     }
 
+    public int getSize() {
+        return colorRepository.findAll().size();
+    }
+
     @Override
-    public void add(ColorDto dtoEntity) {
-        colorRepository.save(dtoEntity.buildEntity());
+    public ColorDto getLast() {
+        return getAll().get(getAll().size()-1);
+    }
+
+    @Override
+    public ColorDto add(ColorDto dtoEntity) throws NotFoundException {
+        Color color = dtoEntity.buildEntity();
+
+        for (Subcategory subcategory : subcategoryRepository.findAll()) {
+            if(subcategory.getId().equals(dtoEntity.getSubcategoryId()))
+                color.setSubcategory(subcategory);
+        }
+
+        if(color.getSubcategory() == null)
+            throw new NotFoundException("Subcategory was not found!");
+
+        colorRepository.saveAndFlush(color);
+        colorRepository.refresh(color);
+
+        return getLast();
     }
 
     @Override
@@ -79,9 +107,14 @@ public class ColorService implements JpaService<ColorDto, Color, Long> {
     }
 
     @Override
-    public void update(Long id, ColorDto dtoEntity) throws NotFoundException {
+    public ColorDto update(Long id, ColorDto dtoEntity) throws NotFoundException {
         delete(id);
 
-        colorRepository.save(dtoEntity.buildEntity(id));
+        Color color = dtoEntity.buildEntity(id);
+
+        colorRepository.saveAndFlush(color);
+        colorRepository.refresh(color);
+
+        return getLast();
     }
 }

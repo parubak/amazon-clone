@@ -1,15 +1,14 @@
 package com.example.amazonclone.dto;
 
 import com.example.amazonclone.Image;
-import com.example.amazonclone.ImageUtil;
 import com.example.amazonclone.models.CategoryImage;
 import jakarta.annotation.Nullable;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 
 public class CategoryImageDto extends Image implements DtoEntity<CategoryImage, Long> {
     @Nullable
@@ -21,10 +20,15 @@ public class CategoryImageDto extends Image implements DtoEntity<CategoryImage, 
     @Setter
     private Long categoryId;
 
+    @Getter
+    @Setter
+    private Timestamp createdAt;
+
     public CategoryImageDto(CategoryImage categoryImage) {
         super(categoryImage.getImage());
         this.id = categoryImage.getId();
         categoryId = categoryImage.getCategory().getId();
+        this.createdAt = categoryImage.getCreatedAt();
     }
 
     public CategoryImageDto(MultipartFile file, Long categoryId) throws IOException {

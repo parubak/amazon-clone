@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import lombok.Data;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -20,15 +21,16 @@ public class Product {
     @Column(name="name", nullable = false)
     private String name;
 
-    @Column(name="price", nullable = false)
-    private double price;
-
     @Column(name="description", nullable = false)
     private String description;
 
     @ManyToOne
     @JoinColumn(name = "product_type_id", nullable = false)
     private ProductType productType;
+
+    @ManyToOne
+    @JoinColumn(name="user_id", nullable = false)
+    private User user;
 
     @OneToMany(mappedBy = "product")
     private Collection<ProductDetailValue> productDetailValues = new ArrayList<>();
@@ -39,5 +41,6 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
     private Collection<ProductReview> productReviews = new ArrayList<>();
 
-
+    @Column(name= "created_at")
+    private Timestamp createdAt;
 }

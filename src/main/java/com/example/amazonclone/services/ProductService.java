@@ -2,10 +2,7 @@ package com.example.amazonclone.services;
 
 import com.example.amazonclone.dto.ProductDto;
 import com.example.amazonclone.exceptions.NotFoundException;
-import com.example.amazonclone.models.Discount;
-import com.example.amazonclone.models.DiscountType;
-import com.example.amazonclone.models.Product;
-import com.example.amazonclone.models.ProductType;
+import com.example.amazonclone.models.*;
 import com.example.amazonclone.repos.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,16 +20,19 @@ public class ProductService implements JpaService<ProductDto, Product, Long> {
     private final ProductTypeRepository productTypeRepository;
     private final DiscountTypeRepository discountTypeRepository;
     private final DiscountRepository discountRepository;
+    private final UserRepository userRepository;
 
     @Autowired
     public ProductService(ProductRepository repository,
                           ProductTypeRepository productTypeRepository,
                           DiscountTypeRepository discountTypeRepository,
-                          DiscountRepository discountRepository) {
+                          DiscountRepository discountRepository,
+                          UserRepository userRepository) {
         this.productRepository = repository;
         this.productTypeRepository = productTypeRepository;
         this.discountTypeRepository = discountTypeRepository;
         this.discountRepository = discountRepository;
+        this.userRepository = userRepository;
     }
 
     private Product getProduct(Long id) throws NotFoundException {
@@ -59,6 +59,11 @@ public class ProductService implements JpaService<ProductDto, Product, Long> {
     }
 
     @Override
+    public ProductDto getLast() {
+        return getAll().get(getAll().size()-1);
+    }
+
+    @Override
     public List<ProductDto> getAll(PageRequest pageRequest) {
 
         List<ProductDto> productDtos = new ArrayList<>();
@@ -67,6 +72,10 @@ public class ProductService implements JpaService<ProductDto, Product, Long> {
         page.getContent().forEach(x->productDtos.add(new ProductDto(x)));
 
         return productDtos;
+    }
+
+    public int getSize() {
+        return productRepository.findAll().size();
     }
 
     public List<ProductDto> getAllByDiscountTypeName(String discountTypename) throws NotFoundException {
@@ -88,7 +97,7 @@ public class ProductService implements JpaService<ProductDto, Product, Long> {
     }
 
     @Override
-    public void add(ProductDto dtoEntity) throws NotFoundException {
+    public ProductDto add(ProductDto dtoEntity) throws NotFoundException {
         Product product = dtoEntity.buildEntity();
 
         Iterable<ProductType> productTypes = productTypeRepository.findAll();
@@ -99,7 +108,15 @@ public class ProductService implements JpaService<ProductDto, Product, Long> {
         if(product.getProductType() == null)
             throw new NotFoundException("Subcategory was not found");
 
-        productRepository.save(product);
+        User user = userRepository.findById(dtoEntity.getUserId())
+                .orElseThrow(()->new NotFoundException("User was not found!"));
+
+        product.setUser(user);
+
+        productRepository.saveAndFlush(product);
+        productRepository.refresh(product);
+
+        return getLast();
     }
 
     @Override
@@ -110,9 +127,14 @@ public class ProductService implements JpaService<ProductDto, Product, Long> {
     }
 
     @Override
-    public void update(Long id, ProductDto dtoEntity) throws NotFoundException {
+    public ProductDto update(Long id, ProductDto dtoEntity) throws NotFoundException {
         delete(id);
 
-        productRepository.save(dtoEntity.buildEntity(id));
+        Product product = dtoEntity.buildEntity(id);
+
+        productRepository.saveAndFlush(product);
+        productRepository.refresh(product);
+
+        return getLast();
     }
 }

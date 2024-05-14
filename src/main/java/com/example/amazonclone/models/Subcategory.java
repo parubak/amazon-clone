@@ -2,13 +2,11 @@ package com.example.amazonclone.models;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Set;
 
 @Entity
 @Data
@@ -29,7 +27,13 @@ public class Subcategory {
     @OneToMany(mappedBy = "subcategory", fetch = FetchType.EAGER)
     private Collection<ProductType> productTypes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "subcategory", fetch = FetchType.EAGER)
+    private Collection<Color> colors = new ArrayList<>();
+
     @OneToOne(mappedBy = "subcategory", cascade = CascadeType.REMOVE)
     @Nullable
     private SubcategoryImage subcategoryImage;
+
+    @Column(name= "created_at")
+    private Timestamp createdAt;
 }

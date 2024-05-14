@@ -1,7 +1,7 @@
 package com.example.amazonclone.services;
 
 import com.example.amazonclone.dto.CategoryImageDto;
-import com.example.amazonclone.exceptions.ImageAlreadyExistsException;
+import com.example.amazonclone.exceptions.EntityAlreadyExistsException;
 import com.example.amazonclone.exceptions.NotFoundException;
 import com.example.amazonclone.models.Category;
 import com.example.amazonclone.models.CategoryImage;
@@ -72,12 +72,21 @@ public class CategoryImageService implements JpaSingleImageService<CategoryImage
         return categoryImageDtos;
     }
 
+    public int getSize() {
+        return categoryImageRepository.findAll().size();
+    }
+
     @Override
-    public void add(CategoryImageDto dtoEntity) throws NotFoundException, ImageAlreadyExistsException {
+    public CategoryImageDto getLast() {
+        return getAll().get(getAll().size()-1);
+    }
+
+    @Override
+    public CategoryImageDto add(CategoryImageDto dtoEntity) throws NotFoundException, EntityAlreadyExistsException {
 
         for(CategoryImage image : categoryImageRepository.findAll()) {
             if(image.getCategory().getId().equals(dtoEntity.getCategoryId()))
-                throw new ImageAlreadyExistsException("Category image already exists");
+                throw new EntityAlreadyExistsException("Category image already exists");
         }
 
         CategoryImage categoryImage = dtoEntity.buildEntity();
@@ -92,7 +101,10 @@ public class CategoryImageService implements JpaSingleImageService<CategoryImage
         if(categoryImage.getCategory() == null)
             throw new NotFoundException("Category was not found");
 
-        categoryImageRepository.save(categoryImage);
+        categoryImageRepository.saveAndFlush(categoryImage);
+        categoryImageRepository.refresh(categoryImage);
+
+        return getLast();
     }
 
     @Override
@@ -103,9 +115,14 @@ public class CategoryImageService implements JpaSingleImageService<CategoryImage
     }
 
     @Override
-    public void update(Long id, CategoryImageDto dtoEntity) throws NotFoundException {
+    public CategoryImageDto update(Long id, CategoryImageDto dtoEntity) throws NotFoundException {
         delete(id);
 
-        categoryImageRepository.save(dtoEntity.buildEntity(id));
+        CategoryImage categoryImage = dtoEntity.buildEntity(id);
+
+        categoryImageRepository.saveAndFlush(categoryImage);
+        categoryImageRepository.refresh(categoryImage);
+
+        return getLast();
     }
 }

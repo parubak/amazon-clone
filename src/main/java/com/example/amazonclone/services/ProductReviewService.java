@@ -57,8 +57,17 @@ public class ProductReviewService implements JpaService<ProductReviewDto, Produc
         return productReviewDtos;
     }
 
+    public int getSize() {
+        return productReviewRepository.findAll().size();
+    }
+
     @Override
-    public void add(ProductReviewDto dtoEntity) throws NotFoundException {
+    public ProductReviewDto getLast() {
+        return getAll().get(getAll().size()-1);
+    }
+
+    @Override
+    public ProductReviewDto add(ProductReviewDto dtoEntity) throws NotFoundException {
         ProductReview productReview = dtoEntity.buildEntity();
         for (Product product : productRepository.findAll())
             if(dtoEntity.getProductId().equals(product.getId()))
@@ -66,7 +75,10 @@ public class ProductReviewService implements JpaService<ProductReviewDto, Produc
         if(productReview.getProduct() == null)
             throw new NotFoundException("Product was not found!");
 
-        productReviewRepository.save(productReview);
+        productReviewRepository.saveAndFlush(productReview);
+        productReviewRepository.refresh(productReview);
+
+        return getLast();
     }
 
     @Override
@@ -75,9 +87,14 @@ public class ProductReviewService implements JpaService<ProductReviewDto, Produc
     }
 
     @Override
-    public void update(Long id, ProductReviewDto dtoEntity) throws NotFoundException {
+    public ProductReviewDto update(Long id, ProductReviewDto dtoEntity) throws NotFoundException {
         delete(id);
 
-        productReviewRepository.save(dtoEntity.buildEntity(id));
+        ProductReview productReview = dtoEntity.buildEntity(id);
+
+        productReviewRepository.saveAndFlush(productReview);
+        productReviewRepository.refresh(productReview);
+
+        return getLast();
     }
 }

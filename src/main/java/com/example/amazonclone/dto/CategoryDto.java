@@ -5,6 +5,7 @@ import jakarta.annotation.Nullable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,8 @@ public class CategoryDto implements DtoEntity<Category, Long> {
     @Nullable
     private Long categoryImageId;
 
+    private Timestamp createdAt;
+
     public CategoryDto(String name) {
         this.name = name;
     }
@@ -32,6 +35,7 @@ public class CategoryDto implements DtoEntity<Category, Long> {
             entity.getSubcategories().forEach(x -> subcategoriesIds.add(x.getId()));
         if(entity.getImage() != null)
             this.categoryImageId = entity.getImage().getId();
+        this.createdAt = entity.getCreatedAt();
     }
 
     @Override

@@ -57,8 +57,17 @@ public class ProductDetailKeyService implements JpaService<ProductDetailKeyDto, 
         return productDetailKeyDtos;
     }
 
+    public int getSize() {
+        return productDetailKeyRepository.findAll().size();
+    }
+
     @Override
-    public void add(ProductDetailKeyDto dtoEntity) throws NotFoundException {
+    public ProductDetailKeyDto getLast() {
+        return getAll().get(getAll().size()-1);
+    }
+
+    @Override
+    public ProductDetailKeyDto add(ProductDetailKeyDto dtoEntity) throws NotFoundException {
         ProductDetailKey productDetailKey = dtoEntity.buildEntity();
         for(ProductType productType : productTypeRepository.findAll())
             if(productType.getId().equals(dtoEntity.getProductTypeId()))
@@ -66,7 +75,10 @@ public class ProductDetailKeyService implements JpaService<ProductDetailKeyDto, 
         if(productDetailKey.getProductType() == null)
             throw new NotFoundException("Product type was not found!");
 
-        productDetailKeyRepository.save(productDetailKey);
+        productDetailKeyRepository.saveAndFlush(productDetailKey);
+        productDetailKeyRepository.refresh(productDetailKey);
+
+        return getLast();
     }
 
     @Override
@@ -75,9 +87,14 @@ public class ProductDetailKeyService implements JpaService<ProductDetailKeyDto, 
     }
 
     @Override
-    public void update(Long id, ProductDetailKeyDto dtoEntity) throws NotFoundException {
+    public ProductDetailKeyDto update(Long id, ProductDetailKeyDto dtoEntity) throws NotFoundException {
         delete(id);
 
-        productDetailKeyRepository.save(dtoEntity.buildEntity(id));
+        ProductDetailKey productDetailKey = dtoEntity.buildEntity(id);
+
+        productDetailKeyRepository.saveAndFlush(productDetailKey);
+        productDetailKeyRepository.refresh(productDetailKey);
+
+        return getLast();
     }
 }

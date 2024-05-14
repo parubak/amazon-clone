@@ -1,7 +1,7 @@
 package com.example.amazonclone.services;
 
 import com.example.amazonclone.dto.SubcategoryImageDto;
-import com.example.amazonclone.exceptions.ImageAlreadyExistsException;
+import com.example.amazonclone.exceptions.EntityAlreadyExistsException;
 import com.example.amazonclone.exceptions.NotFoundException;
 import com.example.amazonclone.models.*;
 import com.example.amazonclone.repos.SubcategoryImageRepository;
@@ -62,6 +62,10 @@ public class SubcategoryImageService implements JpaSingleImageService<Subcategor
         throw new NotFoundException("Subcategory was not found");
     }
 
+    public int getSize() {
+        return subcategoryImageRepository.findAll().size();
+    }
+
     @Override
     public List<SubcategoryImageDto> getAll() {
         List<SubcategoryImageDto> subcategoryImageDtos = new LinkedList<>();
@@ -72,11 +76,16 @@ public class SubcategoryImageService implements JpaSingleImageService<Subcategor
     }
 
     @Override
-    public void add(SubcategoryImageDto dtoEntity) throws NotFoundException, ImageAlreadyExistsException {
+    public SubcategoryImageDto getLast() {
+        return getAll().get(getAll().size()-1);
+    }
+
+    @Override
+    public SubcategoryImageDto add(SubcategoryImageDto dtoEntity) throws NotFoundException, EntityAlreadyExistsException {
 
         for (SubcategoryImage subcategoryImage : subcategoryImageRepository.findAll()) {
             if(subcategoryImage.getSubcategory().getId().equals(dtoEntity.getSubcategoryId()))
-                throw new ImageAlreadyExistsException("Subcategory image already exists");
+                throw new EntityAlreadyExistsException("Subcategory image already exists");
         }
 
         SubcategoryImage subcategoryImage = dtoEntity.buildEntity();
@@ -91,7 +100,10 @@ public class SubcategoryImageService implements JpaSingleImageService<Subcategor
         if(subcategoryImage.getSubcategory() == null)
             throw new NotFoundException("Product was not found");
 
-        subcategoryImageRepository.save(subcategoryImage);
+        subcategoryImageRepository.saveAndFlush(subcategoryImage);
+        subcategoryImageRepository.refresh(subcategoryImage);
+
+        return getLast();
     }
 
     @Override
@@ -102,9 +114,14 @@ public class SubcategoryImageService implements JpaSingleImageService<Subcategor
     }
 
     @Override
-    public void update(Long id, SubcategoryImageDto dtoEntity) throws NotFoundException {
+    public SubcategoryImageDto update(Long id, SubcategoryImageDto dtoEntity) throws NotFoundException {
         delete(id);
 
-        subcategoryImageRepository.save(dtoEntity.buildEntity(id));
+        SubcategoryImage subcategoryImage = dtoEntity.buildEntity(id);
+
+        subcategoryImageRepository.saveAndFlush(subcategoryImage);
+        subcategoryImageRepository.refresh(subcategoryImage);
+
+        return getLast();
     }
 }

@@ -3,6 +3,8 @@ package com.example.amazonclone.models;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.sql.Timestamp;
+
 @Entity
 @Data
 @Table(name = "product_reviews")
@@ -24,4 +26,7 @@ public class ProductReview {
     @ManyToOne
     @JoinColumn(name="product_id")
     private Product product;
+
+    @Column(name= "created_at")
+    private Timestamp createdAt;
 }

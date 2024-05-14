@@ -25,8 +25,13 @@ public class ProductReviewController {
     @GetMapping("/all")
     public ResponseEntity<List<ProductReviewDto>> getProductReviews(
             @RequestParam(required = false, defaultValue = "0") int page,
-            @RequestParam(required = false, defaultValue = "10") int quantity) {
+            @RequestParam(required = false, defaultValue = "250") int quantity) {
         return ResponseEntity.ok(productReviewService.getAll(PageRequest.of(page, quantity)));
+    }
+
+    @GetMapping("/size")
+    public ResponseEntity<Integer> getSize() {
+        return ResponseEntity.ok(productReviewService.getSize());
     }
 
     @GetMapping
@@ -39,10 +44,9 @@ public class ProductReviewController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addProductReview(@RequestBody ProductReviewDto productReviewDto) {
+    public ResponseEntity<ProductReviewDto> addProductReview(@RequestBody ProductReviewDto productReviewDto) {
         try {
-            productReviewService.add(productReviewDto);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(productReviewService.add(productReviewDto));
         } catch (NotFoundException ex) {
             return ResponseEntity.notFound().build();
         }

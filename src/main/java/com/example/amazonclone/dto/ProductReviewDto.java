@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.antlr.v4.runtime.misc.NotNull;
 
+import java.sql.Timestamp;
+
 @Data
 @NoArgsConstructor
 public class ProductReviewDto implements DtoEntity<ProductReview, Long> {
@@ -22,12 +24,15 @@ public class ProductReviewDto implements DtoEntity<ProductReview, Long> {
 
     private Long productId;
 
+    private Timestamp createdAt;
+
     public ProductReviewDto(ProductReview entity) {
         this.id = entity.getId();
         this.username = entity.getUsername();
         this.mark = entity.getMark();
         this.reviewText = entity.getReviewText();
         this.productId = entity.getProduct().getId();
+        this.createdAt = entity.getCreatedAt();
     }
 
     public ProductReviewDto(String username, Double mark, Long productId) {

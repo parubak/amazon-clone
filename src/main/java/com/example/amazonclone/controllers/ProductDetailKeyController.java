@@ -25,8 +25,13 @@ public class ProductDetailKeyController {
     @GetMapping("/all")
     public ResponseEntity<List<ProductDetailKeyDto>> getProductDetailKeys(
             @RequestParam(required = false, defaultValue = "0") int page,
-            @RequestParam(required = false, defaultValue = "10") int quantity) {
+            @RequestParam(required = false, defaultValue = "250") int quantity) {
         return ResponseEntity.ok(productDetailKeyService.getAll(PageRequest.of(page, quantity)));
+    }
+
+    @GetMapping("/size")
+    public ResponseEntity<Integer> getSize() {
+        return ResponseEntity.ok(productDetailKeyService.getSize());
     }
 
     @GetMapping
@@ -39,10 +44,9 @@ public class ProductDetailKeyController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addProductDetailKey(@RequestBody ProductDetailKeyDto productDetailKeyDto) {
+    public ResponseEntity<ProductDetailKeyDto> addProductDetailKey(@RequestBody ProductDetailKeyDto productDetailKeyDto) {
         try {
-            productDetailKeyService.add(productDetailKeyDto);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(productDetailKeyService.add(productDetailKeyDto));
         } catch (NotFoundException ex) {
             return ResponseEntity.notFound().build();
         }

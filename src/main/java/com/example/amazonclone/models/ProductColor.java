@@ -4,6 +4,7 @@ import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -15,6 +16,9 @@ public class ProductColor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id", nullable = false)
     private Long id;
+
+    @Column(name="price")
+    private Double price;
 
     @ManyToOne
     @JoinColumn(name = "color_id", nullable = false)
@@ -42,4 +46,10 @@ public class ProductColor {
             joinColumns = @JoinColumn(name="product_color_id"),
             inverseJoinColumns = @JoinColumn(name="product_size_id"))
     private Collection<ProductSize> productSizes = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "favouriteProductColors")
+    private Collection<User> favouritedUsers;
+
+    @Column(name= "created_at")
+    private Timestamp createdAt;
 }

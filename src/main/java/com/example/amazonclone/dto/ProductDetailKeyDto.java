@@ -5,6 +5,7 @@ import jakarta.annotation.Nullable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,11 +23,14 @@ public class ProductDetailKeyDto implements DtoEntity<ProductDetailKey, Long> {
     @Nullable
     private List<Long> productDetailValueId = new ArrayList<>();
 
+    private Timestamp createdAt;
+
     public ProductDetailKeyDto(ProductDetailKey entity) {
         this.id = entity.getId();
         this.key = entity.getKey();
         this.productTypeId = entity.getProductType().getId();
         entity.getProductDetailValues().forEach(x->productDetailValueId.add(x.getId()));
+        this.createdAt = entity.getCreatedAt();
     }
 
     public ProductDetailKeyDto(String key, Long productTypeId) {

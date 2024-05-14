@@ -1,8 +1,7 @@
 package com.example.amazonclone.controllers;
 
-import com.example.amazonclone.Image;
 import com.example.amazonclone.dto.SubcategoryImageDto;
-import com.example.amazonclone.exceptions.ImageAlreadyExistsException;
+import com.example.amazonclone.exceptions.EntityAlreadyExistsException;
 import com.example.amazonclone.exceptions.NotFoundException;
 import com.example.amazonclone.services.SubcategoryImageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +28,13 @@ public class SubcategoryImageController {
     @GetMapping("/all")
     public ResponseEntity<List<SubcategoryImageDto>> getSubcategoryImages(
             @RequestParam(required = false, defaultValue = "0") int page,
-            @RequestParam(required = false, defaultValue = "10") int quantity) {
+            @RequestParam(required = false, defaultValue = "250") int quantity) {
         return ResponseEntity.ok(subcategoryImageService.getAll(PageRequest.of(page, quantity)));
+    }
+
+    @GetMapping("/size")
+    public ResponseEntity<Integer> getSize() {
+        return ResponseEntity.ok(subcategoryImageService.getSize());
     }
 
     @GetMapping("/subcategory")
@@ -52,13 +56,12 @@ public class SubcategoryImageController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addSubcategoryImage(@RequestParam MultipartFile file, @RequestParam Long subcategoryId) throws IOException {
+    public ResponseEntity<SubcategoryImageDto> addSubcategoryImage(@RequestParam MultipartFile file, @RequestParam Long subcategoryId) throws IOException {
         try {
-            subcategoryImageService.add(new SubcategoryImageDto(file, subcategoryId));
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(subcategoryImageService.add(new SubcategoryImageDto(file, subcategoryId)));
         } catch (NotFoundException ex) {
             return ResponseEntity.notFound().build();
-        } catch (ImageAlreadyExistsException ex) {
+        } catch (EntityAlreadyExistsException ex) {
             return ResponseEntity.badRequest().build();
         }
     }

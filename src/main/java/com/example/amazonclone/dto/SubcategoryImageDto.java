@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 
 public class SubcategoryImageDto extends Image implements DtoEntity<SubcategoryImage, Long> {
     @Nullable
@@ -18,11 +19,15 @@ public class SubcategoryImageDto extends Image implements DtoEntity<SubcategoryI
     @Getter
     @Setter
     private Long subcategoryId;
+    @Getter
+    @Setter
+    private Timestamp createdAt;
 
     public SubcategoryImageDto(SubcategoryImage entity) {
         super(entity.getImage());
         this.id = entity.getId();
         this.subcategoryId = entity.getSubcategory().getId();
+        this.createdAt = entity.getCreatedAt();
     }
 
     public SubcategoryImageDto(MultipartFile file, Long subcategoryId) throws IOException {

@@ -1,6 +1,8 @@
 package com.example.amazonclone.services;
 
 import com.example.amazonclone.dto.SubcategoryDto;
+import com.example.amazonclone.dto.SubcategoryImageDto;
+import com.example.amazonclone.exceptions.EntityAlreadyExistsException;
 import com.example.amazonclone.exceptions.NotFoundException;
 import com.example.amazonclone.models.Category;
 import com.example.amazonclone.models.Subcategory;
@@ -11,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,12 +25,17 @@ public class SubcategoryService implements JpaService<SubcategoryDto, Subcategor
     private final SubcategoryRepository subcategoryRepository;
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
+    private final SubcategoryImageService subcategoryImageService;
 
     @Autowired
-    public SubcategoryService(SubcategoryRepository subcategoryRepository, CategoryRepository categoryRepository, ProductRepository productRepository) {
+    public SubcategoryService(SubcategoryRepository subcategoryRepository,
+                              CategoryRepository categoryRepository,
+                              ProductRepository productRepository,
+                              SubcategoryImageService subcategoryImageService) {
         this.subcategoryRepository = subcategoryRepository;
         this.categoryRepository = categoryRepository;
         this.productRepository = productRepository;
+        this.subcategoryImageService = subcategoryImageService;
     }
 
     private Subcategory getSubcategory(Long id) throws NotFoundException {
@@ -64,8 +73,17 @@ public class SubcategoryService implements JpaService<SubcategoryDto, Subcategor
         return subcategoriesDtos;
     }
 
+    public int getSize() {
+        return subcategoryRepository.findAll().size();
+    }
+
     @Override
-    public void add(SubcategoryDto dtoEntity) throws NotFoundException {
+    public SubcategoryDto getLast() {
+        return getAll().get(getAll().size()-1);
+    }
+
+    @Override
+    public SubcategoryDto add(SubcategoryDto dtoEntity) throws NotFoundException {
         Subcategory subcategory = dtoEntity.buildEntity();
 
         Iterable<Category> categories = categoryRepository.findAll();
@@ -77,7 +95,16 @@ public class SubcategoryService implements JpaService<SubcategoryDto, Subcategor
         if(subcategory.getCategory() == null)
             throw new NotFoundException("Category was not found");
 
-        subcategoryRepository.save(subcategory);
+        subcategoryRepository.saveAndFlush(subcategory);
+        subcategoryRepository.refresh(subcategory);
+
+        return getLast();
+    }
+
+    public SubcategoryDto addWithImage(MultipartFile file, SubcategoryDto dtoEntity) throws IOException, NotFoundException, EntityAlreadyExistsException {
+        SubcategoryDto responseDto = add(dtoEntity);
+        subcategoryImageService.add(new SubcategoryImageDto(file, responseDto.getId()));
+        return responseDto;
     }
 
     @Override
@@ -88,9 +115,14 @@ public class SubcategoryService implements JpaService<SubcategoryDto, Subcategor
     }
 
     @Override
-    public void update(Long id, SubcategoryDto dtoEntity) throws NotFoundException {
+    public SubcategoryDto update(Long id, SubcategoryDto dtoEntity) throws NotFoundException {
         delete(id);
 
-        subcategoryRepository.save(dtoEntity.buildEntity(id));
+        Subcategory subcategory = dtoEntity.buildEntity(id);
+
+        subcategoryRepository.saveAndFlush(subcategory);
+        subcategoryRepository.refresh(subcategory);
+
+        return getLast();
     }
 }

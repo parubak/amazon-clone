@@ -1,10 +1,11 @@
 package com.example.amazonclone.services;
 
 import com.example.amazonclone.dto.CategoryDto;
+import com.example.amazonclone.dto.CategoryImageDto;
 import com.example.amazonclone.dto.SubcategoryDto;
+import com.example.amazonclone.exceptions.EntityAlreadyExistsException;
 import com.example.amazonclone.exceptions.NotFoundException;
 import com.example.amazonclone.models.Category;
-import com.example.amazonclone.models.CategoryImage;
 import com.example.amazonclone.models.Subcategory;
 import com.example.amazonclone.repos.CategoryRepository;
 import com.example.amazonclone.repos.SubcategoryRepository;
@@ -12,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -21,11 +24,13 @@ import java.util.Optional;
 public class CategoryService implements JpaService<CategoryDto, Category, Long> {
     private final CategoryRepository categoryRepository;
     private final SubcategoryRepository subcategoryRepository;
+    private final CategoryImageService categoryImageService;
 
     @Autowired
-    public CategoryService(SubcategoryRepository subcategoryRepository, CategoryRepository categoryRepository) {
+    public CategoryService(SubcategoryRepository subcategoryRepository, CategoryRepository categoryRepository, CategoryImageService categoryImageService) {
         this.categoryRepository = categoryRepository;
         this.subcategoryRepository = subcategoryRepository;
+        this.categoryImageService = categoryImageService;
     }
 
     private Category getCategory(Long id) throws NotFoundException {
@@ -56,6 +61,10 @@ public class CategoryService implements JpaService<CategoryDto, Category, Long> 
         return categoryDtos;
     }
 
+    public int getSize() {
+        return categoryRepository.findAll().size();
+    }
+
     public Long getId(CategoryDto categoryDto) throws NotFoundException {
         for(Category category : categoryRepository.findAll())
             if(category.getName().equals(categoryDto.getName()))
@@ -84,19 +93,25 @@ public class CategoryService implements JpaService<CategoryDto, Category, Long> 
         return subcategoriesDto;
     }
 
+    @Override
     public CategoryDto getLast() {
-        return getAll().get(getAll().size());
+        return getAll().get(getAll().size()-1);
     }
 
     @Override
-    public void add(CategoryDto dtoEntity) {
-        categoryRepository.save(dtoEntity.buildEntity());
+    public CategoryDto add(CategoryDto dtoEntity) {
+        Category category = dtoEntity.buildEntity();
+
+        categoryRepository.saveAndFlush(category);
+        categoryRepository.refresh(category);
+
+        return getLast();
     }
 
-    public void addImage(Long id, CategoryImage image) throws NotFoundException{
-        Category category = getCategory(id);
-
-        category.setImage(image);
+    public CategoryDto addWithImage(MultipartFile file, CategoryDto categoryDto) throws IOException, NotFoundException, EntityAlreadyExistsException {
+        CategoryDto responseDto = add(categoryDto);
+        categoryImageService.add(new CategoryImageDto(file, responseDto.getId()));
+        return responseDto;
     }
 
     @Override
@@ -107,9 +122,14 @@ public class CategoryService implements JpaService<CategoryDto, Category, Long> 
     }
 
     @Override
-    public void update(Long id, CategoryDto dtoEntity) throws NotFoundException {
+    public CategoryDto update(Long id, CategoryDto dtoEntity) throws NotFoundException {
         delete(id);
 
-        categoryRepository.save(dtoEntity.buildEntity(id));
+        Category category = dtoEntity.buildEntity(id);
+
+        categoryRepository.saveAndFlush(category);
+        categoryRepository.refresh(category);
+
+        return getLast();
     }
 }

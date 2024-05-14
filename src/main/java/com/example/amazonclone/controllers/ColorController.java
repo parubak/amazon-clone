@@ -22,14 +22,19 @@ public class ColorController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<ColorDto>> getCategories(
+    public ResponseEntity<List<ColorDto>> getColors(
             @RequestParam(required = false, defaultValue = "0") int page,
-            @RequestParam(required = false, defaultValue = "10") int quantity) {
+            @RequestParam(required = false, defaultValue = "250") int quantity) {
         return ResponseEntity.ok(colorService.getAll(PageRequest.of(page, quantity)));
     }
 
+    @GetMapping("/size")
+    public ResponseEntity<Integer> getSize() {
+        return ResponseEntity.ok(colorService.getSize());
+    }
+
     @GetMapping
-    public ResponseEntity<ColorDto> getCategory(@RequestParam Long id) {
+    public ResponseEntity<ColorDto> getColor(@RequestParam Long id) {
         try {
             ColorDto colorDto = colorService.get(id);
             return ResponseEntity.ok(colorDto);
@@ -50,13 +55,16 @@ public class ColorController {
 
 
     @PostMapping
-    public ResponseEntity<String> addCategory(@RequestBody ColorDto colorDto) {
-        colorService.add(colorDto);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<ColorDto> addColor(@RequestBody ColorDto colorDto) {
+        try {
+            return ResponseEntity.ok(colorService.add(colorDto));
+        } catch (NotFoundException ex) {
+            return  ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping
-    public ResponseEntity<String> deleteCategory(@RequestParam Long id) {
+    public ResponseEntity<String> deleteColor(@RequestParam Long id) {
         try {
             colorService.delete(id);
             return ResponseEntity.ok().build();

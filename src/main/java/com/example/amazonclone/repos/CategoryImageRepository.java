@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CategoryImageRepository extends JpaRepository<CategoryImage, Long> {
+public interface CategoryImageRepository extends RefreshableRepository<CategoryImage, Long> {
 }

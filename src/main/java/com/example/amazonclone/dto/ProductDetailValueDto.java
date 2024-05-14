@@ -5,6 +5,8 @@ import jakarta.annotation.Nullable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
+
 @Data
 @NoArgsConstructor
 public class ProductDetailValueDto implements DtoEntity<ProductDetailValue, Long> {
@@ -18,11 +20,14 @@ public class ProductDetailValueDto implements DtoEntity<ProductDetailValue, Long
 
     private Long productId;
 
+    private Timestamp createdAt;
+
     public ProductDetailValueDto(ProductDetailValue entity) {
         this.id = entity.getId();
         this.value = entity.getValue();
         this.productDetailKeyId = entity.getProductDetailKey().getId();
         this.productId = entity.getProduct().getId();
+        this.createdAt = entity.getCreatedAt();
     }
 
     public ProductDetailValueDto(Long productId, Long productDetailKeyId, String value) {
