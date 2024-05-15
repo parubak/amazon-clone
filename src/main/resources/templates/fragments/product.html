@@ -24,11 +24,9 @@
         </div>
         <div class="product__value">
             <h3>Розмір: </h3>
-            <span class="product__size">S</span>
-            <span class="product__size">M</span>
-            <span class="product__size">L</span>
-            <span class="product__size">XL</span>
-            <span class="product__size">XXL</span>
+            <th:block th:each="s : ${tShirts.getSizes()}">
+            <span class="product__size" th:text="*{s.getName()}"></span>
+            </th:block>
         </div>
         <div class="product__value">
             <h3>Колір: </h3>
@@ -61,14 +59,8 @@
         <h2 class="product__value">Про цей предмет</h2>
         <div>
             <ul class="product__about-list">
-                <li class="product__about-item">
-                    <p>Чоловіча футболка, повсякденна літня, великих розмірів, з заниженими плечима.</p>
-                </li>
-                <li class="product__about-item">
-                    <p>Футболка для повсякденного життя, вдома, на природі, на вулиці, будь-якому іншому випадку в літні дні.</p>
-                </li>
-                <li class="product__about-item">
-                    <p>Розмір: S-5XL, різні кольори для різноманітного вибору.</p>
+                <li th:each="si : ${product.getSubgroup().getSubInfos()}" class="product__about-item">
+                    <p th:text="*{si.getInfoValue()}">Чоловіча футболка, повсякденна літня, великих розмірів, з заниженими плечима.</p>
                 </li>
             </ul>
         </div>

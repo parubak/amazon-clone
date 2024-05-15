@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/fragments.css">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" href="/css/deals.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <title>Головна сторінка</title>
+</head>
+<body>
+<!--header-->
+<div th:replace="/fragments/header.html::header"></div>
+<!--header-->
+
+<main class="global-main">
+    <div class="global-main__banner banner">
+        <img th:src="@{/imgs/promNightBanner.jpg}" alt="Banner" class="banner__img">
+    </div>
+    <div class="wrapper">
+        <div class="global-main__categories categories">
+            <ul class="categories__list">
+                <li class="categories__item category-card">
+                    <div class="category-card__link">
+                        <img class="category-card__image"
+                             src="/img/Ellipse 9.png"
+                             alt="Category"/>
+                    </div>
+                    <span class="category-card__text">Жіночий одяг</span>
+                </li>
+                <li class="categories__item category-card">
+                    <div class="category-card__link">
+                        <img class="category-card__image"
+                             src="/img/Ellipse 10.png"
+                             alt="Category"/>
+                    </div>
+                    <span class="category-card__text">Чоловічий одяг</span>
+                </li>
+                <li class="categories__item category-card">
+                    <div class="category-card__link">
+                        <img class="category-card__image"
+                             src="/img/Ellipse 11.png"
+                             alt="Category"/>
+                    </div>
+                    <span class="category-card__text">Взуття</span>
+                </li>
+                <li class="categories__item category-card">
+                    <div class="category-card__link">
+                        <img class="category-card__image"
+                             src="/img/Ellipse 12.png"
+                             alt="Category"/>
+                    </div>
+                    <span class="category-card__text">Прикраси</span>
+                </li>
+                <li class="categories__item category-card">
+                    <div class="category-card__link">
+                        <img class="category-card__image"
+                             src="/img/Ellipse 13.png"
+                             alt="Category"/>
+                    </div>
+                    <span class="category-card__text">Телефони</span>
+                </li>
+                <li class="categories__item category-card">
+                    <div class="category-card__link">
+                        <img class="category-card__image"
+                             src="/img/Ellipse 14.png"
+                             alt="Category"/>
+                    </div>
+                    <span class="category-card__text">Ноутбуки</span>
+                </li>
+                <li class="categories__item category-card">
+                    <div class="category-card__link">
+                        <img class="category-card__image"
+                             src="/img/Ellipse 15.png"
+                             alt="Category"/>
+                    </div>
+                    <span class="category-card__text">Планшети</span>
+                </li>
+            </ul>
+        </div>
+        <div class="global-main__day-discount day-discount">
+            <div class="day-discount__top">
+                <h2 class="day-discount__header">Розпродаж Дня</h2>
+                <div class="day-discount__timer timer">
+                    <h4 class="timer__header">Закінчиться через</h4>
+                    <p class="timer__time" id="day-discount-timer"></p>
+                </div>
+            </div>
+            <div class="day-discount__bottom">
+
+                <div th:replace="/fragments/prod-cart.html::products-cart"></div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- footer_start  -->
+<div th:replace="/fragments/footer.html::footer"></div>
+<!-- footer_end  -->
+<script defer th:src="@{/js/main.js}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="/js/cart.js"></script>
+<script src="/js/ajax.js"></script>
+<script src="/js/producе.js"></script>
+</body>
+</html>

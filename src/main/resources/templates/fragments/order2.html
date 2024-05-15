@@ -1,4 +1,18 @@
 <ul class="order__list">
+    
+    <p th:if="${orders.size()==0 } and ${view=='1'}" class="order__item">
+        Наразі немає рекомендованих товарів для повторного замовлення. Ви також можете зробити своє
+        перше  замовлення. <a style="color: blue" href="/deals">перше  замовлення.</a></p>
+    <p th:if="${orders.size()==0} and ${view=='2'}" class="order__item" >
+        Наразі немає ще завершених замовленнь. Ви також можете зробити
+        <a style="color: blue" href="/deals">інше  замовлення.</a>
+    <p th:if="${orders.size()==0} and ${view=='3'}" class="order__item">
+        Наразі немає ще не  відправлених замовленнь. Ви також можете зробити
+        <a style="color: blue" href="/deals">інше  замовлення.</a>
+    </p>
+    <p th:if="${orders.size()==0} and ${view=='4'}" class="order__item" >
+        Наразі немає скасованих замовленнь. Ви також можете зробити
+        <a style="color: blue" href="/deals">інше  замовлення.</a></p>
     <!--/*@thymesVar id="orders" type="ArrayList<Order>"*/-->
     <block th:each="o : ${orders}">
         <!--/*@thymesVar id="p" type="Order"*/-->
@@ -16,7 +30,7 @@
                     <button th:onclick="|window.location.href='/product/get/1/?item=*{p.getId()}'|">Деталі
                         замовлення
                     </button>
-                    <button th:if="${view=='2'}">Написати відгук</button>
+                    <button th:if="${view=='2'}" th:onclick="|window.location.href='/response/*{p.getId()}/'|" >Написати відгук</button>
                     <button th:if="${view=='1'}">Відстежити</button>
                 </div>
             </div>

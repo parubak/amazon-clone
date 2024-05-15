@@ -24,8 +24,12 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public String index() {
-        return "index";
+    public String index(Model model) {
+
+        model.addAttribute("path", productService.getPath());
+
+        model.addAttribute("prodDTO", identityService.getAllProductDTO());
+        return "home";
     }
 
     @GetMapping("/deals")
@@ -41,9 +45,18 @@ public class HomeController {
 //        return "deals";
     }
 
+    @GetMapping("/service")
+    public String service() {
+        return "service";
+    }
     @GetMapping("/promo")
     public String promo() {
         return "promo";
+    }
+
+  @GetMapping("/promo-reg")
+    public String promoReg() {
+        return "promo-reg";
     }
 
     @GetMapping("/basket")
@@ -69,5 +82,10 @@ public class HomeController {
         model.addAttribute("orders",productService.findAllByUser_IdAndStatus(user.getId(),"1"));
 
         return "order";
+    }
+    @GetMapping("/response-ok")
+    public String responseOk() {
+
+        return "response-ok";
     }
 }

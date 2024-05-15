@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Обслуговування клієнтів</title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/fragments.css">
+    <link rel="stylesheet" href="/css/service.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+<!--header-->
+<div th:replace="/fragments/header.html::header"></div>
+<!--header-->
+
+<h1 class="page-name">Обслуговування клієнтів</h1>
+
+<div class="main">
+    <div class="service">
+        <div class="service__info">
+            <h3 class="service__title">Найчастіші запитання</h3>
+            <ul class="inf-service">
+                <li class="inf-service__item">
+                    <a class="inf-service__cart" href="">
+                        <img src="/img/cart/ellipse-i.png" alt="i">
+                        <p>Як замовляти</p>
+                    </a>
+                </li>
+                <li class="inf-service__item">
+                    <a class="inf-service__cart" href="">
+                        <img src="/img/cart/ellipse-i.png" alt="i">
+                        <p>Оплата</p>
+                    </a>
+                </li>
+                <li class="inf-service__item">
+                    <a class="inf-service__cart" href="">
+                        <img src="/img/cart/ellipse-i.png" alt="i">
+                        <p>Про нас</p>
+                    </a>
+                </li>
+                <li class="inf-service__item">
+                    <a class="inf-service__cart" href="">
+                        <img src="/img/cart/ellipse-i.png" alt="i">
+                        <p>Доставка</p>
+                    </a>
+                </li>
+                <li class="inf-service__item">
+                    <a class="inf-service__cart" href="">
+                        <img src="/img/cart/ellipse-i.png" alt="i">
+                        <p>Повернення товару</p>
+                    </a>
+                </li>
+                <li class="inf-service__item">
+                    <a class="inf-service__cart" href="">
+                        <img src="/img/cart/ellipse-i.png" alt="i">
+                        <p>Політика конфіденційності</p>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+        <div class="service__search">
+            <h3 class="service__title">Якщо не знайшли відповідь на ваше питання то скористайтеся пошуком</h3>
+            <form class="search-service">
+                <input class="search-service__text" placeholder="Пошук" id="search-service" type="text">
+                <label class="search-service__btn" for="search-service"></label>
+            </form>
+        </div>
+        <div class="service__asked">
+            <div class="ask-list">
+                <p class="asked-list__link" >Рекомендовані теми</p>
+                <p class="asked-list__link" >Де моє замовлення?</p>
+                <p class="asked-list__link" >Доставка і оплата</p>
+                <p class="asked-list__link" >Повернення товару</p>
+                <p class="asked-list__link" >Ваш аккаунт</p>
+                <p class="asked-list__link" >Про нас</p>
+            </div>
+            <div class="ask-cart">
+                <ul class="ask-cart__list">
+                    <li class="ask-cart__item">
+                        <h4 class="ask-cart__title">Як знайти відсутню посилку, яка відобра...</h4>
+                        <p class="ask-cart__body">Більшість посилок приходить вчасно, але інколи на відстеженнях може відображатися «доставлено», а посилки немає.</p>
+                    </li>
+                    <li class="ask-cart__item">
+                        <h4 class="ask-cart__title">Затримка доставки</h4>
+                        <p class="ask-cart__body">Більшість посилок приходить вчасно. Іноді замовлення з’являються після орієнтовної дати доставки.</p>
+                    </li>
+                    <li class="ask-cart__item">
+                        <h4 class="ask-cart__title">Відстеження відправлення</h4>
+                        <p class="ask-cart__body">Інформацію про відстеження можна знайти в деталях замовлення. Якщо замовлення включає кілька товарів, кожен може мати окремі дати...</p>
+                    </li>
+                    <li class="ask-cart__item">
+                        <h4 class="ask-cart__title">Повернення коштів</h4>
+                        <p class="ask-cart__body">Ви можете перевірити статус повернення коштів у розділі Ваші замовлення</p>
+                    </li>
+                    <li class="ask-cart__item">
+                        <h4 class="ask-cart__title">Скасування замовлення</h4>
+                        <p class="ask-cart__body">Ви можете скасувати товари або замовлення, які ще не надійшли в процес доставки.</p>
+                    </li>
+                    <li class="ask-cart__item">
+                        <h4 class="ask-cart__title">Пошкоджене замовлення</h4>
+                        <p class="ask-cart__body">Якщо ви отримали пошкоджений, дефектний або неправильний товар ви можете подати запит на заміну невеликої кількості</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- footer_start  -->
+<div th:replace="/fragments/footer.html::footer"></div>
+<!-- footer_end  -->
+</body>
+
+<script>
+    let eList=document.querySelector(".ask-list");
+    for (let e of eList.children) {
+        e.addEventListener("click", (e)=>{
+            for (const el of eList.children) {
+                el.classList.remove("asked-list__link--active");
+            }
+            e.target.classList.add("asked-list__link--active");
+        } )
+    }
+</script>
+</html>

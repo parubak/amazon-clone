@@ -27,23 +27,9 @@ public class ProductController {
 
         model.addAttribute("product", product);
 
-        switch (id) {
-            case (1) -> {
                 model.addAttribute("tShirts", productItem);
                 return  "t-shirts";
-            }
-            case (2) -> {
-//                model.addAttribute("decor", product.getDecorations().stream().toList().get(item));
-                return "fragments/list_products";
-            }
-            case (3) -> {
-//                model.addAttribute("sundress", product.getSundress().stream().toList().get(item));
-                return "sundress";
-            }
-            default -> {
-//                model.addAttribute("p-item", product.getSundress().stream().toList().get(item));
-                return "product-item";}
-        }
+
 
     }
 

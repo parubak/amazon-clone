@@ -19,7 +19,7 @@ public class Identity {
     @Column(name="id")
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @MapsId
     private Product product;
 
@@ -29,6 +29,4 @@ public class Identity {
     @ManyToOne
     private Category category;
 
-    @ManyToOne
-    private  Subgroup subgroup;
 }

@@ -38,4 +38,7 @@ public class Product {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
     private Collection<ProductItem> productItems= new ArrayList<>();;
+
+    @ManyToOne
+    private  Subgroup subgroup;
 }

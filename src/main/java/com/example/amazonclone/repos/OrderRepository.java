@@ -12,5 +12,6 @@ public interface OrderRepository extends CrudRepository<Order, Long> {
 
     public ArrayList<Order> findAllByUser_Id(Long id);
     public ArrayList<Order> findAllByUser_IdAndStatus(Long id, String status);
+//    public ArrayList<Order> findAllByUser_IdAndStatusaAndProductItems(Long id, String status);
 
 }

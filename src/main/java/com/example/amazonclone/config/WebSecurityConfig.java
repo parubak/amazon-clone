@@ -35,7 +35,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                                 .requestMatchers("/dell/**").permitAll()
                                 .requestMatchers("/styles/**").denyAll()
                                 .requestMatchers("/").permitAll()
-                                .requestMatchers("/basket/**").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers("/basket/**","/order").hasAnyRole("USER", "ADMIN")
                                 .requestMatchers("/admin/**").hasAnyRole("ADMIN")
 //                        .anyRequest().authenticated()
                                 .anyRequest().permitAll()

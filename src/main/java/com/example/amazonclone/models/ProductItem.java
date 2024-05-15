@@ -43,7 +43,7 @@ public class ProductItem {
     @JoinColumn(name="product_id", nullable = false)
     private Product product;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Collection<Size> sizes = new ArrayList<>();
 
 

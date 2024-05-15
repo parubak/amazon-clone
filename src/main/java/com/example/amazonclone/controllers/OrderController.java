@@ -1,12 +1,10 @@
 package com.example.amazonclone.controllers;
 
-import com.example.amazonclone.models.Order;
-import com.example.amazonclone.models.Product;
-import com.example.amazonclone.models.ProductItem;
-import com.example.amazonclone.models.User;
+import com.example.amazonclone.models.*;
 import com.example.amazonclone.services.IdentityService;
 import com.example.amazonclone.services.ProductService;
 import com.example.amazonclone.services.UserService;
+import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -16,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 
 @Controller
@@ -63,5 +62,41 @@ public class OrderController {
 
         return  "fragments/order2";
     }
+    @GetMapping("/response/{id}/")
+    public String response(@PathVariable Long id, Model model) {
+
+        ProductItem productItem =productService.getProductItemById(id);
+
+        model.addAttribute("product", productItem);
+        return  "response";
+    }
+
+    @PostMapping(value = "/responseAdd/")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> responseAdd(Long prodItm, String file, String comment, Double riting) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
+
+        ProductItem pItem= productService.getProductItemById(prodItm);
+        CommentImage commentImage=new CommentImage(){{setImage(file);}};
+
+        Comment newComment=new Comment() {{
+//            setColor(pItem.getColor());
+//        setCreateDate(new Date());
+        setRating(riting);
+//        setText(comment);
+//        setUserName(user.getFirstName());
+        setProduct(pItem.getProduct());
+//        getCommentImages().add(commentImage);
+        }};
+
+
+//        productService.saveComment(newComment);
+
+
+        return new ResponseEntity<>("Замовлено", HttpStatus.OK);
+    }
+
 
 }

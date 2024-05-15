@@ -5,6 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -16,8 +20,21 @@ public class Comment {
     @Column(name="id")
     private Long id;
 
-    @Column(name="group_name",nullable=false)
-    private String name;
+    Date createDate;
+
+    String userName;
+
+    String color;
+
+    String size;
+    @Column(name = "text",length = 500)
+    String text;
+
+    @Column(name="rating",nullable=false)
+    private double rating;
+
+    @OneToMany( cascade = CascadeType.REMOVE)
+    private Collection<CommentImage> commentImages = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "product_id")

@@ -24,7 +24,7 @@ public class Subgroup {
     private String name;
 
     @OneToMany(mappedBy="subgroup")
-    private Collection<Identity> identities= new ArrayList<>();
+    private Collection<Product> products = new ArrayList<>();
 
     @OneToMany(mappedBy="subgroup")
     private Collection<SubInfo> subInfos= new ArrayList<>();

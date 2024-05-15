@@ -31,6 +31,6 @@ public class Order {
     private User user;
 
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Collection<ProductItem> productItems= new ArrayList<>();
 }

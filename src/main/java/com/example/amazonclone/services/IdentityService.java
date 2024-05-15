@@ -36,7 +36,7 @@ public class IdentityService {
         ArrayList<ProductDTO> dtos = new ArrayList<>();
         identities.forEach(i -> {
             Product p = i.getProduct();
-            p.getProductItems().forEach(t -> dtos.add(new ProductDTO(t, t.getDiscount(), i.getSubgroup().getId(), t.getImage(), p)));
+            p.getProductItems().forEach(t -> dtos.add(new ProductDTO(t, t.getDiscount(), t.getImage(), p)));
         });
         return dtos;
     }

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Створення відгуку</title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/fragments.css">
+    <link rel="stylesheet" href="/css/response.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+<!--header-->
+<div th:replace="/fragments/header.html::header"></div>
+<!--header-->
+
+<h1 class="page-name">Створення відгуку</h1>
+
+<div class="main">
+    <form id="formResponse" class="response" th:data-id="${product.getId()}">
+
+        <div class="order-cart">
+            <div class="order-cart__img">
+                <img th:src="|/img/${product.getImage()}|">
+            </div>
+            <div class="order-cart__body">
+                <h3 class="order-cart__title" th:text="${product.getProduct().getName()}"></h3>
+            </div>
+        </div>
+        <div class="total-rating">
+            <h2 class="response__title">Загальний відгук</h2>
+            <div class="rating">
+                <div class="rating__body">
+                    <div class="rating__active"></div>
+                    <div class="rating__items">
+                        <input type="radio" class="rating__item" >
+                        <input type="radio" class="rating__item" >
+                        <input type="radio" class="rating__item" >
+                        <input type="radio" class="rating__item" >
+                        <input type="radio" class="rating__item" >
+                    </div>
+                </div>
+                <!--                <div class="rating__value">3.6</div>-->
+            </div>
+
+        </div>
+        <div class="other-rating">
+            <div class="other-rating__body">
+                <h3>Якість</h3>
+                <div class="simple-rating">
+                    <div class="simple-rating__items">
+                        <input id="quality_5" type="radio" class="simple-rating__item" name="quality"
+                               value="5">
+                        <label for="quality_5" class="simple-rating__label"></label>
+                        <input id="quality_4" type="radio" class="simple-rating__item" name="quality"
+                               value="4">
+                        <label for="quality_4" class="simple-rating__label"></label>
+                        <input id="quality_3" type="radio" class="simple-rating__item" name="quality"
+                               value="3">
+                        <label for="quality_3" class="simple-rating__label"></label>
+                        <input id="quality_2" type="radio" class="simple-rating__item" name="quality"
+                               value="2">
+                        <label for="quality_2" class="simple-rating__label"></label>
+                        <input id="quality_1" type="radio" class="simple-rating__item" name="quality" value="1">
+                        <label for="quality_1" class="simple-rating__label"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="other-rating__body">
+                <h3>Співвідношення до ціни</h3>
+                <div class="simple-rating">
+                    <div class="simple-rating__items">
+                        <input id="сorrelation_5" type="radio" class="simple-rating__item" name="сorrelation"
+                               value="5">
+                        <label for="сorrelation_5" class="simple-rating__label"></label>
+                        <input id="сorrelation_4" type="radio" class="simple-rating__item" name="сorrelation"
+                               value="4">
+                        <label for="сorrelation_4" class="simple-rating__label"></label>
+                        <input id="сorrelation_3" type="radio" class="simple-rating__item" name="сorrelation"
+                               value="3">
+                        <label for="сorrelation_3" class="simple-rating__label"></label>
+                        <input id="сorrelation_2" type="radio" class="simple-rating__item" name="сorrelation"
+                               value="2">
+                        <label for="сorrelation_2" class="simple-rating__label"></label>
+                        <input id="сorrelation_1" type="radio" class="simple-rating__item" name="сorrelation"
+                               value="1">
+                        <label for="сorrelation_1" class="simple-rating__label"></label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="other-rating__body">
+                <h3>Швидкість доставки</h3>
+                <div class="simple-rating">
+                    <div class="simple-rating__items">
+                        <input id="delivery_5" type="radio" class="simple-rating__item" name="delivery"
+                               value="5">
+                        <label for="delivery_5" class="simple-rating__label"></label>
+                        <input id="delivery_4" type="radio" class="simple-rating__item" name="delivery"
+                               value="4">
+                        <label for="delivery_4" class="simple-rating__label"></label>
+                        <input id="delivery_3" type="radio" class="simple-rating__item" name="delivery"
+                               value="3">
+                        <label for="delivery_3" class="simple-rating__label"></label>
+                        <input id="delivery_2" type="radio" class="simple-rating__item" name="delivery"
+                               value="2">
+                        <label for="delivery_2" class="simple-rating__label"></label>
+                        <input id="delivery_1" type="radio" class="simple-rating__item" name="delivery"
+                               value="1">
+                        <label for="delivery_1" class="simple-rating__label"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="response__photo">
+            <h2 class="response__title">Додайте фото до вашого відгуку</h2>
+            <input id="file" type="file" name="file">
+            <img src="/img/rating/rating-photo.png">
+        </div>
+        <div class="response__comment">
+            <h2 class="response__title">Коментар до відгуку</h2>
+            <textarea id="comment" name="comment" rows="8" cols="70" size="500" placeholder="Що для вас булo найцікавішим?"></textarea>
+        </div>
+
+<!--        <button class="response__btn" th:onclick="btn()">Надіслати відгук</button>-->
+        <button class="response__btn"  type="submit" >Надіслати відгук</button>
+    </form>
+
+</div>
+
+<!-- footer_start  -->
+<div th:replace="/fragments/footer.html::footer"></div>
+<!-- footer_end  -->
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="/js/rating.js"></script>
+
+</html>

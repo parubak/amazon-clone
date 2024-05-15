@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Дякуємо за відгук</title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/fragments.css">
+    <link rel="stylesheet" href="/css/response.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
+    <style>
+        .main {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            margin-bottom: 200px;
+            }
+        .main a{
+
+            padding: 15px 30px;
+            font-size: 24px;
+        }
+
+    </style>
+</head>
+<body>
+<!--header-->
+<div th:replace="/fragments/header.html::header"></div>
+<!--header-->
+
+
+<div class="main">
+    <img src="/img/Rectangle 204.png">
+    <p class="page-name">Дякуємо за відгук!</p>
+    <a class="response__btn" href="/">Повернутися на головну</a>
+</div>
+
+<!-- footer_start  -->
+<div th:replace="/fragments/footer.html::footer"></div>
+<!-- footer_end  -->
+</body>
+
+</html>

@@ -1,0 +1,347 @@
+.section {
+    max-width: 90%;
+    margin: 2rem auto;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    grid-gap: 100px;
+}
+
+.section__headline {
+    position: sticky;
+    top: 1rem;
+    align-self: start;
+    padding-right: 20px;
+}
+
+.section__products {
+    display: grid;
+    /*grid-template-columns: repeat(auto-fit, minmax(20%, 1fr));*/
+    grid-template-columns: repeat(auto-fit, minmax(100px, 190px));
+    grid-gap: 45px;
+}
+
+.section__products-item {
+    /*background-color: lightblue;*/
+    /*border-radius: 4px;*/
+}
+
+/*pagination*/
+.pagination {
+
+}
+
+pagination__nav {
+
+}
+
+.pagination__cd {
+    max-width: 600px;
+    margin: 2em auto 4em;
+    text-align: center;
+}
+
+.pagination__cd li.pagination__button {
+    /* make sure prev next buttons are visible */
+    display: inline-block;
+}
+
+.pagination__cd a, .pagination__cd span {
+    display: inline-block;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    /* use padding and font-size to change buttons size */
+    padding: .6em .8em;
+    font-size: 1.6rem;
+}
+
+.pagination__cd a {
+    border: 1px solid #000000;
+    border-radius: 0.25em;
+}
+
+.no-touch .pagination__cd a:hover {
+    background-color: #f2f2f2;
+}
+
+.pagination__cd a:active {
+    /* click effect */
+    -webkit-transform: scale(0.9);
+    -moz-transform: scale(0.9);
+    -ms-transform: scale(0.9);
+    -o-transform: scale(0.9);
+    transform: scale(0.9);
+}
+
+.pagination__cd a.disabled {
+    /* button disabled */
+    color: rgba(46, 64, 87, 0.4);
+    pointer-events: none;
+}
+
+.pagination__cd a.disabled::before, .pagination__cd a.disabled::after {
+    opacity: .4;
+}
+
+.pagination__cd .pagination__button:first-of-type a::before {
+    content: '\00ab  ';
+}
+
+.pagination__cd .pagination__button:last-of-type a::after {
+    content: ' \00bb';
+}
+
+.pagination__cd .pagination__current {
+    /* selected number */
+    border-color: #000000;
+    pointer-events: none;
+    border-width: 2px;
+}
+
+.pagination__cd li {
+    display: inline-block;
+}
+
+.pagination__cd li span {
+    border: 1px solid #A4A4A4;
+    border-radius: 0.25em;
+    pointer-events: none;
+}
+
+/*custom buttons - replace prev and next buttons text with a custom icon*/
+
+/*                 -------------------------------- *!*/
+.pagination__cd.pagination__buttons a, .pagination__cd.pagination__buttons span {
+    vertical-align: middle;
+}
+
+.pagination__cd.pagination__buttons .pagination__button a {
+    width: 40px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-indent: 100%;
+    color: transparent;
+    background-image: url("/imgs/deals/polygon1.svg");
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.pagination__cd.pagination__buttons .pagination__button:last-of-type a {
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
+.no-touch .pagination__cd.pagination__buttons .pagination__button:last-of-type a:active {
+    -webkit-transform: scale(0.9) rotate(180deg);
+    -moz-transform: scale(0.9) rotate(180deg);
+    -ms-transform: scale(0.9) rotate(180deg);
+    -o-transform: scale(0.9) rotate(180deg);
+    transform: scale(0.9) rotate(180deg);
+}
+
+.pagination__cd.no-space.pagination__buttons .pagination__button:last-of-type a {
+    border-radius: 0.25em 0 0 0.25em;
+}
+
+/*pagination*/
+
+/*filter-menu*/
+.filter-menu {
+
+}
+
+.filter-menu a {
+    font-family: Inter;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 26.63px;
+    text-align: left;
+    display: block;
+}
+
+.filter-menu__title {
+    font-family: Inter sans-serif;
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 31.47px;
+    text-align: left;
+    padding-top: 25px;
+    padding-bottom: 10px;
+
+}
+
+.filter-menu__subtitle {
+    font-family: Inter;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 29.05px;
+    text-align: left;
+}
+
+/*accordion__menu*/
+
+.accordion {
+    max-width: 500px;
+    margin: auto;
+}
+
+.accordion__item {
+    /*border: 1px solid #0b76ef;*/
+    font-family: Inter;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 24.2px;
+    text-align: left;
+    color: #000000;
+}
+
+.accordion__title {
+    display: block;
+    cursor: pointer;
+    padding: 5px 0;
+    position: relative;
+    transition: background .2s ease-out;
+}
+
+.accordion__down:after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    display: block;
+    background-image: url("/imgs/deals/polygon_top.svg");
+    background-repeat: no-repeat;
+    background-position: right center;
+
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+}
+
+.accordion__title:before {
+    content: '';
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border: 1px solid #D9D9D9;
+    border-radius: 50%;
+    margin-right: 0.5em;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 15px 15px;
+    transform: translateY(15%);
+
+}
+
+.accordion__title:hover:before {
+    /*background: #FA6338;*/
+    box-shadow: 0 0 0.1rem 0.1rem rgba(0, 123, 255, 0.25);
+
+}
+
+.accordion__input {
+    width: 0;
+    height: 0;
+    -webkit-appearance: none;
+    appearance: none;
+    position: absolute;
+}
+
+.accordion__input:checked ~ .accordion__body {
+    display: block;
+}
+
+.accordion__input:checked + .accordion__title:before {
+    border-color: #7581E9;
+    background-color: #7581E9;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
+
+}
+
+.accordion__input:checked + .accordion__down:after {
+    background-position: left center;
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.accordion__body {
+    display: none;
+    padding-left: 30px;
+}
+
+/*accordion__menu*/
+
+.sort {
+    font-family: Inter;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 21.78px;
+    text-align: left;
+
+    display: flex;
+    justify-content: right;
+    padding: 35px 10px 0;
+}
+
+.sort__container {
+    width: 170px;
+    margin-right: 5%;
+}
+
+.sort__title {
+    display: block;
+    cursor: pointer;
+    padding: 5px 10px;
+    position: relative;
+    transition: background .2s ease-out;
+}
+
+.sort__down:after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    display: block;
+    background-image: url("/imgs/deals/polygon_top.svg");
+    background-repeat: no-repeat;
+    background-position: right center;
+
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+}
+
+.sort__input {
+    width: 0;
+    height: 0;
+    -webkit-appearance: none;
+    appearance: none;
+    position: absolute;
+}
+
+.sort__input:checked ~ .sort__body {
+    display: block;
+}
+
+.sort__input:checked + .sort__down:after {
+    background-position: left center;
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.sort__body {
+    min-width: 150px;
+    display: none;
+    position: absolute;
+    padding: 0 10px 10px 10px;
+    background-color: white;
+    border-radius: 15px;
+
+}
+
+.sort__link {
+    display: block;
+    padding: 5px 0;
+}

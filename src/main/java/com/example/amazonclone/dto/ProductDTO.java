@@ -16,8 +16,6 @@ public class ProductDTO {
 
     private Discount discount;
 
-    private Long category;
-
     private String mainImage;
 
     private Product product;

@@ -1,8 +1,10 @@
 package com.example.amazonclone.services;
 
+import com.example.amazonclone.models.Comment;
 import com.example.amazonclone.models.Order;
 import com.example.amazonclone.models.Product;
 import com.example.amazonclone.models.ProductItem;
+import com.example.amazonclone.repos.CommentRepository;
 import com.example.amazonclone.repos.OrderRepository;
 import com.example.amazonclone.repos.ProductItemRepository;
 import com.example.amazonclone.repos.ProductRepository;
@@ -21,10 +23,15 @@ public class ProductService  {
 
     ProductItemRepository productItemRepository;
 
-    public ProductService(ProductRepository productRepository,     ProductItemRepository productItemRepository, OrderRepository orderRepository) {
+    @Autowired
+    CommentRepository commentRepository;
+
+    public ProductService(ProductRepository productRepository, ProductItemRepository productItemRepository,
+                          OrderRepository orderRepository) {
 this.orderRepository=orderRepository;
         this.productRepository = productRepository;
         this.productItemRepository=productItemRepository;
+//        this.commentRepository=commentRepository;
 
     }
     public ProductItem getProductItemById(Long id){
@@ -59,4 +66,12 @@ this.orderRepository=orderRepository;
         return orderRepository.findAllByUser_IdAndStatus(id,status);
     }
 
+    public void saveComment(Comment newComment) {
+        System.out.println("newComment = " + newComment.getRating());
+
+        Product p=productRepository.findById(1L).get();
+        System.out.println("newComment = " + p.getName());
+        commentRepository.save(new Comment(){{setRating(12d);
+        setProduct(p);}});
+    }
 }
