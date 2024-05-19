@@ -16,21 +16,21 @@
     <!--/*@thymesVar id="orders" type="ArrayList<Order>"*/-->
     <block th:each="o : ${orders}">
         <!--/*@thymesVar id="p" type="Order"*/-->
-        <li class="order__item" th:each="p : *{o.getProductItems()}">
+        <li class="order__item">
             <div class="order-cart">
                 <div class="order-cart__img">
-                    <img th:src="|/img/*{p.getImage()}|">
+                    <img th:src="|/img/*{o.getProductItem().getImage()}|">
                 </div>
                 <div class="order-cart__body">
-                    <h3 th:text="*{p.getProduct().getName()}" class="order-cart__title"></h3>
-                    <p th:text="*{p.getPrice()}" class="order-cart__price"></p>
-                    <a th:onclick="|buyBtn(*{p.getId()})|" class="order-cart__btn">Замовити знову</a>
+                    <h3 th:text="*{o.getProductItem().getProduct().getName()}" class="order-cart__title"></h3>
+                    <p th:text="*{o.getProductItem().getPrice()}" class="order-cart__price"></p>
+                    <a th:onclick="|buyBtn(*{o.getProductItem().getId()})|" class="order-cart__btn">Замовити знову</a>
                 </div>
                 <div class="order-cart__bottoms">
-                    <button th:onclick="|window.location.href='/product/get/1/?item=*{p.getId()}'|">Деталі
+                    <button th:onclick="|window.location.href='/product/get/1/?item=*{o.getProductItem().getId()}'|">Деталі
                         замовлення
                     </button>
-                    <button th:if="${view=='2'}" th:onclick="|window.location.href='/response/*{p.getId()}/'|" >Написати відгук</button>
+                    <button th:if="${view=='2'}" th:onclick="|window.location.href='/response/*{o.getId()}/'|" >Написати відгук</button>
                     <button th:if="${view=='1'}">Відстежити</button>
                 </div>
             </div>

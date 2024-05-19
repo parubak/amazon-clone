@@ -26,11 +26,18 @@ public class Order {
     @Column(name="status")
     String status;
 
+    @Column(name="size")
+    String size;
+
     @ManyToOne
     @JoinColumn(name="user_id", nullable = false)
     private User user;
 
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Collection<ProductItem> productItems= new ArrayList<>();
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "product_item_id", referencedColumnName = "id")
+    private ProductItem productItem;
+
+
+
 }

@@ -24,19 +24,19 @@ public class IdentityService {
         return bildProductDTO((ArrayList<Identity>) identityRepository.findAll());
     }
 
-//    public ArrayList<ProductDTO> findAllByOrderByProductPriceAsc() {
-//        return bildProductDTO(identityRepository.findAllByOrderByProductPriceAsc());
-//    }
-//
-//    public ArrayList<ProductDTO> findAllByOrderByProductPriceDesc() {
-//        return bildProductDTO(identityRepository.findAllByOrderByProductPriceDesc());
-//    }
+    public ArrayList<ProductDTO> findAllByOrderByProductPriceAsc() {
+        return bildProductDTO(identityRepository.findAllByOrderByProductAsc());
+    }
+
+    public ArrayList<ProductDTO> findAllByOrderByProductPriceDesc() {
+        return bildProductDTO(identityRepository.findAllByOrderByProductDesc());
+    }
 
     private ArrayList<ProductDTO> bildProductDTO(ArrayList<Identity> identities) {
         ArrayList<ProductDTO> dtos = new ArrayList<>();
         identities.forEach(i -> {
             Product p = i.getProduct();
-            p.getProductItems().forEach(t -> dtos.add(new ProductDTO(t, t.getDiscount(), t.getImage(), p)));
+            p.getProductItems().forEach(t -> dtos.add(new ProductDTO(t, t.getPrice(), t.getDiscount(), t.getImage(),p)));
         });
         return dtos;
     }

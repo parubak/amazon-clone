@@ -1,20 +1,14 @@
 package com.example.amazonclone.services;
 
-import com.example.amazonclone.models.Comment;
-import com.example.amazonclone.models.Order;
-import com.example.amazonclone.models.Product;
-import com.example.amazonclone.models.ProductItem;
-import com.example.amazonclone.repos.CommentRepository;
-import com.example.amazonclone.repos.OrderRepository;
-import com.example.amazonclone.repos.ProductItemRepository;
-import com.example.amazonclone.repos.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.amazonclone.models.*;
+import com.example.amazonclone.repos.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+
 @Service
-public class ProductService  {
+public class ProductService {
     @Value("${upload.path}")
     private String uploadPath;
 
@@ -23,18 +17,25 @@ public class ProductService  {
 
     ProductItemRepository productItemRepository;
 
-    @Autowired
     CommentRepository commentRepository;
 
+    CommentImageRepository commentImageRepository;
+
+    SellerRepository sellerRepository;
+
     public ProductService(ProductRepository productRepository, ProductItemRepository productItemRepository,
-                          OrderRepository orderRepository) {
-this.orderRepository=orderRepository;
+                          OrderRepository orderRepository, CommentRepository commentRepository, CommentImageRepository commentImageRepository
+            , SellerRepository sellerRepository) {
+        this.orderRepository = orderRepository;
         this.productRepository = productRepository;
-        this.productItemRepository=productItemRepository;
-//        this.commentRepository=commentRepository;
+        this.productItemRepository = productItemRepository;
+        this.commentRepository = commentRepository;
+        this.commentImageRepository = commentImageRepository;
+        this.sellerRepository=sellerRepository;
 
     }
-    public ProductItem getProductItemById(Long id){
+
+    public ProductItem getProductItemById(Long id) {
         return productItemRepository.findById(id).orElseThrow();
     }
 
@@ -42,36 +43,40 @@ this.orderRepository=orderRepository;
         return (ArrayList<Product>) productRepository.findAll();
     }
 
-    public String getPath(){
+    public String getPath() {
         return uploadPath;
     }
 
-    public Order saveOrder(Order order){
-     return   orderRepository.save(order);
+    public Order saveOrder(Order order) {
+        return orderRepository.save(order);
 
     }
 
-    public Order getOrder(Long id){
+    public Order getOrder(Long id) {
         return orderRepository.findById(id).get();
     }
 
-    public ArrayList<Order> getAllOrders(){
+    public ArrayList<Order> getAllOrders() {
         return (ArrayList<Order>) orderRepository.findAll();
     }
 
-    public ArrayList<Order> findAllByUser_Id(Long id){
+    public ArrayList<Order> findAllByUser_Id(Long id) {
         return orderRepository.findAllByUser_Id(id);
     }
-    public ArrayList<Order> findAllByUser_IdAndStatus(Long id, String status){
-        return orderRepository.findAllByUser_IdAndStatus(id,status);
+
+    public ArrayList<Order> findAllByUser_IdAndStatus(Long id, String status) {
+        return orderRepository.findAllByUser_IdAndStatus(id, status);
     }
 
-    public void saveComment(Comment newComment) {
-        System.out.println("newComment = " + newComment.getRating());
+    public Comment saveComment(Comment comment) {
+        return commentRepository.save(comment);
+    }
 
-        Product p=productRepository.findById(1L).get();
-        System.out.println("newComment = " + p.getName());
-        commentRepository.save(new Comment(){{setRating(12d);
-        setProduct(p);}});
+    public CommentImage saveCommentImage(CommentImage image) {
+        return commentImageRepository.save(image);
+    }
+
+    public Seller getShop(Long id) {
+        return sellerRepository.findById(id).get();
     }
 }

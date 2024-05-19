@@ -1,83 +1,84 @@
-html {
-    margin: 0;
-    padding: 0;
-}
+/*html {*/
+/*    margin: 0;*/
+/*    padding: 0;*/
+/*}*/
 
-body {
-    margin: 0;
-    padding: 0;
-    font-family: Inter, 'sans-serif';
-    font-size: 20px;
-}
+/*body {*/
+/*    margin: 0;*/
+/*    padding: 0;*/
+/*    font-family: Inter, 'sans-serif';*/
+/*    font-size: 20px;*/
+/*}*/
 
-a {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}
+/*a {*/
+/*    color: #000;*/
+/*    text-decoration: none;*/
+/*    cursor: pointer;*/
+/*}*/
 
 .wrapper {
-    margin: 0 100px;
+    padding: 80px;
+    /*margin: 0 100px;*/
 }
 
-.global-header {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    padding: 20px 0 30px 0;
-}
+/*.global-header {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    width: 100%;*/
+/*    padding: 20px 0 30px 0;*/
+/*}*/
 
-.global-header__navbar {
-    width: 100%;
-}
+/*.global-header__navbar {*/
+/*    width: 100%;*/
+/*}*/
 
-.navbar__top {
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    align-items: center;
-}
+/*.navbar__top {*/
+/*    display: flex;*/
+/*    flex-wrap: nowrap;*/
+/*    justify-content: space-between;*/
+/*    align-items: center;*/
+/*}*/
 
-.navbar__list {
-    list-style: none;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 180px;
-}
+/*.navbar__list {*/
+/*    list-style: none;*/
+/*    display: flex;*/
+/*    justify-content: space-between;*/
+/*    align-items: center;*/
+/*    padding: 0 180px;*/
+/*}*/
 
-.search-form {
-    position: relative;
-    width: 100%;
-    margin: 0 75px;
-}
+/*.search-form {*/
+/*    position: relative;*/
+/*    width: 100%;*/
+/*    margin: 0 75px;*/
+/*}*/
 
-.search-form__block {
-    position: relative;
-}
+/*.search-form__block {*/
+/*    position: relative;*/
+/*}*/
 
-.search-form__input {
-    width: 100%;
-    border: 2px solid #000000;
-    box-sizing: border-box;
-    border-radius: 25px;
-    padding: 8px 50px 8px 30px;
-    font-size: 20px;
-}
+/*.search-form__input {*/
+/*    width: 100%;*/
+/*    border: 2px solid #000000;*/
+/*    box-sizing: border-box;*/
+/*    border-radius: 25px;*/
+/*    padding: 8px 50px 8px 30px;*/
+/*    font-size: 20px;*/
+/*}*/
 
-.search-form__submit {
-    position: absolute;
-    right: 0;
-    top: 0;
-    cursor: pointer;
-    border: 2px solid #000000;
-    border-radius: 0 25px 25px 0;
-    background: #000000;
-    height: 100%;
-    aspect-ratio: 1;
-}
+/*.search-form__submit {*/
+/*    position: absolute;*/
+/*    right: 0;*/
+/*    top: 0;*/
+/*    cursor: pointer;*/
+/*    border: 2px solid #000000;*/
+/*    border-radius: 0 25px 25px 0;*/
+/*    background: #000000;*/
+/*    height: 100%;*/
+/*    aspect-ratio: 1;*/
+/*}*/
 
 /*.basket !*global-header__basket*! {*/
 /*    display: flex;*/
@@ -103,20 +104,21 @@ a {
     display: flex;
     flex-flow: wrap;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
     list-style-type: none;
+    grid-gap: 70px;
 }
 
 .category-card {
     text-align: center;
-    margin-top: 80px;
+    /*margin-top: 80px;*/
 }
 
 .category-card__link {
-    width: 350px;
-    height: 350px;
+    width: 265px;
+    height: 265px;
     cursor: pointer;
-    margin-bottom: 30px;
+    /*margin-bottom: 30px;*/
 }
 
 .category-card__image {
@@ -128,7 +130,7 @@ a {
 }
 
 .category-card__text {
-    font-size: 40px;
+
 }
 
 .day-discount {
@@ -145,8 +147,6 @@ a {
 
 .day-discount__header {
     display: inline-block;
-    font-size: 64px;
-    font-weight: 500;
 }
 
 .day-discount__timer {
@@ -161,14 +161,17 @@ a {
 
 .timer__header {
     display: inline-block;
-    font-size: 40px;
+    /*font-size: 40px;*/
 }
 
 .timer__time {
+    width: 140px;
+    height: 40px;
+    align-content: center;
+    text-align: center;
     display: inline-block;
-    margin-left: 30px;
-    padding: 10px 20px;
-    font-size: 26px;
+    margin-left: 22px;
+    /*font-size: 26px;*/
     background: #E0DEE0;
     color: #767476;
     font-weight: 700;

@@ -6,18 +6,67 @@
     <link rel="stylesheet" href="/css/global.css">
     <link rel="stylesheet" href="/css/fragments.css">
     <link rel="stylesheet" href="/css/product.css">
+    <link rel="stylesheet" href="/css/constants.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
 </head>
 <body>
+
 <!--header-->
 <div th:replace="/fragments/header.html::header"></div>
 <!--header-->
+<main>
 <div id="product22">
-<block th:replace="/fragments/product.html"></block>
+    <block th:replace="/fragments/product.html"></block>
 </div>
+<div class="comment">
+    <div class="comment__body">
+    <h2 class="text-r-32 text-medium">Відгуки</h2>
+    <ul class="comment__list">
+        <li class="comment__item" th:each="c : ${product.getComments()}">
+            <div class="comment__create">
+                <span class="comment__author text-r-20 text-medium" th:text="*{c.getUserName()}"></span>
+                <span class="comment__date text-r-20" th:text="*{#dates.format(c.getCreateDate(), 'dd.MM.yyyy')}"></span>
+            </div>
+            <div class="comment__star">
+                <div class="rating">
+                    <div class="rating__body">
+                        <div class="rating__active" th:style="|width: *{c.getRating()*20}%|"></div>
+                        <div class="rating__items">
+                            <input type="radio" class="rating__item" >
+                            <input type="radio" class="rating__item" >
+                            <input type="radio" class="rating__item" >
+                            <input type="radio" class="rating__item" >
+                            <input type="radio" class="rating__item" >
+                        </div>
+                    </div>
+                    <!--                <div class="rating__value">3.6</div>-->
+                </div>
+            </div>
+            <div class="comment__details">
+                <p class="text-r-20">
+                    <span class="comment__param  text-medium">Колір:</span>
+                    <span class="comment__value" th:text="*{c.getColor()}"></span>
+                </p>
+                <p class="text-r-20">
+                    <span class="comment__param text-medium">Розмір:</span>
+                    <span class="comment__value" th:text="*{c.getSize()}"></span>
+                </p>
+            </div>
+            <div class="comment__content">
+                <p class="comment__text text-r-24" th:text="*{c.getText()}"></p>
+                <div class="comment__photos" >
+                    <img th:src="'/img/'+ *{i.image}" th:each="i : *{c.getCommentImages()}">
+                </div>
+            </div>
+        </li>
+    </ul>
+
+    </div>
+</div>
+</main>
 
 <!-- footer_start  -->
 <div th:replace="/fragments/footer.html::footer"></div>

@@ -56,10 +56,15 @@ formResponse.onsubmit = (e) => {
     const url = "http://localhost:8080/responseAdd/";
 
     var fd = new FormData();
-    fd.append( 'prodItm', formResponse.dataset.id);
-    fd.append( 'file', formResponse.file.files[0].name);
+    fd.append( 'orderId', formResponse.dataset.id);
+    if (formResponse.file.files.length>0){
+        fd.append( 'file', formResponse.file.files[0].name);
+    }
+
     fd.append( 'comment', formResponse.comment.value);
     fd.append( 'riting', 0.05*parseInt(rating));
+
+    console.log(fd);
 
     $.ajax({
         url: url,
@@ -74,18 +79,4 @@ formResponse.onsubmit = (e) => {
         }
     });
 
-    console.log("erwer");
-    // $.ajax({
-    //     url:url,
-    //     method: "post",
-    //     // contentType: 'application/json',
-    //     data:formResponse,
-    //     error: function (message) {
-    //         console.log(message);
-    //     },
-    //     success: function (data) {
-    //
-    //         window.href="/";
-    //     }
-    // });
 };

@@ -13,7 +13,7 @@
         </div>
     </div>
     <div class="product__info">
-        <a href="" class="product__shop-link" th:text="|Відвідайте магазин ${product.getSeller().getName()}|"></a>
+        <a th:href="|/getShop/${product.getSeller().getId()}/|" class="product__shop-link" th:text="|Відвідайте магазин ${product.getSeller().getName()}|"></a>
         <h2 class="product__name" th:text="${product.getName()}"></h2>
         <div class="product__rating">
         </div>
@@ -24,9 +24,9 @@
         </div>
         <div class="product__value">
             <h3>Розмір: </h3>
-            <th:block th:each="s : ${tShirts.getSizes()}">
-            <span class="product__size" th:text="*{s.getName()}"></span>
-            </th:block>
+            <div class="product__size-list" >
+            <span class="product__size" onclick="onClickSize(event)" th:text="*{s.getName()}"  th:each="s : ${tShirts.getSizes()}"></span>
+            </div>
         </div>
         <div class="product__value">
             <h3>Колір: </h3>

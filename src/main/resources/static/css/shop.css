@@ -1,0 +1,122 @@
+.shop__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.shop__img--p5 img {
+    padding: 10px 3%;
+
+}
+
+.shop__nav {
+    display: flex;
+}
+
+.shop__logo {
+    display: flex;
+    padding: 10px 3%;
+    grid-gap: 23px;
+}
+
+.shop__logo img {
+    height: 90px;
+}
+
+.shop__logo-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.shop__name {
+    padding-top: 20px;
+    color: #959595;
+}
+
+.shop__nav-list {
+    display: flex;
+    grid-gap: 23px;
+    align-items: end;
+    padding-left: 10px;
+}
+
+.shop__nav-item {
+    width: 0;
+    height: 0;
+    -webkit-appearance: none;
+    appearance: none;
+    position: absolute;
+}
+
+.shop__nav-item:checked + label {
+    border-bottom: 2px solid #A4A4A4;
+}
+
+.shop__nav-item:hover + label {
+    position: relative;
+    top: 0;
+    border-bottom: 2px solid #000000;
+}
+
+.shop__follow {
+    width: 0;
+    height: 0;
+    -webkit-appearance: none;
+    appearance: none;
+    position: absolute;
+
+}
+
+.shop__follow-label {
+    width: 115px;
+    text-align: center;
+    padding: 5px;
+    border: 1px solid #000000;
+}
+
+.shop__follow-label:before {
+    content: "+ Follow";
+    width: 20px;
+    height: 20px;
+}
+
+.shop__follow:checked + .shop__follow-label:before {
+    content: "✓︎ Following";
+    width: 20px;
+    height: 20px;
+}
+
+.main {
+    padding: 20px 3%;
+}
+
+.section__products {
+    display: flex;
+    flex-wrap: wrap;
+    grid-gap: 13px 23px;
+}
+
+.section__products-item {
+    width: 240px;
+}
+
+.product__card {
+
+}
+
+.product__img {
+
+}
+
+.product__title {
+    text-align: center;
+}
+
+.product__cost--discount{
+    text-align: center;
+}
+
+.product__prise{
+text-align: center;
+}

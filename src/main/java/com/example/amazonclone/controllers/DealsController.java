@@ -16,8 +16,11 @@ import java.util.ArrayList;
 public class DealsController {
     ProductService productService;
 
-    public DealsController(ProductService productService) {
+    IdentityService identityService;
+
+    public DealsController(ProductService productService,  IdentityService identityService) {
         this.productService = productService;
+        this.identityService = identityService;
 
     }
 
@@ -27,15 +30,15 @@ public class DealsController {
         ArrayList<ProductDTO> dtos;
 
         switch (sort) {
-//            case ("1") -> {
-//                dtos = identityService.findAllByOrderByProductPriceDesc();
-//                break;
-//            }
-//            case ("2") -> {
-//                dtos = identityService.findAllByOrderByProductPriceAsc();
-//                break;
-//            }
-//            default -> dtos = identityService.getAllProductDTO();
+            case ("1") -> {
+                dtos = identityService.findAllByOrderByProductPriceDesc();
+                break;
+            }
+            case ("2") -> {
+                dtos = identityService.findAllByOrderByProductPriceAsc();
+                break;
+            }
+            default -> dtos = identityService.getAllProductDTO();
         }
 
 //        model.addAttribute("prodDTO", dtos);
@@ -43,5 +46,6 @@ public class DealsController {
 
         return "deals1";
     }
+
 
 }

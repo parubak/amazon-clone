@@ -20,14 +20,14 @@
 <h1 class="page-name">Створення відгуку</h1>
 
 <div class="main">
-    <form id="formResponse" class="response" th:data-id="${product.getId()}">
+    <form id="formResponse" class="response" th:data-id="${order.getId()}">
 
         <div class="order-cart">
             <div class="order-cart__img">
-                <img th:src="|/img/${product.getImage()}|">
+                <img th:src="|/img/${order.getProductItem().getImage()}|">
             </div>
             <div class="order-cart__body">
-                <h3 class="order-cart__title" th:text="${product.getProduct().getName()}"></h3>
+                <h3 class="order-cart__title" th:text="${order.getProductItem().getProduct().getName()}"></h3>
             </div>
         </div>
         <div class="total-rating">

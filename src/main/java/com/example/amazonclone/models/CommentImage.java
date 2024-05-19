@@ -2,10 +2,16 @@ package com.example.amazonclone.models;
 
 import jakarta.persistence.*;
 import jakarta.annotation.Nullable;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Table(name="comment_images")
 public class CommentImage {
     @Id
@@ -17,6 +23,5 @@ public class CommentImage {
     private String image;
 
     @ManyToOne()
-    @JoinColumn(name = "comment_id")
     private Comment comment;
 }

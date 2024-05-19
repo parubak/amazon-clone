@@ -9,6 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="/css/global.css">
     <link rel="stylesheet" href="/css/fragments.css">
+    <link rel="stylesheet" href="/css/constants.css">
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <link rel="stylesheet" href="/css/deals.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,7 +24,7 @@
 
 <main class="global-main">
     <div class="global-main__banner banner">
-        <img th:src="@{/imgs/promNightBanner.jpg}" alt="Banner" class="banner__img">
+        <img th:src="@{/img/prom_nidht/prom-night.png}" alt="Banner" class="banner__img">
     </div>
     <div class="wrapper">
         <div class="global-main__categories categories">
@@ -31,10 +32,10 @@
                 <li class="categories__item category-card">
                     <div class="category-card__link">
                         <img class="category-card__image"
-                             src="/img/Ellipse 9.png"
+                             src="/img/prom_nidht/wumen.png"
                              alt="Category"/>
                     </div>
-                    <span class="category-card__text">Жіночий одяг</span>
+                    <span class="c">Жіночий одяг</span>
                 </li>
                 <li class="categories__item category-card">
                     <div class="category-card__link">
@@ -42,56 +43,56 @@
                              src="/img/Ellipse 10.png"
                              alt="Category"/>
                     </div>
-                    <span class="category-card__text">Чоловічий одяг</span>
+                    <span class="category-card__text text-r-40">Чоловічий одяг</span>
                 </li>
                 <li class="categories__item category-card">
                     <div class="category-card__link">
                         <img class="category-card__image"
-                             src="/img/Ellipse 11.png"
+                             src="/img/prom_nidht/footwear.png"
                              alt="Category"/>
                     </div>
-                    <span class="category-card__text">Взуття</span>
+                    <span class="category-card__text text-r-40">Взуття</span>
                 </li>
                 <li class="categories__item category-card">
                     <div class="category-card__link">
                         <img class="category-card__image"
-                             src="/img/Ellipse 12.png"
+                             src="/img/prom_nidht/decorations.png"
                              alt="Category"/>
                     </div>
-                    <span class="category-card__text">Прикраси</span>
+                    <span class="category-card__text text-r-40">Прикраси</span>
                 </li>
                 <li class="categories__item category-card">
                     <div class="category-card__link">
                         <img class="category-card__image"
-                             src="/img/Ellipse 13.png"
+                             src="/img/prom_nidht/phone.png"
                              alt="Category"/>
                     </div>
-                    <span class="category-card__text">Телефони</span>
+                    <span class="category-card__text text-r-40">Телефони</span>
                 </li>
                 <li class="categories__item category-card">
                     <div class="category-card__link">
                         <img class="category-card__image"
-                             src="/img/Ellipse 14.png"
+                             src="/img/prom_nidht/nout.png"
                              alt="Category"/>
                     </div>
-                    <span class="category-card__text">Ноутбуки</span>
+                    <span class="category-card__text text-r-40">Ноутбуки</span>
                 </li>
                 <li class="categories__item category-card">
                     <div class="category-card__link">
                         <img class="category-card__image"
-                             src="/img/Ellipse 15.png"
+                             src="/img/prom_nidht/tablets.png"
                              alt="Category"/>
                     </div>
-                    <span class="category-card__text">Планшети</span>
+                    <span class="category-card__text text-r-40">Планшети</span>
                 </li>
             </ul>
         </div>
         <div class="global-main__day-discount day-discount">
             <div class="day-discount__top">
-                <h2 class="day-discount__header">Розпродаж Дня</h2>
+                <h2 class="day-discount__header text-r-64 text-medium">Розпродаж Дня</h2>
                 <div class="day-discount__timer timer">
-                    <h4 class="timer__header">Закінчиться через</h4>
-                    <p class="timer__time" id="day-discount-timer"></p>
+                    <h4 class="timer__header text-r-40">Закінчиться через</h4>
+                    <p class="timer__time text-r-28" id="day-discount-timer"></p>
                 </div>
             </div>
             <div class="day-discount__bottom">

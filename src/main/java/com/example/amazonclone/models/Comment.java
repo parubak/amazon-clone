@@ -2,6 +2,7 @@ package com.example.amazonclone.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,27 +14,28 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Table(name="comments")
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private Long id;
-
+    @Column(name="date")
     Date createDate;
-
+    @Column(name="user_name")
     String userName;
-
+    @Column(name="color")
     String color;
-
+    @Column(name="size")
     String size;
     @Column(name = "text",length = 500)
     String text;
 
-    @Column(name="rating",nullable=false)
+    @Column(name="rating")
     private double rating;
 
-    @OneToMany( cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.REMOVE)
     private Collection<CommentImage> commentImages = new ArrayList<>();
 
     @ManyToOne

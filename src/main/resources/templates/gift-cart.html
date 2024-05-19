@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gift</title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/fragments.css">
+    <link rel="stylesheet" href="/css/constants.css">
+    <link rel="stylesheet" href="/css/gift.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+<!--header-->
+<div th:replace="/fragments/header.html::header"></div>
+<!--header-->
+<h1 class="page-name">Подарункові карти</h1>
+
+<div class="main">
+    <div class="special-cart">
+        <img src="/img/gift/special-cart1.png">
+        <img src="/img/gift/special-cart2.png">
+    </div>
+    <h2 class="text-r-24">Найпопулярніші</h2>
+    <div class="other-cart">
+        <div class="other-cart__item">
+            <img class="other-cart__img" src="/img/gift/gift-cart0.png">
+            <h2 class="other-cart__title">Електронна подарункова карта</h2>
+            <p class="other-cart__price">50 грн</p>
+        </div>
+        <div class="other-cart__item">
+            <img class="other-cart__img" src="/img/gift/gift-cart0.png">
+            <h2 class="other-cart__title">Електронна подарункова карта</h2>
+            <p class="other-cart__price">50 грн</p>
+        </div>
+    </div>
+    <div class="gift-link">
+        <a href="">
+            <img src="/img/gift/order.png">
+        </a>
+        <a href="">
+            <img src="/img/gift/code.png">
+        </a>
+        <a href="">
+            <img src="/img/gift/discount.png">
+        </a>
+    </div>
+</div>
+
+<!-- footer_start  -->
+<div th:replace="/fragments/footer.html::footer"></div>
+<!-- footer_end  -->
+</body>
+</html>

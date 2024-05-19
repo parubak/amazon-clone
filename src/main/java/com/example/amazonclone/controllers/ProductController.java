@@ -1,4 +1,5 @@
 package com.example.amazonclone.controllers;
+
 import com.example.amazonclone.models.*;
 import com.example.amazonclone.services.IdentityService;
 import com.example.amazonclone.services.ProductService;
@@ -25,10 +26,13 @@ public class ProductController {
         ProductItem productItem = productService.getProductItemById(item);
         Product product = productItem.getProduct();
 
+
         model.addAttribute("product", product);
 
-                model.addAttribute("tShirts", productItem);
-                return  "t-shirts";
+        model.addAttribute("tShirts", productItem);
+
+
+        return "t-shirts";
 
 
     }
@@ -40,24 +44,26 @@ public class ProductController {
 
         model.addAttribute("product", product);
 
-                model.addAttribute("tShirts", productItem);
-                return  "fragments/product";
+        model.addAttribute("tShirts", productItem);
+        return "fragments/product";
 
     }
 
     @PostMapping(value = "/getItem/{id}/")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> order(@PathVariable Long id) {
-        ProductItem pItem= productService.getProductItemById(id);
+        ProductItem pItem = productService.getProductItemById(id);
 
 
-        String s= "{\"id\":\""+ pItem.getId() +
-                "\",\"title\":\""+pItem.getProduct().getName() + "\",\"img\":\"/img/"+pItem.getImage()+
-                "\",\"color\":\""+pItem.getColor()+"\",\"price\":"+pItem.getPrice()+",\"shop\":\""+pItem.getProduct().getSeller().getName()
-                +"\",\"quantity\":1}";
+        String s = "{\"id\":\"" + pItem.getId() +
+                "\",\"title\":\"" + pItem.getProduct().getName() + "\",\"img\":\"/img/" + pItem.getImage() +
+                "\",\"color\":\"" + pItem.getColor() + "\",\"price\":" + pItem.getPrice() + ",\"shop\":\"" + pItem.getProduct().getSeller().getName()
+                + "\",\"quantity\":1}";
 
-        return new ResponseEntity<>(s,HttpStatus.OK);
+        return new ResponseEntity<>(s, HttpStatus.OK);
     }
+
+
 
 
 }

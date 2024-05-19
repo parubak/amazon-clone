@@ -3,6 +3,7 @@ const cartProductsList = document.querySelector('.backed-list');
 const cartQuantity = document.querySelector('#quantity');
 let price = 0;
 
+
 const randomId = () => {
     return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 };
@@ -151,7 +152,7 @@ let local=JSON.parse(localStorage.getItem("basket"));
             url: url,
             method: "post",
             // contentType: 'application/json',
-            data:{id:i.id, quantity:i.quantity},
+            data:{id:i.id, quantity:i.quantity, size:i.size},
             error: function(message) {
                 console.log(message);
             },
@@ -162,6 +163,5 @@ let local=JSON.parse(localStorage.getItem("basket"));
             }
         });
     }
-    // ,
 
 }

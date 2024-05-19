@@ -32,9 +32,9 @@ public class ProductItem {
     @Column(name="price")
     private Double price;
 
-    @OneToOne()
+
     @Nullable
-    private Discount discount;
+    private Double discount;
 
     @OneToMany( cascade = CascadeType.REMOVE)
     private Collection<ProductImage> productImages = new ArrayList<>();
@@ -50,6 +50,6 @@ public class ProductItem {
     @OneToMany(mappedBy = "productItem")
     private Collection<ProductDetails> productDetails = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "productItems")
-    private Collection<Order> orders=new ArrayList<>();
+    @OneToOne(mappedBy = "productItem")
+    Order order;
 }

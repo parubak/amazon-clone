@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>QINSEN</title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/fragments.css">
+    <link rel="stylesheet" href="/css/constants.css">
+    <link rel="stylesheet" href="/css/shop.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+<!--header-->
+<div th:replace="/fragments/header.html::header"></div>
+<!--header-->
+
+<div class="shop__img">
+    <img src="/img/shop/shop0.png">
+</div>
+<div class="shop__nav">
+    <div class="shop__logo">
+        <img src="/img/shop/shop-logo.png">
+        <div class="shop__logo-block">
+            <h2 class="shop__name text-r-20" th:text="${seller.getName()}" ></h2>
+
+
+
+                <input id="follow"  type="checkbox" class="shop__follow">
+            <label for="follow" class="shop__follow-label text-r-24">
+            </label>
+
+        </div>
+        <div class="shop__nav-list text-r-32">
+            <input type="radio" id="nav1" name="nav" class="shop__nav-item">
+            <label for="nav1">Головна</label>
+            <input type="radio" class="shop__nav-item" id="nav2" name="nav">
+            <label for="nav2" >Нове прибуття</label>
+            <input type="radio" class="shop__nav-item" id="nav3" name="nav">
+            <label for="nav3">Комбінезони</label>
+            <input type="radio" class="shop__nav-item" id="nav4" name="nav">
+            <label for="nav4">Боді та корткі топи</label>
+            <input type="radio" class="shop__nav-item" id="nav5" name="nav">
+            <label for="nav5">Плаття</label>
+        </div>
+    </div>
+
+</div>
+<div class="shop__img shop__img--p5 ">
+    <img src="/img/shop/shop1.png">
+</div>
+<div class="shop__img">
+    <img src="/img/shop/shop2.png">
+</div>
+<div class="main">
+        <ul class="section__products ">
+            <th:block th:each="s : ${seller.getProducts()}">
+            <li class="section__products-item" th:each="p : *{s.getProductItems()}" >
+                <div >
+                    <a class="product__card" th:href="|/product/get/*{p.getProduct().getSubgroup().getId()}/?item=${p.getId()}|">
+                        <img class="product__img" th:src="|/img/*{p.getImage()}|" alt="">
+                        <h4 class="product__title text-r-20 " th:text="${p.getProduct().getName()}"></h4>
+                        <div th:if="${p.getDiscount()==null}" class="product__cost">
+                            <p class="product__prise text-r-24 text-medium" th:text="${#numbers.formatDecimal(p.getPrice(), 1, 2)}+' грн'"></p>
+                        </div>
+                        <div th:unless="${p.getDiscount()==null}" class="product__cost--discount">
+                            <span class="product__prise text-r-24 text-medium" th:text="${#numbers.formatDecimal(p.getPrice(), 1, 2)}+' грн'"></span>
+                            <div class="product__discount text-r-20" th:text="${#numbers.formatDecimal((p.getDiscount()-p.getPrice())/(p.getDiscount()/100), 2, 0)} + '%'"></div>
+                        </div>
+                    </a>
+                </div>
+            </li>
+            </th:block>
+        </ul>
+
+</div>
+
+<!-- footer_start  -->
+<div th:replace="/fragments/footer.html::footer"></div>
+<!-- footer_end  -->
+</body>
+</html>

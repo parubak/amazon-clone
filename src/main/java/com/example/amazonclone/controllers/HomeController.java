@@ -1,5 +1,6 @@
 package com.example.amazonclone.controllers;
 
+import com.example.amazonclone.models.Seller;
 import com.example.amazonclone.models.User;
 import com.example.amazonclone.services.IdentityService;
 import com.example.amazonclone.services.ProductService;
@@ -8,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
@@ -36,6 +38,7 @@ public class HomeController {
     String deals(Model model) {
         model.addAttribute("path", productService.getPath());
 
+
         model.addAttribute("prodDTO", identityService.getAllProductDTO());
 
 //        System.out.println("model = " + identityService.getAllProductDTO().size());
@@ -49,6 +52,11 @@ public class HomeController {
     public String service() {
         return "service";
     }
+    @GetMapping("/gift")
+    public String gift() {
+        return "gift-cart";
+    }
+
     @GetMapping("/promo")
     public String promo() {
         return "promo";
@@ -87,5 +95,14 @@ public class HomeController {
     public String responseOk() {
 
         return "response-ok";
+    }
+
+    @GetMapping("/getShop/{id}/")
+    public String getShop(@PathVariable Long id, Model model) {
+
+        Seller seller =productService.getShop(id);
+        model.addAttribute("seller", seller);
+
+        return "shop";
     }
 }

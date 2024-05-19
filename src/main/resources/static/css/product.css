@@ -74,29 +74,39 @@
 }
 
 .product__value {
-    display: flex;
-    font-size: 32px;
+    font-size: 26px;
     font-weight: 500;
     line-height: 38.73px;
     text-align: left;
     padding-bottom: 30px;
 
+
 }
 
 .product__value h3 {
-    padding-right: 30px;
+    padding-right: 15px;
 }
-
+.product__size-list{
+    display: flex;
+    flex-wrap: wrap;
+    grid-gap: 8px;
+}
 .product__size {
     padding: 3px 32px;
     border: 0.5px solid #000000;
     border-radius: 25px;
-    margin-right: 10px;
+    /*margin-right: 10px;*/
+}
+.product__size:hover {
+    border: 1.5px solid #000000;
+}
+.active-size{
+    border: 1.5px solid #000000;
+    background: #EAEAEA;
 }
 
 
 .product__other {
-
     margin-bottom: 40px;
 }
 

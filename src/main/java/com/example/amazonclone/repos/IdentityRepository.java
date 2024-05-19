@@ -9,8 +9,8 @@ import java.util.ArrayList;
 @Repository
 public interface IdentityRepository extends CrudRepository<Identity, Long> {
 
-//    public ArrayList<Identity> findAllByOrderByProductPriceAsc();
-//    public ArrayList<Identity> findAllByOrderByProductPriceDesc();
+    public ArrayList<Identity> findAllByOrderByProductAsc();
+    public ArrayList<Identity> findAllByOrderByProductDesc();
 
 //    List<Passenger> findByOrderBySeatNumberAsc();
 }
