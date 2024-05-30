@@ -240,6 +240,46 @@
     padding: 25px 200px 30px;
 }
 
+.menu{
+    min-width: 150px;
+    width: min-content;
+    height: 100%;
+    position: fixed;
+    background-color: #fff;
+    top: 0;
+    z-index: 1;
+    padding: 15px;
+    visibility: hidden;
+}
+.menu__user{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.menu__user img{
+    width: 60px;
+    height: 60px;
+}
+
+.menu__user-link{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
+.menu__line{
+    height: 1px;
+    width: 100%;
+    background-color: #000;
+}
+
+.menu__links{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 30px;
+}
+
 /*header*/
 
 /*category*/

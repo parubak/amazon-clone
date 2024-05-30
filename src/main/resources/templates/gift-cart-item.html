@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gift</title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/fragments.css">
+    <link rel="stylesheet" href="/css/constants.css">
+    <link rel="stylesheet" href="/css/gift.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+<!--header-->
+<div th:replace="/fragments/header.html::header"></div>
+<!--header-->
+<h1 class="page-name">Подарункові карти</h1>
+
+<div class="main">
+    <main>
+        <div id="product22">
+            <div class="product">
+                <div class="product__gallery">
+                    <div class="product__big-photo-container">
+                        <img id="big-photo" class="product__big-photo" src="/img/gift/gift-cart-0.png ">
+                        <!--            <button class="product__check" th:onclick="'chek('+${product.getId()}+')'">Додати до кошика</button>-->
+                        <button th:onclick="productBtn()" class="product__check">Подарувати!</button>
+                    </div>
+                </div>
+                <div class="product__info">
+                    <h2 class="product__name text-r-32 text-medium">Електронна подарункова карта</h2>
+                    <div class="product__rating">
+                    </div>
+                    <br>
+                    <div class="product__value">
+                        <h3 class="text-r-32 text-medium">Ціна: </h3>
+                        <span class="product__prise text-r-32 text-medium">50 грн</span>
+                    </div>
+                    <div class="product__value  ">
+                        <h3 class="text-r-32 text-medium">Дизайн: </h3>
+                        <span class="product__color text-r-32">Thanks So Much</span>
+                    </div>
+
+                    <!--others-->
+                    <div class="product__other">
+                    <img src="/img/gift/gift-cart-0.png"  th:onclick="|redirectDealsItem(1, 1)|">
+                    <img src="/img/gift/gift-cart-0.png"  th:onclick="|redirectDealsItem(1, 1)|">
+                    <img src="/img/gift/gift-cart-0.png"  th:onclick="|redirectDealsItem(1, 1)|">
+                    <img src="/img/gift/gift-cart-0.png"  th:onclick="|redirectDealsItem(1, 1)|">
+                    <img src="/img/gift/gift-cart-0.png"  th:onclick="|redirectDealsItem(1, 1)|">
+                    <img src="/img/gift/gift-cart-0.png"  th:onclick="|redirectDealsItem(1, 1)|">
+                    <img src="/img/gift/gift-cart-0.png"  th:onclick="|redirectDealsItem(1, 1)|">
+                    <img src="/img/gift/gift-cart-0.png"  th:onclick="|redirectDealsItem(1, 1)|">
+                    <img src="/img/gift/gift-cart-0.png"  th:onclick="|redirectDealsItem(1, 1)|">
+                    <img src="/img/gift/gift-cart-0.png"  th:onclick="|redirectDealsItem(1, 1)|">
+                    <img src="/img/gift/gift-cart-0.png"  th:onclick="|redirectDealsItem(1, 1)|">
+                    <img src="/img/gift/gift-cart-0.png"  th:onclick="|redirectDealsItem(1, 1)|">
+
+                    </div>
+
+                    <div class="product__value">
+                        <h3 class="text-r-32 text-medium">Вартість: </h3>
+                        <div class="product__size-list">
+                            <span class="product__size text-r-24 text-medium" onclick="onClickSize(event)">50 грн</span>
+                            <span class="product__size text-r-24 text-medium" onclick="onClickSize(event)">200 грн</span>
+                            <span class="product__size text-r-24 text-medium" onclick="onClickSize(event)">500 грн</span>
+                            <span class="product__size text-r-24 text-medium" onclick="onClickSize(event)">1000 грн</span>
+                        </div>
+                    </div>
+                    <div>
+                        Або введіть свою суму:
+                        <label>
+                            <input type="number">
+                        </label>
+                    </div>
+                    <div class="product__value">
+                        <h3 class="text-r-32 text-medium">Емейл: </h3>
+                        <input type="email" class="product__prise text-r-32 text-medium">
+                    </div>
+                    <div class="product__value">
+                        <h3 class="text-r-32 text-medium">Від кого: </h3>
+                        <input type="text" class="product__prise text-r-32 text-medium">                   </div>
+                    <div class="product__value">
+                        <h3 class="text-r-32 text-medium">Повідомлення: </h3>
+                        <textarea class="product__prise text-r-32 text-medium"></textarea>
+                    </div>
+
+                    <br>
+                    <h2 class="product__value">Про цей предмет</h2>
+                    <div>
+                        <ul class="product__about-list">
+                            <li class="product__about-item">
+                                <p>Електронні подарункові карти не мають терміну дійсності.</p>
+                            </li>
+                            <li class="product__about-item">
+                                <p>
+                                    На вибір декілька дизайнів та номіналів.</p>
+                            </li>
+                            <li class="product__about-item">
+                                <p>
+                                    Подарунковими картками можна оплатити будь-які покупки на сайті.</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+</div>
+
+<!-- footer_start  -->
+<div th:replace="/fragments/footer.html::footer"></div>
+<!-- footer_end  -->
+<script src="/js/global.js"></script>
+</body>
+</html>

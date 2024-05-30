@@ -27,118 +27,118 @@
         <input id="f2221" class="sort__input" type="checkbox">
         <label for="f2221" class="sort__title sort__down">Сортувати по</label>
         <div class="sort__body">
-            <a class="sort__link" href="">Популярності</a>
-            <a class="sort__link" href="">Новизні</a>
-            <a class="sort__link" href="/deals/filter?sort=2">Зростанню ціни</a>
-            <a class="sort__link" href="/deals/filter?sort=1">Спадання ціни</a>
+            <a class="sort__link" data-sort="rating">Популярності</a>
+            <a class="sort__link" data-sort="news">Новизні</a>
+            <a class="sort__link" data-sort="priseAsc">Зростанню ціни</a>
+            <a class="sort__link" data-sort="priseDesc">Спадання ціни</a>
         </div>
     </div>
 </div>
 <section class="section">
     <div class="section__headline">
         <div class="filter-menu">
-            <a href="/" class="filter-menu__subtitle">Всі товари</a>
-            <a href="/">В наявності</a>
-            <a href="/">Зі списку бажань</a>
+            <a href="/deals" class="filter-menu__subtitle">Всі товари</a>
+            <a href="/deals">В наявності</a>
+            <a href="/deals">Зі списку бажань</a>
             <h2 class="filter-menu__title">Розділи</h2>
             <ul class="accordion">
                 <li class="accordion__item ">
-                    <input id="f1" class="accordion__input" type="checkbox">
-                    <label for="f1" class="accordion__title accordion__down">Жіночий одяг</label>
+                    <input id="f1" class="accordion__input" type="radio" name="category">
+                    <label for="f1"  class="accordion__title accordion__down">Жіночий одяг</label>
                     <div class="accordion__body">
                         <a href="/">
-                            <input id="f11" class="accordion__input" type="checkbox">
+                            <input id="f11" class="accordion__input subcategory" data-v="1" type="checkbox">
                             <label for="f11" class="accordion__title">Кофти</label>
                         </a>
                         <a href="/">
-                            <input id="f12" class="accordion__input" type="checkbox">
+                            <input id="f12" class="accordion__input subcategory" data-v="2" type="checkbox">
                             <label for="f12" class="accordion__title">Футболки</label>
                         </a>
                         <a href="/">
-                            <input id="f13" class="accordion__input" type="checkbox">
+                            <input id="f13" class="accordion__input subcategory" data-v="3" type="checkbox">
                             <label for="f13" class="accordion__title">Штани</label>
                         </a>
                         <a href="/">
-                            <input id="f14" class="accordion__input" type="checkbox">
+                            <input id="f14" class="accordion__input subcategory" data-v="4" type="checkbox">
                             <label for="f14" class="accordion__title">Джинси</label>
                         </a>
                         <a href="/">
-                            <input id="f15" class="accordion__input" type="checkbox">
+                            <input id="f15" class="accordion__input subcategory" data-v="5" type="checkbox">
                             <label for="f15" class="accordion__title">Плаття</label>
                         </a>
                         <a href="/">
-                            <input id="f16" class="accordion__input" type="checkbox">
+                            <input id="f16" class="accordion__input subcategory" data-v="6" type="checkbox">
                             <label for="f16" class="accordion__title">Нижня білизна</label>
                         </a>
                     </div>
                 </li>
                 <li class="accordion__item">
-                    <input id="f2" class="accordion__input" type="checkbox">
+                    <input id="f2" class="accordion__input" type="radio" name="category">
                     <label for="f2" class="accordion__title accordion__down">Чоловічий одяг</label>
                     <div class="accordion__body">
                         <a href="/">
-                            <input id="f21" class="accordion__input" type="checkbox">
+                            <input id="f21" class="accordion__input subcategory" data-v="11"  type="checkbox" name="subcategory">
                             <label for="f21" class="accordion__title">Кофти</label>
                         </a>
                         <a href="/">
-                            <input id="f22" class="accordion__input" type="checkbox">
+                            <input id="f22" class="accordion__input subcategory" data-v="12"  type="checkbox"  name="subcategory">
                             <label for="f22" class="accordion__title">Футболки</label>
                         </a>
                         <a href="/">
-                            <input id="f23" class="accordion__input" type="checkbox">
+                            <input id="f23" class="accordion__input subcategory" data-v="13"  type="checkbox" name="subcategory">
                             <label for="f23" class="accordion__title">Штани</label>
                         </a>
                         <a href="/">
-                            <input id="f24" class="accordion__input" type="checkbox">
+                            <input id="f24" class="accordion__input subcategory" data-v="14"  type="checkbox" name="subcategory">
                             <label for="f24" class="accordion__title">Джинси</label>
                         </a>
                         <a href="/">
-                            <input id="f25" class="accordion__input" type="checkbox">
+                            <input id="f25" class="accordion__input subcategory" data-v="15"  type="checkbox" name="subcategory">
                             <label for="f25" class="accordion__title">Шорти</label>
                         </a>
                         <a href="/">
-                            <input id="f26" class="accordion__input" type="checkbox">
+                            <input id="f26" class="accordion__input subcategory" data-v="16"  type="checkbox" name="subcategory">
                             <label for="f26" class="accordion__title">Нижня білизна</label>
                         </a>
                     </div>
                 </li>
                 <li class="accordion__item">
-                    <input id="f3" class="accordion__input" type="checkbox">
+                    <input id="f3" class="accordion__input" type="radio" name="category">
                     <label for="f3" class="accordion__title accordion__down">Прикраси</label>
                     <div class="accordion__body">
                         <a href="/">
-                            <input id="f31" class="accordion__input" type="checkbox">
+                            <input id="f31" class="accordion__input subcategory" data-v="17"  type="checkbox" name="subcategory">
                             <label for="f31" class="accordion__title">Жіночі</label>
                         </a>
                         <a href="/">
-                            <input id="f32" class="accordion__input" type="checkbox">
+                            <input id="f32" class="accordion__input subcategory" data-v="18"  type="checkbox" name="subcategory">
                             <label for="f32" class="accordion__title">Чоловічі</label>
                         </a>
                     </div>
                 </li>
                 <li class="accordion__item">
-                    <input id="f4" class="accordion__input" type="checkbox">
+                    <input id="f4" class="accordion__input" type="radio" name="category">
                     <label for="f4" class="accordion__title accordion__down">Взуття</label>
                     <div class="accordion__body">
                         nvjk
                     </div>
                 </li>
                 <li class="accordion__item">
-                    <input id="f5" class="accordion__input" type="checkbox">
+                    <input id="f5" class="accordion__input" type="radio" name="category">
                     <label for="f5" class="accordion__title accordion__down">Телефони</label>
                     <div class="accordion__body">
                         nvjk
                     </div>
                 </li>
                 <li class="accordion__item">
-                    <input id="f6" class="accordion__input" type="checkbox">
+                    <input id="f6" class="accordion__input" type="radio" name="category">
                     <label for="f6" class="accordion__title accordion__down">Ноутбуки</label>
                     <div class="accordion__body">
                         nvjk
                     </div>
                 </li>
                 <li class="accordion__item">
-                    <input id="f7" class="accordion__input" type="checkbox">
+                    <input id="f7" class="accordion__input" type="radio" name="category">
                     <label for="f7" class="accordion__title accordion__down">Планшети</label>
                     <div class="accordion__body">
                         nvjk
@@ -146,13 +146,13 @@
                 </li>
             </ul>
             <h2 class="filter-menu__title">Ціна</h2>
-            <a href="/" class="filter-menu__subtitle">Всі ціни</a>
-            <a href="/">До 200 грн</a>
-            <a href="/">Від 200 грн до 500 грн</a>
-            <a href="/">Від 500 грн до 1000 грн</a>
-            <a href="/">Від 1000 грн до 2000 грн</a>
-            <a href="/">Від 2000 грн до 5000 грн</a>
-            <a href="/">Більше 5000 грн</a>
+            <a href="/?pFrom=200&pTo=500" class="filter-menu__subtitle">Всі ціни</a>
+            <a href="/?pFrom=200&pTo=500">До 200 грн</a>
+            <a href="?pFrom=200&pTo=500">Від 200 грн до 500 грн</a>
+            <a href="/?pFrom=200&pTo=500">Від 500 грн до 1000 грн</a>
+            <a href="pFrom=200&pTo=500">Від 1000 грн до 2000 грн</a>
+            <a href="&pFrom=200&pTo=500">Від 2000 грн до 5000 грн</a>
+            <a href="&pTo=500">Більше 5000 грн</a>
             <h2 class="filter-menu__title">Знижка</h2>
             <a href="/" class="filter-menu__subtitle">Всі товари</a>
             <a href="/">10% та більше</a>
@@ -162,7 +162,9 @@
         </div>
     </div>
 
+    <div id="productAj">
     <div th:replace="/fragments/prod-cart.html::products-cart"></div>
+    </div>
 <!--    <div class="">-->
 <!--        <ul class="section__products ">-->
 <!--            <li class="section__products-item" th:each="p : ${prodDTO}">-->
@@ -187,14 +189,15 @@
 <section class="pagination">
     <nav role="pagination__nav">
         <ul class="pagination__cd pagination__buttons">
-            <li class="pagination__button"><a href="#0">Prev</a></li>
-            <li><a href="#0">1</a></li>
-            <li><a href="#0">2</a></li>
-            <li><a class="pagination__current" href="#0">3</a></li>
-            <li><a href="#0">4</a></li>
-            <li><span>...</span></li>
-            <li><a href="#0">20</a></li>
-            <li class="pagination__button"><a href="#0">Next</a></li>
+            <li class="pagination__button"><a th:href="|/deals?page=${pages.previousOrFirstPageable().getPageNumber()}|">Prev</a></li>
+            <li th:if="${pages.number>1}"><a th:text="|${pages.previousOrFirstPageable().getPageNumber()}|" th:href="|/deals?page=${pages.previousOrFirstPageable().getPageNumber()-1}|" ></a></li>
+           <li th:if="${!pages.isFirst()}"><a th:text="|${pages.previousOrFirstPageable().getPageNumber()+1}|" th:href="|/deals?page=${pages.previousOrFirstPageable().getPageNumber()}|" ></a></li>
+            <li><span th:text="|${pages.getPageable().getPageNumber()+1}|" class="pagination__current"></span></li>
+            <li th:if="${!pages.isLast()}"><a th:text="|${pages.nextPageable().getPageNumber()+1}|"
+                                              th:href="|/deals?page=${pages.nextPageable().getPageNumber()}|"></a></li>
+             <li th:if="${(pages.number+2)<pages.totalPages}"><a th:text="|${pages.nextOrLastPageable().getPageNumber()+2}|"
+                                              th:href="|/deals?page=${pages.nextOrLastPageable().getPageNumber()+1}|"></a></li>
+            <li class="pagination__button" ><a th:href="|/deals?page=${pages.nextOrLastPageable().getPageNumber()}|">Next</a></li>
         </ul>
     </nav>
 </section>
@@ -206,5 +209,6 @@
 <script src="/js/cart.js"></script>
 <script src="/js/ajax.js"></script>
 <script src="/js/producе.js"></script>
+<script src="/js/global.js"></script>
 </body>
 </html>

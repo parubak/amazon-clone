@@ -1,27 +1,27 @@
 package com.example.amazonclone.controllers;
 
+import com.example.amazonclone.models.ProductItem;
 import com.example.amazonclone.models.Seller;
 import com.example.amazonclone.models.User;
-import com.example.amazonclone.services.IdentityService;
 import com.example.amazonclone.services.ProductService;
 import com.example.amazonclone.services.UserService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class HomeController {
     ProductService productService;
-    IdentityService identityService;
-
     UserService userService;
 
-    public HomeController(ProductService productService, IdentityService identityService, UserService userService) {
+    public HomeController(ProductService productService, UserService userService) {
         this.productService = productService;
-        this.identityService = identityService;
         this.userService = userService;
     }
 
@@ -30,22 +30,23 @@ public class HomeController {
 
         model.addAttribute("path", productService.getPath());
 
-        model.addAttribute("prodDTO", identityService.getAllProductDTO());
+//        model.addAttribute("prodDTO", identityService.getAllProductDTO(PageRequest.of(page, size)));
         return "home";
     }
 
     @GetMapping("/deals")
-    String deals(Model model) {
+    String deals(@RequestParam(required = false,defaultValue = "0") int page,
+                 @RequestParam(required = false, defaultValue = "8") int size, Model model) {
         model.addAttribute("path", productService.getPath());
 
+        Page<ProductItem> pages=productService.findAllProductItemPag( PageRequest.of(page,size));
+        System.out.println("page = " + pages.getTotalElements()+"page = " + pages.getTotalPages() + "page = " + pages.getNumber() );
 
-        model.addAttribute("prodDTO", identityService.getAllProductDTO());
+        model.addAttribute("pItems", pages.getContent());
+        model.addAttribute("pages", pages);
 
-//        System.out.println("model = " + identityService.getAllProductDTO().size());
-        return "deals1";
 
-//        model.addAttribute("products", productService.getAll());
-//        return "deals";
+       return "deals1";
     }
 
     @GetMapping("/service")
@@ -55,6 +56,10 @@ public class HomeController {
     @GetMapping("/gift")
     public String gift() {
         return "gift-cart";
+    }
+    @GetMapping("/gift/{id}/")
+    public String giftGetId(@PathVariable Integer id, Model model) {
+        return "gift-cart-item";
     }
 
     @GetMapping("/promo")

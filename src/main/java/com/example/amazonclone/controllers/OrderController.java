@@ -2,7 +2,6 @@ package com.example.amazonclone.controllers;
 
 import com.example.amazonclone.models.*;
 import com.example.amazonclone.repos.CommentRepository;
-import com.example.amazonclone.services.IdentityService;
 import com.example.amazonclone.services.ProductService;
 import com.example.amazonclone.services.UserService;
 import lombok.Data;
@@ -22,14 +21,12 @@ import java.util.Date;
 @Controller
 public class OrderController {
     ProductService productService;
-    IdentityService identityService;
 
 
     UserService userService;
 
-    public OrderController(ProductService productService, IdentityService identityService, UserService userService) {
+    public OrderController(ProductService productService, UserService userService) {
         this.productService = productService;
-        this.identityService = identityService;
         this.userService = userService;
     }
 

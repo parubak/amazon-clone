@@ -22,8 +22,8 @@
                     <img th:src="|/img/*{o.getProductItem().getImage()}|">
                 </div>
                 <div class="order-cart__body">
-                    <h3 th:text="*{o.getProductItem().getProduct().getName()}" class="order-cart__title"></h3>
-                    <p th:text="*{o.getProductItem().getPrice()}" class="order-cart__price"></p>
+                    <h3 th:text="*{o.getProductItem().getName()}" class="order-cart__title"></h3>
+                    <p th:text="*{#numbers.formatDecimal(o.getProductItem().getPrice(), 1, 2)}+' грн'" class="order-cart__price"></p>
                     <a th:onclick="|buyBtn(*{o.getProductItem().getId()})|" class="order-cart__btn">Замовити знову</a>
                 </div>
                 <div class="order-cart__bottoms">

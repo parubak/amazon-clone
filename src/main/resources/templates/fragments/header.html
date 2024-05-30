@@ -1,4 +1,4 @@
-<header class="header" th:fragment="header">
+<header class="header" th:fragment="header" xmlns:sec="http://www.w3.org/1999/xhtml">
     <div class="header__search">
         <a class="logo" href="/">
             <img class="logo__img" src="/imgs/fragments/logo.svg" alt="logo">
@@ -28,16 +28,69 @@
         </div>
     </div>
     <div class="header__nav">
-        <a class="header__nav-link header__nav-link--down" href="#">Всі</a>
+        <a class="header__nav-link header__nav-link--down" th:onclick="showMenu()">Всі</a>
         <a class="header__nav-link" href="/deals">Сьогоднішні пропозиції</a>
         <a class="header__nav-link" href="/order">Купити знову</a>
         <a class="header__nav-link" href="/service">Обслуговування клієнтів</a>
         <a class="header__nav-link" href="/gift">Подарункові карти</a>
         <a class="header__nav-link" href="/promo">Продати</a>
     </div>
+    <div class="menu" id="menu" th:onclick="showMenu()">
+        <div class="menu__user" >
+            <img src="/img/global/user.png">
+            <div class="menu__user-link"  sec:authorize="!isFullyAuthenticated()" >
+
+                <a href="/login" class="text-r-20">Вхід</a>
+                <span class="menu__line" ></span>
+                <a href="/registration" class="text-r-20">Зареєструватися</a>
+
+            </div>
+            <div class="menu__user-link"  sec:authorize="isFullyAuthenticated()" >
+
+                <h2 class="text-r-20 text-medium" sec:authorize="isAuthenticated()" sec:authentication="name"></h2>
+                <span class="menu__line" ></span>
+                <a href="/logout" class="text-r-20">Вихід</a>
+
+            </div>
+
+        </div>
+        <ul class="menu__links">
+            <li class="menu__link">
+                <a href="/">Жіночий одяг</a>
+            </li><li class="menu__link">
+                <a href="/">Чоловічий одяг</a>
+            </li><li class="menu__link">
+                <a href="/">Взуття</a>
+            </li><li class="menu__link">
+                <a href="/">Прикраси</a>
+            </li><li class="menu__link">
+                <a href="/">Телефони</a>
+            </li><li class="menu__link">
+                <a href="/">Ноутбуки</a>
+            </li><li class="menu__link">
+                <a href="/">Планшети</a>
+            </li><li class="menu__link">
+                <a href="/">Доставка</a>
+            </li><li class="menu__link">
+                <a href="/">Налаштування</a>
+            </li>
+        </ul>
+
+
+
+
+
+
+
+
+
+
+    </div>
 </header>
 <script>
-
+function showMenu() {
+    console.log(menu);
+}
 </script>
 
 

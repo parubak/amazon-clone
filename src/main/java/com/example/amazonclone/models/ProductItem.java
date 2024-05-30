@@ -8,13 +8,12 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="product_items")
+@Table()
 public class ProductItem {
 
 
@@ -22,6 +21,9 @@ public class ProductItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private Long id;
+
+    @Column(name="name",nullable = false)
+    private String name;
 
     @Column(name="image")
     private String image;
@@ -40,16 +42,16 @@ public class ProductItem {
     private Collection<ProductImage> productImages = new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(name="product_id", nullable = false)
+    @JoinColumn(nullable = false)
     private Product product;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Collection<Size> sizes = new ArrayList<>();
 
 
-    @OneToMany(mappedBy = "productItem")
+    @OneToMany()
     private Collection<ProductDetails> productDetails = new ArrayList<>();
 
-    @OneToOne(mappedBy = "productItem")
+    @OneToOne()
     Order order;
 }

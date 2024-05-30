@@ -9,3 +9,4 @@ const interval = setInterval(()=>{
         clearInterval(interval);
     document.getElementById("day-discount-timer").textContent = new Date(0,0,0, sub.getHours(), sub.getMinutes(), sub.getSeconds()).toLocaleTimeString();
 },1000);
+

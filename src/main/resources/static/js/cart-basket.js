@@ -44,7 +44,7 @@ const generateCartProduct = (img, title, price, color, id, quantitys) => {
 				<img src="${img}" alt="" class="cart-product__img">
 				<div class="cart-product__text">
 					<h3 class="cart-product__title">${title}</h3>
-					<span class="cart-product__price">${normalPrice(price)}</span>
+					<span class="cart-product__price">${price}</span>
 				</div>
 				<h3 class="cart-product__title">${color}</h3>
 				<div>
@@ -63,12 +63,9 @@ const generateCartProduct = (img, title, price, color, id, quantitys) => {
 };
 
 let deleteProducts = (id) => {
-    console.log(id);
     let prods = JSON.parse(localStorage.getItem("basket"));
-    console.log(prods);
     prods.forEach(function (item, index) {
         if (item.id === id) {
-            console.log("gggg");
             prods.splice(index, 1)
             localStorage.setItem("basket", JSON.stringify(prods));
             clearList();
@@ -134,13 +131,13 @@ function sum() {
     if(cartProductsList.querySelector(".cart__quantitys")!=null){
 
     for (let child of cartProductsList.children) {
-        let q = parseInt(child.querySelector(".cart__quantitys").textContent);
-        let c = parseInt(child.querySelector(".cart-product__price").textContent);
+        let q = parseFloat(child.querySelector(".cart__quantitys").textContent);
+        let c = parseFloat(child.querySelector(".cart-product__price").textContent);
 
         sum += q * c;
     }
     }
-    document.querySelector(".total_cost").textContent = normalPrice(sum);
+    document.querySelector(".total_cost").textContent =parseFloat(sum).toFixed(2);
 }
 
 function sendBasket(){

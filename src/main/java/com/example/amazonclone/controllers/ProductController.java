@@ -1,7 +1,6 @@
 package com.example.amazonclone.controllers;
 
 import com.example.amazonclone.models.*;
-import com.example.amazonclone.services.IdentityService;
 import com.example.amazonclone.services.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +30,8 @@ public class ProductController {
 
         model.addAttribute("tShirts", productItem);
 
+        System.out.println("id = " + productItem.getSizes());
+
 
         return "t-shirts";
 
@@ -56,12 +57,13 @@ public class ProductController {
 
 
         String s = "{\"id\":\"" + pItem.getId() +
-                "\",\"title\":\"" + pItem.getProduct().getName() + "\",\"img\":\"/img/" + pItem.getImage() +
+                "\",\"title\":\"" + pItem.getName() + "\",\"img\":\"/img/" + pItem.getImage() +
                 "\",\"color\":\"" + pItem.getColor() + "\",\"price\":" + pItem.getPrice() + ",\"shop\":\"" + pItem.getProduct().getSeller().getName()
                 + "\",\"quantity\":1}";
 
         return new ResponseEntity<>(s, HttpStatus.OK);
     }
+
 
 
 

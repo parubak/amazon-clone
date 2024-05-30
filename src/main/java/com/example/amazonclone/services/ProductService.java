@@ -3,6 +3,8 @@ package com.example.amazonclone.services;
 import com.example.amazonclone.models.*;
 import com.example.amazonclone.repos.*;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -78,5 +80,45 @@ public class ProductService {
 
     public Seller getShop(Long id) {
         return sellerRepository.findById(id).get();
+    }
+    public Page<ProductItem> findAllProductItemPag( PageRequest pageRequest) {
+        return productItemRepository.findAll(pageRequest);
+    }
+
+    public Page<ProductItem> findAllProductItemPagSortRaiting(Long[] category, PageRequest pageRequest) {
+        if (category.length<1){
+            return productItemRepository.findAllBySortProductRating(pageRequest);
+        }
+        else {
+            return productItemRepository.findAllBySortProductRating(category, pageRequest);
+        }
+
+
+    }
+
+    public Page<ProductItem> findAllProductItemPagSortId(Long[] category, PageRequest pageRequest) {
+        return productItemRepository.findAllBySortId(pageRequest);
+    }
+
+    public Page<ProductItem> findAllProductItemPagFiltrs(Integer pFrom, Integer pTo, PageRequest pageRequest) {
+        if (pTo == 0){
+            return productItemRepository.findAllProductItemPagFiltrsPFrom(pFrom,pageRequest);
+        }
+        if (pFrom == 0){
+            return productItemRepository.findAllProductItemPagFiltrsPTo(pTo,pageRequest);
+        }
+        return productItemRepository.findAllProductItemPagFiltrs(pFrom, pTo,pageRequest);
+    }
+
+    public Page<ProductItem> findAllProductItemGetCategoris(Long[] category, PageRequest pageRequest) {
+        if (category.length<1){
+            return productItemRepository.findAll(pageRequest);
+        }
+        else {
+        return productItemRepository.findAllProductItemGetCategoris(category,pageRequest);
+        }
+
+
+
     }
 }

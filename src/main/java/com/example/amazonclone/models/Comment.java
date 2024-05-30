@@ -23,7 +23,7 @@ public class Comment {
     private Long id;
     @Column(name="date")
     Date createDate;
-    @Column(name="user_name")
+    @Column(name="uname")
     String userName;
     @Column(name="color")
     String color;
@@ -41,5 +41,4 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
-
 }

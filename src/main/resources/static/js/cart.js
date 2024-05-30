@@ -4,14 +4,6 @@
     const cartQuantity = cart.querySelector('.cart__quantity');
 
 
-    const priceWithoutSpaces = (str) => {
-        return str.replace(/\s/g, '');
-    };
-
-    const normalPrice = (str) => {
-        return String(str).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
-    };
-
 
     const printQuantity = () => {
         const prodStorage = localStorage.getItem("basket") || "[]";
@@ -39,7 +31,7 @@
 				<img src="${img}" alt="" class="cart-product__img">
 				<div class="cart-product__text">
 					<h3 class="cart-product__title">${title}</h3>
-					<span class="cart-product__price">${normalPrice(price)}</span>
+					<span class="cart-product__price" >${price}</span>
 				</div>
 				<h3 class="cart-product__title">${color}</h3>
 			</article>
@@ -73,10 +65,10 @@
         let shop = parent.dataset.shop;
         let img = parent.querySelector('.product__big-photo').getAttribute('src');
         let title = parent.querySelector('.product__name').textContent;
-        let priceString = priceWithoutSpaces(parent.querySelector('.product__prise').textContent);
-        let price = parseInt(priceWithoutSpaces(parent.querySelector('.product__prise').textContent));
+        let price = parseFloat(parent.querySelector('.product__prise').textContent);
         let color = parent.querySelector('.product__color').textContent;
         let size = parent.querySelector(".active-size");
+
 
         if (size !== null) {
             size = size.textContent;

@@ -62,13 +62,13 @@
                 <div >
                     <a class="product__card" th:href="|/product/get/*{p.getProduct().getSubgroup().getId()}/?item=${p.getId()}|">
                         <img class="product__img" th:src="|/img/*{p.getImage()}|" alt="">
-                        <h4 class="product__title text-r-20 " th:text="${p.getProduct().getName()}"></h4>
+                        <h4 class="product__title text-r-20 " th:text="${p.getName()}"></h4>
                         <div th:if="${p.getDiscount()==null}" class="product__cost">
                             <p class="product__prise text-r-24 text-medium" th:text="${#numbers.formatDecimal(p.getPrice(), 1, 2)}+' грн'"></p>
                         </div>
                         <div th:unless="${p.getDiscount()==null}" class="product__cost--discount">
                             <span class="product__prise text-r-24 text-medium" th:text="${#numbers.formatDecimal(p.getPrice(), 1, 2)}+' грн'"></span>
-                            <div class="product__discount text-r-20" th:text="${#numbers.formatDecimal((p.getDiscount()-p.getPrice())/(p.getDiscount()/100), 2, 0)} + '%'"></div>
+                            <div class="product__discount text-r-20" th:text="${#numbers.formatDecimal((p.getDiscount()-p.getPrice())/(p.getDiscount()/100), 1, 0)} + '%'"></div>
                         </div>
                     </a>
                 </div>
@@ -81,5 +81,7 @@
 <!-- footer_start  -->
 <div th:replace="/fragments/footer.html::footer"></div>
 <!-- footer_end  -->
+
+<script src="/js/global.js"></script>
 </body>
 </html>

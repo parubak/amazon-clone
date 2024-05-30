@@ -12,9 +12,7 @@ function getOrder(order) {
 
 }
 
-const normalPrice = (str) => {
-    return String(str).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
-};
+
 const generateCartProduct = (img, title, price, color, id) => {
     return `
 		<li class="cart-content__item">
@@ -23,7 +21,7 @@ const generateCartProduct = (img, title, price, color, id) => {
 				<img src="${img}" alt="" class="cart-product__img">
 				<div class="cart-product__text">
 					<h3 class="cart-product__title">${title}</h3>
-					<span class="cart-product__price">${normalPrice(price)}</span>
+					<span class="cart-product__price">${parseFloat(price).toFixed(2)}</span>
 				</div>
 				<h3 class="cart-product__title">${color}</h3>
 			</article>

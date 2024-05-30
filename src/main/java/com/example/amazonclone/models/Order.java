@@ -35,7 +35,7 @@ public class Order {
 
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_item_id", referencedColumnName = "id")
+    @JoinColumn(name = "productitem_id", referencedColumnName = "id")
     private ProductItem productItem;
 
 

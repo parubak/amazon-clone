@@ -27,7 +27,7 @@
                 <img th:src="|/img/${order.getProductItem().getImage()}|">
             </div>
             <div class="order-cart__body">
-                <h3 class="order-cart__title" th:text="${order.getProductItem().getProduct().getName()}"></h3>
+                <h3 class="order-cart__title" th:text="${order.getProductItem().getName()}"></h3>
             </div>
         </div>
         <div class="total-rating">
@@ -137,5 +137,6 @@
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="/js/rating.js"></script>
+<script src="/js/global.js"></script>
 
 </html>

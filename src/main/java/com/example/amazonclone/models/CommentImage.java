@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name="comment_images")
+@Table()
 public class CommentImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

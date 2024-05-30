@@ -1,17 +1,17 @@
 <th:block th:fragment="products-cart">
 <div class="">
     <ul class="section__products ">
-        <li class="section__products-item" th:each="p : ${prodDTO}">
+        <li class="section__products-item" th:each="p : ${pItems}">
             <div >
-                <a class="product__card" th:href="|/product/get/${p.getProduct().getSubgroup().getId()}/?item=${p.getItem().getId()}|">
-                    <img class="product__img" th:src="${path}+${p.getMainImage()}" alt="">
-                    <h4 class="product__title" th:text="${p.getProduct().getName()}"></h4>
+                <a class="product__card" th:href="|/product/get/${p.getProduct().getSubgroup().getId()}/?item=${p.getId()}|">
+                    <img class="product__img" th:src="${path}+${p.getImage()}" alt="">
+                    <h4 class="product__title" th:text="${p.getName()}"></h4>
                     <div th:if="${p.getDiscount()==null}" class="product__cost">
                         <span class="product__prise text-r-24" th:text="${#numbers.formatDecimal(p.getPrice(), 1, 2)}+' грн'"></span>
                     </div>
                     <div th:unless="${p.getDiscount()==null}" class="product__cost--discount">
                         <span class="product__prise text-r-24" th:text="${#numbers.formatDecimal(p.getPrice(), 1, 2)}+' грн'"></span>
-                        <div class="product__discount" th:text="${#numbers.formatDecimal((p.getPrice()-p.getDiscount())/(p.getPrice()/100), 2, 0)}+' %'"></div>
+                        <div class="product__discount" th:text="${#numbers.formatDecimal((p.getPrice()-p.getDiscount())/(p.getPrice()/100), 1, 0)}+' %'"></div>
                     </div>
                 </a>
             </div>

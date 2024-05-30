@@ -1,32 +1,30 @@
-package com.example.amazonclone.models;
-
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.util.List;
-
-@Entity
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Table(name="identities")
-public class Identity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
-    private Long id;
-
-    @OneToOne(fetch = FetchType.EAGER)
-    @MapsId
-    private Product product;
-
-    @ManyToOne
-    private Group group;
-
-    @ManyToOne
-    private Category category;
-
-}
+//package com.example.amazonclone.models;
+//
+//import jakarta.persistence.*;
+//import lombok.AllArgsConstructor;
+//import lombok.Data;
+//import lombok.NoArgsConstructor;
+//
+//import java.util.List;
+//
+//@Entity
+//@Data
+//@AllArgsConstructor
+//@NoArgsConstructor
+//@Table(name="identities")
+//public class Identity {
+//
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name="id")
+//    private Long id;
+//
+//    @OneToOne(fetch = FetchType.EAGER)
+//    @MapsId
+//    private Product product;
+//
+//
+//    @ManyToOne
+//    private Category category;
+//
+//}

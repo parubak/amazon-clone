@@ -12,14 +12,14 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="sub_infos")
+@Table()
 public class SubInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private Long id;
 
-    @Column(name="info_value",nullable=false, length = 5000)
+    @Column(nullable=false, length = 5000)
     private String infoValue;
 
     @ManyToOne()

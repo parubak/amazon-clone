@@ -14,13 +14,13 @@
     </div>
     <div class="product__info">
         <a th:href="|/getShop/${product.getSeller().getId()}/|" class="product__shop-link" th:text="|Відвідайте магазин ${product.getSeller().getName()}|"></a>
-        <h2 class="product__name" th:text="${product.getName()}"></h2>
+        <h2 class="product__name" th:text="${tShirts.getName()}"></h2>
         <div class="product__rating">
         </div>
         <br>
         <div class="product__value">
             <h3 >Ціна: </h3>
-            <span class="product__prise" th:text="${tShirts.getPrice()}+' грн'"></span>
+            <span class="product__prise" th:text="${#numbers.formatDecimal(tShirts.getPrice(), 1, 2, 'POINT')}+' грн'"></span>
         </div>
         <div class="product__value">
             <h3>Розмір: </h3>

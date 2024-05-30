@@ -28,5 +28,4 @@ public class Size {
     @ManyToMany(mappedBy ="sizes")
     private Collection<ProductItem> productItems = new ArrayList<>();
 
-
 }

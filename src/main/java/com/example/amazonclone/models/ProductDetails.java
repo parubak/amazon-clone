@@ -14,7 +14,7 @@ import java.util.Collection;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "product_details")
+@Table()
 public class ProductDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +27,7 @@ public class ProductDetails {
     private String value;
 
     @ManyToOne
-    @JoinColumn(name="product_item_id", nullable = false)
+    @JoinColumn(name="productitem_id", nullable = false)
     private ProductItem productItem;
 
 }
